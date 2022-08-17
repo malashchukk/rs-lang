@@ -1,35 +1,32 @@
 class Router {
-  routes: { path: RegExp | string; cb: () => void }[] = [];
-  mode: string = null;
+  routes: Array<{ path: string | RegExp; cb: () => void }> = [];
+  baseUrl = "";
+  mode = "history";
   root = "/";
-  current: string = null;
-  timer: NodeJS.Timer;
+  current = "";
+  timer!: NodeJS.Timer;
 
   constructor(options: { mode: string; root: string }) {
-    this.mode = window.history.pushState ? "history" : "hash";
     if (options.mode) this.mode = options.mode;
     if (options.root) this.root = options.root;
     this.listen();
   }
-  add = (
-    path: RegExp | string,
-    cb: (id?: string | number, specification?: string | number) => void
-  ) => {
+  add = (path: string | RegExp, cb: () => void) => {
     this.routes.push({ path, cb });
-    return this;
+    return this.routes;
   };
-  remove = (path: RegExp | string) => {
+  rem = (path: RegExp | string) => {
     for (let i = 0; i < this.routes.length; i += 1) {
-      if (this.routes[i].path === path) {
+      if (`${this.routes[i]?.path}` === `${path}`) {
         this.routes.slice(i, 1);
-        return this;
+        return this.routes;
       }
     }
-    return this;
+    return this.routes;
   };
   flush = () => {
     this.routes = [];
-    return this;
+    return this.routes;
   };
   clearSlashes = (path: RegExp | string) =>
     path.toString().replace(/\/$/, "").replace(/^\//, "");
@@ -43,20 +40,20 @@ class Router {
       fragment = this.root !== "/" ? fragment.replace(this.root, "") : fragment;
     } else {
       const match = window.location.href.match(/#(.*)$/);
-      fragment = match ? match[1] : "";
+      fragment = match?.[1] ? match[1] : "";
     }
     return this.clearSlashes(fragment);
   };
   navigate = (path = "") => {
     if (this.mode === "history") {
-      window.history.pushState(null, null, this.root + this.clearSlashes(path));
+      window.history.pushState(null, "", this.root + this.clearSlashes(path));
     } else {
       window.location.href = `${window.location.href.replace(
         /#(.*)$/,
         ""
       )}#${path}`;
     }
-    return this;
+    return this.root;
   };
   listen = () => {
     clearInterval(this.timer);
@@ -66,15 +63,20 @@ class Router {
     if (this.current === this.getFragment()) return;
     this.current = this.getFragment();
     this.routes.some((route) => {
-      const match = this.current.match(route.path);
+      const match =
+        this.clearSlashes(route.path).split("\\").join("") === this.current;
       if (match) {
-        match.shift();
-        route.cb.apply({}, match);
+        const array = this.current.match(route.path) as RegExpMatchArray;
+        array.shift();
+        route.cb.apply(array);
         return match;
       }
       return false;
     });
   };
 }
-
-export default Router;
+const router = new Router({
+  mode: "hash",
+  root: "/",
+});
+export default router;

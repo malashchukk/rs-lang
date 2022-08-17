@@ -1,16 +1,12 @@
 import "./style.scss";
-import Router from "./components/controller/Router";
+import router from "./components/controller/Router";
 
-const router = new Router({
-  mode: "hash",
-  root: "/",
+router.add(/home/, () => {
+  alert("welcome in home page");
 });
-
-// example of routing work
-router
-  .add(/home/, () => {
-    alert("welcome in home page");
-  })
-  .add(/users\/(.*)/, (id: number) => {
-    alert(`userId: ${id}`);
-  });
+router.add(/user/, () => {
+  alert(`userId`);
+});
+router.add(/user\/nikita/, () => {
+  alert(`userId nikita`);
+});
