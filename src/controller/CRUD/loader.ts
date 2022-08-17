@@ -58,5 +58,3 @@ export default class Loader {
       .catch((err: Event) => console.error(err));
   }
 }
-// const loader = new Loader('https://rslang-malashchukk.herokuapp.com', {});
-// loader.getResp({endpoint: '/users'}, (data) => {console.log(data)})
