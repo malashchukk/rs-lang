@@ -1,6 +1,7 @@
 export type urlOptions = {
   [key: string]: string | { [key: string]: string };
 };
+
 export type fetchParam = urlOptions;
 export type response<T> = { [key: string]: T };
 export default class Loader {
@@ -58,5 +59,3 @@ export default class Loader {
       .catch((err: Event) => console.error(err));
   }
 }
-// const loader = new Loader('https://rslang-malashchukk.herokuapp.com', {});
-// loader.getResp({endpoint: '/users'}, (data) => {console.log(data)})
