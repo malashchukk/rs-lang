@@ -59,3 +59,4 @@ export default class Loader {
       .catch((err: Event) => console.error(err));
   }
 }
+
