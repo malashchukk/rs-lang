@@ -15,10 +15,10 @@ class Router {
     this.routes.push({ path, cb });
     return this.routes;
   };
-  rem = (path: RegExp | string) => {
+  remove = (path: RegExp | string) => {
     for (let i = 0; i < this.routes.length; i += 1) {
       if (`${this.routes[i]?.path}` === `${path}`) {
-        this.routes.slice(i, 1);
+        this.routes.splice(i, 1);
         return this.routes;
       }
     }
