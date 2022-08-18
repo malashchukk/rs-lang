@@ -1,21 +1,19 @@
 class Router {
-  routes: Array<{ path: string | RegExp; cb: () => void }> = [];
+  routes: Array<{ path: string; cb: () => void }> = [];
   baseUrl = "";
-  mode = "history";
   root = "/";
   current = "";
   timer!: NodeJS.Timer;
 
-  constructor(options: { mode: string; root: string }) {
-    if (options.mode) this.mode = options.mode;
+  constructor(options: { root: string }) {
     if (options.root) this.root = options.root;
     this.listen();
   }
-  add = (path: string | RegExp, cb: () => void) => {
+  add = (path: string, cb: () => void) => {
     this.routes.push({ path, cb });
     return this.routes;
   };
-  remove = (path: RegExp | string) => {
+  remove = (path: string) => {
     for (let i = 0; i < this.routes.length; i += 1) {
       if (`${this.routes[i]?.path}` === `${path}`) {
         this.routes.splice(i, 1);
@@ -28,31 +26,20 @@ class Router {
     this.routes = [];
     return this.routes;
   };
-  clearSlashes = (path: RegExp | string) =>
+  clearSlashes = (path: string) =>
     path.toString().replace(/\/$/, "").replace(/^\//, "");
+
   getFragment = () => {
     let fragment = "";
-    if (this.mode === "history") {
-      fragment = this.clearSlashes(
-        decodeURI(window.location.pathname + window.location.search)
-      );
-      fragment = fragment.replace(/\?(.*)$/, "");
-      fragment = this.root !== "/" ? fragment.replace(this.root, "") : fragment;
-    } else {
-      const match = window.location.href.match(/#(.*)$/);
-      fragment = match?.[1] ? match[1] : "";
-    }
+    const match = window.location.href.match(/#(.*)$/);
+    fragment = match?.[1] ? match[1] : "";
     return this.clearSlashes(fragment);
   };
   navigate = (path = "") => {
-    if (this.mode === "history") {
-      window.history.pushState(null, "", this.root + this.clearSlashes(path));
-    } else {
-      window.location.href = `${window.location.href.replace(
-        /#(.*)$/,
-        ""
-      )}#${path}`;
-    }
+    window.location.href = `${window.location.href.replace(
+      /#(.*)$/,
+      ""
+    )}#${path}`;
     return this.root;
   };
   listen = () => {
@@ -76,7 +63,6 @@ class Router {
   };
 }
 const router = new Router({
-  mode: "hash",
   root: "/",
 });
 export default router;
