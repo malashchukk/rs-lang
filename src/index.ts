@@ -1,4 +1,5 @@
 import "./style.scss";
+import "./controller/CRUD/CrudApi";
 import router from "./components/controller/Router";
 
 router.add(/home/, () => {
@@ -10,3 +11,4 @@ router.add(/user/, () => {
 router.add(/user\/nikita/, () => {
   alert(`userId nikita`);
 });
+
