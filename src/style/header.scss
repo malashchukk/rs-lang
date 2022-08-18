@@ -5,10 +5,12 @@ $color-white-text-header: #FFFFFF;
 $color-shadow-text: #045968;
 $font-cursive: Bangers,cursive;
 
+*{
+    box-sizing: border-box;
+}
+
 .header {
-    width: 100%;    
-    position: fixed;
-    top: 0;
+    width: 100%;  
     display: flex;
     background-color: $color-header;
     justify-content: space-around;
