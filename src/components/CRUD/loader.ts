@@ -1,6 +1,7 @@
 export type urlOptions = {
   [key: string]: string | { [key: string]: string };
 };
+
 export type fetchParam = urlOptions;
 export type response<T> = { [key: string]: T };
 export default class Loader {

@@ -1,5 +1,5 @@
 import "./style.scss";
-import "./controller/CRUD/CrudApi";
+import "./components/CRUD/CrudApi";
 import router from "./components/controller/Router";
 
 router.add(/home/, () => {
