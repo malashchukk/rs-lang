@@ -11,4 +11,3 @@ router.add(/home/, () => {
 // router.add(/user\/nikita/, () => {
 //   alert(`userId nikita`);
 // });
-
