@@ -1,5 +1,5 @@
 import Loader from "./loader";
-import { urlOptions, response } from "./loader";
+import { urlOptions } from "./loader";
 class CrudApi extends Loader {
   constructor(baseLink: string, options: urlOptions) {
     super(baseLink, options);
@@ -16,7 +16,7 @@ class CrudApi extends Loader {
         "Content-Type": "application/json",
       },
     }
-  ): Promise<response<T>> {
+  ): Promise<T> {
     return this.load(
       { ...fetchParam, body: JSON.stringify(body) },
       endpoint,
@@ -34,7 +34,7 @@ class CrudApi extends Loader {
         Accept: "application/json",
       },
     }
-  ): Promise<response<T>> {
+  ): Promise<T> {
     return this.load(fetchParam, endpoint, options);
   }
 
@@ -50,7 +50,7 @@ class CrudApi extends Loader {
         "Content-Type": "application/json",
       },
     }
-  ): Promise<response<T>> {
+  ): Promise<T> {
     return this.load(
       { ...fetchParam, body: JSON.stringify(body) },
       endpoint,

@@ -3,7 +3,6 @@ export type urlOptions = {
 };
 
 export type fetchParam = urlOptions;
-export type response<T> = { [key: string]: T };
 export default class Loader {
   private baseLink: string;
   readonly options: urlOptions;
@@ -22,7 +21,7 @@ export default class Loader {
         "Content-Type": "application/json",
       },
     }
-  ): Promise<response<T>> {
+  ): Promise<T> {
     return this.load(fetchParam, endpoint, options);
   }
 
@@ -52,11 +51,10 @@ export default class Loader {
     fetchOptions: fetchParam,
     endpoint: string,
     options = {}
-  ): Promise<response<T>> {
+  ): Promise<T> {
     return fetch(this.makeUrl(options, endpoint), fetchOptions)
       .then(this.errorHandler)
       .then((res: Response) => res.json())
       .catch((err: Event) => console.error(err));
   }
 }
-
