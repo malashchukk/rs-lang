@@ -1,0 +1,105 @@
+@import url(./css/reset.css);
+
+$color-header: #6fa1c5;
+$color-white-text-header: #FFFFFF; 
+$color-shadow-text: #045968;
+$font-cursive: Bangers,cursive;
+
+*{
+    box-sizing: border-box;
+}
+
+.header {
+    width: 100%;  
+    display: flex;
+    background-color: $color-header;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 10px 14px 0 rgb(0 0 0 / 40%);
+    z-index: 100;    
+}
+.logo{
+    display: flex;
+    font-size: 2.2rem;
+    font-family: $font-cursive;
+    align-items: center;
+    color: $color-white-text-header;
+    font-weight: 900;
+    cursor: pointer;
+    text-shadow: 2px 2px #072e35;
+    &:hover{
+        text-shadow: none;
+    }
+}
+
+.navigation {    
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center; 
+    justify-content: space-around;   
+    width: 50%;
+    padding: 5px;
+}
+
+.nav{
+    font-size: 1.6rem;
+    font-family: $font-cursive;
+    color: $color-white-text-header;
+    text-align: center;
+    padding:  1.4rem;
+    text-decoration: none;
+    cursor: pointer;
+    &:hover{
+        background-color: $color-shadow-text;
+        border-radius: 1rem;
+    }
+}
+
+.nav_games:hover .nav_games_content{
+     display: block;
+}
+
+.nav_games_btn{
+    font-size: 1.6rem;
+    border: none;    
+    color: $color-white-text-header;
+    padding: 1.0rem;    
+    background-color: transparent;
+    font-family: $font-cursive;
+    margin: 0;
+    &:hover{
+        background-color: $color-shadow-text;
+        border-radius: 1rem;
+    }
+}
+
+.nav_games_content{
+    display: none;
+    position: absolute;
+    left: 49%;
+    background-color: $color-header;
+    width: 15%;
+    z-index: 1;
+    justify-content: space-around;
+    box-shadow: 0 10px 14px 0 rgb(0 0 0 / 40%);
+    border-radius: 5px;
+    & .nav_games_audioCall, .nav_games_sprint{        
+        margin: 0.5rem;
+        &:hover{
+            background-color: $color-shadow-text;           
+        }
+    }
+}
+
+.btn-logoin {    
+    font-size: 1.6rem;
+    display: inline-block;
+    background-color: transparent;
+    border: none;    
+    cursor: pointer;
+    color: $color-white-text-header;
+    text-shadow: 2px 2px #072e35;
+    &:hover{
+        text-shadow: none;
+    }
+}
