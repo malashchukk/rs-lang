@@ -21,6 +21,7 @@ $font-cursive: Bangers,cursive;
 .logo{
     display: flex;
     font-size: 2.2rem;
+    text-decoration: none;
     font-family: $font-cursive;
     align-items: center;
     color: $color-white-text-header;
@@ -85,13 +86,15 @@ $font-cursive: Bangers,cursive;
     border-radius: 5px;
     & .nav_games_audioCall, .nav_games_sprint{        
         margin: 0.5rem;
+        display: block;
         &:hover{
             background-color: $color-shadow-text;           
         }
     }
 }
 
-.btn-logoin {    
+.btn-logoin {   
+    text-decoration: none; 
     font-size: 1.6rem;
     display: inline-block;
     background-color: transparent;
