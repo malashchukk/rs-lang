@@ -1,6 +1,12 @@
-@import "./header.scss";
 
+$color-header: #6fa1c5;
+$color-white-text-header: #FFFFFF; 
+$color-shadow-text: #045968;
+$font-cursive: Bangers,cursive;
 
+.main{
+    flex: 1 0 auto;
+}
 .section_presentation_rslang{
     background-color: rgba(210, 220, 208, 0.6);
 }

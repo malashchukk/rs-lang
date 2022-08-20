@@ -5,11 +5,18 @@ $color-white-text-header: #FFFFFF;
 $color-shadow-text: #045968;
 $font-cursive: Bangers,cursive;
 
-*{
+html{
+    height: 100%;
     box-sizing: border-box;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .header {
+    flex: 0 0 auto;
     width: 100%;  
     display: flex;
     background-color: $color-header;
@@ -95,6 +102,7 @@ $font-cursive: Bangers,cursive;
 
 .btn-logoin {   
     text-decoration: none; 
+    font-family: $font-cursive;
     font-size: 1.6rem;
     display: inline-block;
     background-color: transparent;
