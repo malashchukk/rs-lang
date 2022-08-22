@@ -1,5 +1,4 @@
-import "./style/header.scss";
-import "./style/footer.scss";
+import "./style/style.scss"
 import "./components/controller/CRUD/CrudApi";
 import router from "./components/controller/Router";
 import { Registration } from "./components/registration/registrationForm";
