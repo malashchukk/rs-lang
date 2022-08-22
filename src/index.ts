@@ -13,15 +13,6 @@ mainText.ListenerLogo()
 const register = new Registration;
 register.ListenerBtn()
 
-router.add(/home/, () => {
-  //alert("welcome in home page");
+router.add("home", () => {
+  alert("welcome in home page");
 });
-// router.add(/user/, () => {
-//   alert(`userId`);
-// });
-// router.add(/user\/nikita/, () => {
-//   alert(`userId nikita`);
-// });
-
-
-
