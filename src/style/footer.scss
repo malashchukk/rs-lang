@@ -1,8 +1,13 @@
-@import "./header.scss";
+
+$color-header: #6fa1c5;
+$color-white-text-header: #FFFFFF; 
+$color-shadow-text: #045968;
+$font-cursive: Bangers,cursive; 
 
 .footer{
-    background-color: $color-shadow-text;
-    color: $color-white-text-header;
+    flex: 0 0 auto;
+    background-color: $color-white-text-header;
+    color: #000000;
     font-family: $font-cursive;
     font-size: 1.5rem;
 }
@@ -20,11 +25,11 @@
 }
 .link_team_github{
     text-decoration: none;
-    color: $color-white-text-header;
+    color: #000000;
 }
 .team_inform_item{
     padding: 2rem;
-    text-shadow: 2px 2px #6d7677;
+    text-shadow: 1px 1px $color-shadow-text;
     &:hover{
         text-shadow: none;
     }

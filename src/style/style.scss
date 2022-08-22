@@ -1,26 +1,29 @@
 @import url(./css/reset.css);
+@import "./footer.scss";
 
-$color-header: #6fa1c5;
-$color-white-text-header: #FFFFFF; 
-$color-shadow-text: #045968;
-$font-cursive: Bangers,cursive;
-
-*{
+html{
+    height: 100%;
     box-sizing: border-box;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .header {
+    flex: 0 0 auto;
     width: 100%;  
     display: flex;
     background-color: $color-header;
     justify-content: space-around;
     align-items: center;
-    box-shadow: 0 10px 14px 0 rgb(0 0 0 / 40%);
-    z-index: 100;    
+    box-shadow: 0 10px 14px 0 rgb(0 0 0 / 40%);       
 }
 .logo{
     display: flex;
     font-size: 2.2rem;
+    text-decoration: none;
     font-family: $font-cursive;
     align-items: center;
     color: $color-white-text-header;
@@ -85,13 +88,16 @@ $font-cursive: Bangers,cursive;
     border-radius: 5px;
     & .nav_games_audioCall, .nav_games_sprint{        
         margin: 0.5rem;
+        display: block;
         &:hover{
             background-color: $color-shadow-text;           
         }
     }
 }
 
-.btn-logoin {    
+.btn-registration {   
+    text-decoration: none; 
+    font-family: $font-cursive;
     font-size: 1.6rem;
     display: inline-block;
     background-color: transparent;
@@ -102,4 +108,7 @@ $font-cursive: Bangers,cursive;
     &:hover{
         text-shadow: none;
     }
+}
+.logout{
+    display: none;
 }
