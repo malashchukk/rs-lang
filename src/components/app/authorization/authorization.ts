@@ -1,6 +1,6 @@
 import crudApi from "../../controller/CRUD/CrudApi";
 
-class User {
+export class User {
   // private subscribers: Array<T> = [];
   currUser = {
     Message: "Unauthenticated",
@@ -20,7 +20,7 @@ class User {
       return false;
     }
   }
-  signIn(options: { email: string; password: string }) {
+  logIn(options: { email: string; password: string }) {
     crudApi
       .createItem(
         {
@@ -49,7 +49,7 @@ class User {
         }
       )
       .then((a) => {
-        this.signIn({
+        this.logIn({
           email: `${options.email}`,
           password: `${options.password}`,
         });
