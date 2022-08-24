@@ -1,6 +1,7 @@
 @import url(./css/reset.css);
-@import "./footer.scss";
-
+@import "./footer";
+@import "../components/view/authorization/authorizationPopUp";
+@import "../components/registration/form";
 html{
     height: 100%;
     box-sizing: border-box;
