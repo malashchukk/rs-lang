@@ -1,4 +1,4 @@
-// import { User } from "../../app/authorization/authorization";
+import user from "../../app/authorization/authorization";
 
 class PopUp {
   private openPopUpButton = document.createElement("a");
@@ -29,11 +29,13 @@ class PopUp {
     emailField.classList.add("email");
     emailField.placeholder = "Почта";
     emailField.maxLength = 50;
+    emailField.required = true;
     emailField.autocomplete = "off";
     const passwordField = document.createElement("input") as HTMLInputElement;
     passwordField.type = "password";
     passwordField.name = "password";
     passwordField.minLength = 8;
+    passwordField.required = true;
     passwordField.classList.add("password");
     passwordField.placeholder = "Пароль";
     //
@@ -44,7 +46,15 @@ class PopUp {
     logInButton.innerHTML = "Войти";
     logInButton.type = "button";
     logInButton.addEventListener("click", () => {
-      this.closePopUp();
+      const emailPattern = /\S+@\S+\.\S+/;
+      if (!emailPattern.test(emailField.value)) {
+        alert("Некорректная почта");
+      } else if (passwordField.value.length < 8) {
+        alert("Некорректный пароль");
+      } else {
+        user.logIn({ email: emailField.value, password: passwordField.value });
+        this.closePopUp();
+      }
     });
     const isLogInButton = document.createElement("button") as HTMLButtonElement;
     isLogInButton.classList.add("button_signIn");
@@ -61,11 +71,23 @@ class PopUp {
     signUpButton.innerHTML = "Регистрация";
     signUpButton.type = "button";
     signUpButton.addEventListener("click", () => {
-      // console.log(nameField.value, emailField.value, passwordField.value);
-      this.closePopUp();
-      this.update();
-      logInButton.classList.add("hidden");
-      signUpButton.classList.remove("hidden");
+      const emailPattern = /\S+@\S+\.\S+/;
+      if (nameField.value.length < 1) {
+        alert("Некорректное имя");
+      } else if (!emailPattern.test(emailField.value)) {
+        alert("Некорректная почта");
+      } else if (passwordField.value.length < 8) {
+        alert("Некорректный пароль");
+      } else {
+        user.signUp({
+          name: nameField.value,
+          email: emailField.value,
+          password: passwordField.value,
+        });
+        logInButton.classList.add("hidden");
+        signUpButton.classList.remove("hidden");
+        this.closePopUp();
+      }
     });
     //
     inputs.append(nameField, emailField, passwordField);
@@ -98,7 +120,8 @@ class PopUp {
     switch (type) {
       case "authorized":
         openPopUpButton.classList.add("btn-registration");
-        openPopUpButton.innerHTML = "Аккаунт";
+        openPopUpButton.innerHTML = JSON.parse(localStorage["user"]).name;
+        openPopUpButton.href = "/#/account";
         openPopUpButton.addEventListener("click", () => {
           document.body.style.overflow = "auto";
           this.popUp.classList.remove("active");
@@ -137,4 +160,5 @@ class PopUp {
   }
 }
 const popUp = new PopUp();
+user.subscribe(popUp);
 export default popUp;

@@ -19,51 +19,48 @@ class User {
   }
   isAuthorization() {
     if (localStorage["user"]) {
-      console.log(this.currUser);
-      this.updateToken();
-      // this.notify();
+      this.notify();
       return true;
     } else {
       return false;
     }
   }
-  logIn(options: { email: string; password: string }) {
-    crudApi
-      .createItem(
-        {
-          endpoint: "/signin",
-        },
-        {
-          email: `${options.email}`,
-          password: `${options.password}`,
-        }
-      )
-      .then((a) => {
-        localStorage["user"] = JSON.stringify(a);
-        console.log(a);
-        this.notify();
-        // this.updateToken();
-        // return a;
-      });
+  async logIn(options: { email: string; password: string }) {
+    const data = await crudApi.createItem(
+      {
+        endpoint: "/signin",
+      },
+      {
+        email: `${options.email}`,
+        password: `${options.password}`,
+      }
+    );
+    localStorage["user"] = JSON.stringify(data);
+    if (data) {
+      this.notify();
+    } else {
+      alert("Аккаунт не найдено, попробуйте зарегистрироваться");
+    }
   }
-  signUp(options: { name: string; email: string; password: string }) {
-    crudApi
-      .createItem(
-        {
-          endpoint: "/users",
-        },
-        {
-          name: `${options.email}`,
-          email: `${options.email}`,
-          password: `${options.password}`,
-        }
-      )
-      .then(() => {
-        this.logIn({
-          email: `${options.email}`,
-          password: `${options.password}`,
-        });
+  async signUp(options: { name: string; email: string; password: string }) {
+    const data = await crudApi.createItem(
+      {
+        endpoint: "/users",
+      },
+      {
+        name: `${options.name}`,
+        email: `${options.email}`,
+        password: `${options.password}`,
+      }
+    );
+    if (data) {
+      this.logIn({
+        email: `${options.email}`,
+        password: `${options.password}`,
       });
+    } else {
+      alert("Вы уже зарегистрированы");
+    }
   }
   updateToken() {
     crudApi
@@ -91,8 +88,8 @@ class User {
     }
   }
   notify() {
-    for (const i of this.subscribers) {
-      i.update();
+    for (let i = 0; i < this.subscribers.length; i += 1) {
+      this.subscribers[i]?.update();
     }
   }
 }
