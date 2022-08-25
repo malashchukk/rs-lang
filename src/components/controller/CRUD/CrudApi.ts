@@ -55,13 +55,7 @@ class CrudApi extends Loader {
       { ...fetchParam, body: JSON.stringify(body) },
       endpoint,
       options
-  
-  
-  
-  
-  
-  
-      );
+    );
   }
 }
 const crudApi = new CrudApi("https://rslang-malashchukk.herokuapp.com", {});
