@@ -40,7 +40,7 @@
     justify-content: space-evenly;   
     padding: 3rem 0 0 0;
 }
-.autorization-buttons {  
+.authorization-buttons {  
     cursor: pointer;    
     background-color:  #045968;
     font-size: 1.6rem;
@@ -74,6 +74,7 @@
     top: 0;
     left: 0;
     display: flex;
+    font-family: Quicksand,sans-serif;
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -89,6 +90,7 @@
 .show-password{
     margin: .5rem;
     display: flex;
+    font-family: Quicksand,sans-serif;
     &__text{
         font-size: 1.5rem;
     }

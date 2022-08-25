@@ -13,7 +13,6 @@ class PopUp {
   }
   private createForm() {
     const form = document.createElement("form");
-    //
     const inputs = document.createElement("div");
     inputs.classList.add("inputs");
     inputs.innerHTML = `
@@ -45,10 +44,10 @@ class PopUp {
       <button class="button_isSignUp" type="button">
         Есть аккаунт?
       </button>
-      <button class="autorization-buttons button_login hidden" type="button">
+      <button class="authorization-buttons button_login hidden" type="button">
         Войти
       </button>
-      <button class="button_signUp autorization-buttons" type="button">
+      <button class="button_signUp authorization-buttons" type="button">
         Регистрация
       </button>
     `;
@@ -61,7 +60,6 @@ class PopUp {
       const emailPattern = /\S+@\S+\.\S+/;
       if (!emailPattern.test(emailField.value)) {
         this.showError("Некорректная почта");
-        // alert("Некорректная почта");
       } else if (passwordField.value.length < 8) {
         this.showError("Некорректный пароль");
       } else {
@@ -144,8 +142,7 @@ class PopUp {
     switch (type) {
       case "authorized":
         openPopUpButton.classList.add("btn-registration");
-        openPopUpButton.innerHTML = JSON.parse(localStorage["user"]).name;
-        openPopUpButton.href = "/#/account";
+        openPopUpButton.innerText = JSON.parse(localStorage["user"]).name;
         openPopUpButton.addEventListener("click", () => {
           document.body.style.overflow = "auto";
           this.popUp.classList.remove("active");
@@ -185,8 +182,12 @@ class PopUp {
       hiddenElements.forEach((element) => element.classList.toggle("hidden"));
     }, 700);
   }
-  update() {
-    this.replacePopUpButton("authorized");
+  update(option: boolean) {
+    if (option) {
+      this.replacePopUpButton("authorized");
+    } else {
+      this.replacePopUpButton("unauthorized");
+    }
   }
 }
 const popUp = new PopUp();

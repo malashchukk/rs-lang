@@ -68,7 +68,8 @@ export class Main {
             <img src="./assets/jpg/people.jpg">
           </div>
           <div class="section_join_text">
-          <h2 class="section_join_title">Присоединяйся к нам уже сегодня!</h2>                            
+          <h2 class="section_join_title">Присоединяйся к нам уже сегодня!</h2>
+          <button class="authorization-buttons" href="account"></
           </div>           
       </div>          
     </section>

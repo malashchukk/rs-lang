@@ -6,9 +6,9 @@ import popUp from "./components/view/popUpAuthorization/popUpAuthorization";
 const aboutTeam = new About();
 aboutTeam.ListenerBtnAbout();
 const mainText = new Main();
+popUp.replacePopUpButton("unauthorized");
 mainText.showMain();
 mainText.ListenerLogo();
-popUp.replacePopUpButton("unauthorized");
 user.isAuthorization();
 
 //email: "roma@roma.com", password:"qwerty123";
