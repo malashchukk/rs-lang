@@ -1,7 +1,7 @@
 @import url(./css/reset.css);
 @import "./footer";
-@import "../components/view/authorization/authorizationPopUp";
-@import "../components/view/authorization/form";
+@import "../components/view/popUpAuthorization/authorizationPopUp";
+@import "../components/view/popUpAuthorization/form";
 html{
     height: 100%;
     box-sizing: border-box;
@@ -112,4 +112,8 @@ body{
 }
 .logout{
     display: none;
+}
+
+.hidden{
+  display: none;
 }

@@ -1,4 +1,4 @@
-import crudApi from "../../controller/CRUD/CrudApi";
+import crudApi from "../CRUD/CrudApi";
 export interface Ilistener {
   update(): void;
 }
@@ -37,7 +37,7 @@ class User {
     );
     localStorage["user"] = JSON.stringify(data);
     if (data) {
-      this.notify();
+      this.isAuthorization();
     } else {
       alert("Аккаунт не найдено, попробуйте зарегистрироваться");
     }
@@ -72,7 +72,6 @@ class User {
       )
       .then((data) => {
         console.log(data);
-        // localStorage["user"].token = data;
       });
   }
   //{"message":"Authenticated","token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMDNkMzhkNjM2YjVlMDAxNmM1NGJiZiIsImlhdCI6MTY2MTE5NzczMiwiZXhwIjoxNjYxMjEyMTMyfQ.NhGxwstU7iI0MyKUeCbJPau2NsrcW0XsC7mRBeCAGNg","refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMDNkMzhkNjM2YjVlMDAxNmM1NGJiZiIsInRva2VuSWQiOiIxYWJmNjgxYS05MjczLTRlYzQtODJlMy1mYzZkOTUzZmM0MGYiLCJpYXQiOjE2NjExOTc3MzIsImV4cCI6MTY2MTIxMzkzMn0.hPz_NN0ZpvHUuC8EuQf-bLksccaXsF4AI33ECOrRsjo","userId":"6303d38d636b5e0016c54bbf","name":"roma@roma.com"}

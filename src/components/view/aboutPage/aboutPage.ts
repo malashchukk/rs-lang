@@ -1,25 +1,24 @@
-import "./about.scss"
+import "./about.scss";
 
-export class About{
-    static instance: About;
-    btnAbout = document.querySelector('.nav_about') as HTMLElement;    
+export class About {
+  static instance: About;
+  btnAbout = document.querySelector(".nav_about") as HTMLElement;
 
-    constructor() {
-        if (typeof About.instance === 'object') {
-            return About.instance;
-        }   
-        About.instance = this;
-        return About.instance;
+  constructor() {
+    if (typeof About.instance === "object") {
+      return About.instance;
     }
+    About.instance = this;
+    return About.instance;
+  }
 
-    ListenerBtnAbout(){
-        this.btnAbout.addEventListener('click', this.showAbout)
-        
-    }
+  ListenerBtnAbout() {
+    this.btnAbout.addEventListener("click", this.showAbout);
+  }
 
-    showAbout(): void{
-        const main = document.querySelector('.main') as HTMLElement;
-        main.innerHTML = `
+  showAbout(): void {
+    const main = document.querySelector(".main") as HTMLElement;
+    main.innerHTML = `
         <div class="about_team_wrapper">
         <section class="about_content">
           <div class="member">
@@ -51,7 +50,6 @@ export class About{
           </div>
         </section>
       </div>
-      `
-    }
-
+      `;
+  }
 }
