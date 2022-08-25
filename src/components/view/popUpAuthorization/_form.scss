@@ -78,6 +78,13 @@
     align-items: center;
     width: 100%;
     background-color: rgba(225, 15, 15, 0.9);
+    opacity: 1;
+    transition: visibility 0s linear 0s, opacity 300ms;
+}
+.hidden-error{
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 300ms, opacity 300ms;
 }
 .show-password{
     margin: .5rem;

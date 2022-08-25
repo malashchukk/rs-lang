@@ -115,7 +115,7 @@ class PopUp {
     popUpCloseButton.addEventListener("click", () => this.close());
     popUp.innerHTML = `
       <h1 class="logo-title">Авторизация</h1>
-      <div class="error-message hidden "></div>
+      <div class="error-message hidden-error"></div>
     `;
     popUp.append(popUpCloseButton);
     popUp.append(this.createForm());
@@ -130,14 +130,14 @@ class PopUp {
     const errorHtml = document.querySelector(
       ".error-message"
     ) as HTMLDivElement;
-    errorHtml.classList.remove("hidden");
+    errorHtml.classList.remove("hidden-error");
     errorHtml.innerHTML = message;
   }
   private removeError() {
     const errorHtml = document.querySelector(
       ".error-message"
     ) as HTMLDivElement;
-    errorHtml?.classList.add("hidden");
+    errorHtml.classList.add("hidden-error");
   }
   replacePopUpButton(type?: string) {
     const openPopUpButton = this.openPopUpButton;
@@ -169,12 +169,12 @@ class PopUp {
     signIn.replaceWith(openPopUpButton);
   }
   open() {
-    this.removeError();
     document.body.style.overflow = "hidden";
     this.popUp.classList.add("active");
     this.popUpBackground.classList.add("popup__background");
   }
   close() {
+    this.removeError();
     const hiddenElements = document.querySelectorAll(".hidden");
     const loginButton = document.querySelector(".button_login");
     this.popUp.classList.remove("active");
