@@ -4,7 +4,7 @@ export type urlOptions = {
 
 export type fetchParam = urlOptions;
 export default class Loader {
-  private baseLink: string;
+  readonly baseLink: string;
   readonly options: urlOptions;
   constructor(baseLink: string, options: urlOptions) {
     this.baseLink = baseLink;

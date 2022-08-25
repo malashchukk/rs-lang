@@ -1,4 +1,18 @@
-@import url('./css/reset.css');
-@import url('./footer.scss');
-@import url('./main.scss');
-@import url('./header.scss');
+
+@import "./header.scss";
+@import "./footer.scss";
+@import "./main.scss";
+@import "./textbook.scss";
+@import "./preloader.scss";
+@import url("./pagination.scss");
+body {
+  background-color: #f2f7fd;
+}
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.main {
+  flex: 1 0 auto;
+}
