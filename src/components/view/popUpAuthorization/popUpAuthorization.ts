@@ -4,6 +4,7 @@ class PopUp {
   private openPopUpButton = document.createElement("a");
   private popUp = document.createElement("div");
   private popUpBackground = document.createElement("div");
+  private logout = document.createElement("a");
   private renderPopUpHtml() {
     const popUpHTML = document.createElement("div");
     popUpHTML.classList.add("popup-wrapper");
@@ -138,9 +139,16 @@ class PopUp {
     errorHtml.classList.add("hidden-error");
   }
   replacePopUpButton(type?: string) {
+    const signIn = document.querySelector(
+      ".btn-registration"
+    ) as HTMLButtonElement;
     const openPopUpButton = this.openPopUpButton;
+    const logoutButton = this.logout;
     switch (type) {
       case "authorized":
+        logoutButton.classList.add("logout-button");
+        logoutButton.classList.add("btn-registration");
+        logoutButton.innerHTML = "Выйти";
         openPopUpButton.classList.add("btn-registration");
         openPopUpButton.innerText = JSON.parse(localStorage["user"]).name;
         openPopUpButton.addEventListener("click", () => {
@@ -148,6 +156,12 @@ class PopUp {
           this.popUp.classList.remove("active");
           this.popUpBackground.classList.remove("popup__background");
         });
+        logoutButton.addEventListener("click", () => {
+          this.replacePopUpButton("unauthorized");
+          localStorage.clear();
+          logoutButton.remove();
+        });
+        signIn.replaceWith(openPopUpButton, logoutButton);
         break;
       case "unauthorized":
         document.body.append(this.renderPopUpHtml());
@@ -156,14 +170,11 @@ class PopUp {
         openPopUpButton.addEventListener("click", () => {
           this.open();
         });
+        signIn.replaceWith(openPopUpButton);
         break;
       default:
         break;
     }
-    const signIn = document.querySelector(
-      ".btn-registration"
-    ) as HTMLButtonElement;
-    signIn.replaceWith(openPopUpButton);
   }
   open() {
     document.body.style.overflow = "hidden";

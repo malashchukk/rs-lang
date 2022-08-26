@@ -17,6 +17,7 @@ class User {
   }
   isAuthorization() {
     if (localStorage["user"]) {
+      this.currUser = JSON.parse(localStorage["user"]);
       this.testToken();
       this.notify(true);
       return true;
@@ -66,8 +67,9 @@ class User {
       {
         endpoint: `/users/${this.currUser.userId}/tokens`,
       },
-      `${this.currUser.refreshToken}`
+      this.currUser.refreshToken
     );
+    console.log(2);
     localStorage["user"].token = data.token;
     localStorage["user"].refreshToken = data.refreshToken;
   }
@@ -79,6 +81,7 @@ class User {
       this.currUser.token
     );
     if (!data) {
+      console.log(1);
       this.updateToken();
     }
   }

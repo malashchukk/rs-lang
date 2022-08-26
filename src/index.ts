@@ -10,5 +10,4 @@ popUp.replacePopUpButton("unauthorized");
 mainText.showMain();
 mainText.ListenerLogo();
 user.isAuthorization();
-
 //email: "roma@roma.com", password:"qwerty123";
