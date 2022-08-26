@@ -69,7 +69,6 @@ class User {
       },
       this.currUser.refreshToken
     );
-    console.log(2);
     localStorage["user"].token = data.token;
     localStorage["user"].refreshToken = data.refreshToken;
   }
@@ -81,7 +80,6 @@ class User {
       this.currUser.token
     );
     if (!data) {
-      console.log(1);
       this.updateToken();
     }
   }

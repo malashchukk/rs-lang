@@ -8,11 +8,9 @@
     font-size: 2rem;
     color: white;
     border-radius: 1rem;
-    // box-shadow: 0 5px 7px rgba(0, 0, 0, 0.5);
     transition: all 0.6s;
 
     &:hover {
-      // box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
       color: #045968;;
     }
   }
@@ -33,7 +31,6 @@
   visibility: hidden;
   transition: all 0.7s;
 
-
   &__close {
     cursor: pointer;
     text-decoration: none;
@@ -51,6 +48,7 @@
   & p {
     color: white;
   }
+  
   &__background{
     z-index: 1001;
     position: absolute;
