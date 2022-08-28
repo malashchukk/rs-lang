@@ -1,8 +1,7 @@
 import "./form.scss"
 
 export class Registration{
-    static instance: Registration;
-    btnEnter = document.querySelectorAll('.enter') as NodeList;    
+    static instance: Registration;     
 
     constructor() {
         if (typeof Registration.instance === 'object') {
@@ -10,13 +9,7 @@ export class Registration{
         }   
         Registration.instance = this;
         return Registration.instance;
-    }
-
-    ListenerBtn(){
-        this.btnEnter.forEach((button)=>{            
-            button.addEventListener('click', this.showForm)
-        })
-    }
+    }   
 
     showForm(): void{
         const main = document.querySelector('.main') as HTMLElement;

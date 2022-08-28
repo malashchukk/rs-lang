@@ -58,5 +58,5 @@ class CrudApi extends Loader {
     );
   }
 }
-const crudApi = new CrudApi("https://rslang-malashchukk.herokuapp.com", {});
+const crudApi = new CrudApi(/*"https://rslang-malashchukk.herokuapp.com"*/'http://localhost:8081', {});
 export default crudApi;

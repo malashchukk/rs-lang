@@ -1,8 +1,7 @@
 import "./about.scss"
 
 export class About{
-    static instance: About;
-    btnAbout = document.querySelector('.nav_about') as HTMLElement;    
+    static instance: About;    
 
     constructor() {
         if (typeof About.instance === 'object') {
@@ -10,12 +9,7 @@ export class About{
         }   
         About.instance = this;
         return About.instance;
-    }
-
-    ListenerBtnAbout(){
-        this.btnAbout.addEventListener('click', this.showAbout)
-        
-    }
+    }   
 
     showAbout(): void{
         const main = document.querySelector('.main') as HTMLElement;
