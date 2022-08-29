@@ -39,7 +39,7 @@ class AudioCallController{
            
             const audioBtn = document.querySelector('.game__voice') as HTMLElement;
             audioBtn.addEventListener('click', () => {
-                this.createAudio(`http://localhost:8081/${audio}`)         
+                this.createAudio(`https://rslang-malashchukk.herokuapp.com/${audio}`)         
                 });
               
             const gameWords = document.querySelector('.game__words') as HTMLElement;
@@ -84,14 +84,17 @@ class AudioCallController{
               mainPage.showMain()
         }); 
     }
+
     getLevel(){
         const selectLevel = document.querySelector('.lvl-select') as HTMLSelectElement; 
         this.level = +selectLevel.value - 1;     
     }
+
     createAudio(way:string){
         let audioElement = new Audio(way);
         audioElement.play(); 
     } 
+    
     giveAnswer(wordTranslate:string, word:string, event: HTMLElement) { 
 
         const gameBtn = document.querySelector('.game__btn') as HTMLElement;      
