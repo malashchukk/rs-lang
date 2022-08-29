@@ -1,9 +1,10 @@
-.pagination-buttons-container {
+.pagination {
   bottom: 0;
-  margin: 0 50%;
   gap: 5px;
   position: relative;
   z-index: 1001;
+  display: flex;
+  justify-content: center;
 }
 .pagination-button {
   font-size: 19px;
@@ -35,7 +36,7 @@
 .page-btn:not([class$="-page"]) {
   width: 35px;
 }
-
+pagination
 .pagination-buttons {
   position: relative;
   z-index: 1001;

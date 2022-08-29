@@ -1,8 +1,9 @@
 import router from "../controller/Router";
-import WordRender from "./wordRender";
+import RenderTextbookWords from "./renderWordsTextbook";
 import { textbookPagination } from "./pagination";
 import TextbookSections from "./SectionTextbook";
-class ViewerTextbook extends WordRender {
+import user from "../controller/authorization/authorization";
+class ViewerTextbook extends RenderTextbookWords {
   private mainContent = document.querySelector(".main") as HTMLDivElement;
   private removeMainContent() {
     this.mainContent.innerHTML = "";
@@ -15,8 +16,8 @@ class ViewerTextbook extends WordRender {
     )} <div class="textbook__words-wrapper"></div></div>`;
     await this.renderCards(
       document.querySelector(".textbook__words-wrapper") as HTMLDivElement,
-      Number(localStorage.getItem("currentPage")) - 1,
-      Number(localStorage.getItem("sectionNumber")) - 1
+      Number(localStorage["currentPage"] || 1) - 1,
+      Number(localStorage["sectionNumber"] || 1) - 1
     );
     // вынести куда-то
 
@@ -30,17 +31,17 @@ class ViewerTextbook extends WordRender {
       localStorage.setItem("currentPage", String(Number(parseInt(target.id))));
       this.renderCards(
         document.querySelector(".textbook__words-wrapper") as HTMLDivElement,
-        Number(localStorage.getItem("currentPage")) - 1,
-        Number(localStorage.getItem("sectionNumber")) - 1
+        Number(localStorage["currentPage"] || 1) - 1,
+        Number(localStorage["sectionNumber"] || 1) - 1
       );
     });
   }
   drawTextbookAside(numberOfSection: number): string {
     let html = `<aside class="main__textbookNav">`;
     for (let i = 1; i <= numberOfSection; i += 1) {
-      html += `<div class="textbook__section" id="chapter${i}"><img class="textbook__section-img textbook-small-img" src="./assets/svg/Book.svg">Раздел ${i}</div>`;
+      html += `<button class="textbook__section" id="chapter${i}"><img class="textbook__section-img textbook-small-img" src="./assets/svg/Book.svg">Раздел ${i}</button>`;
     }
-    const difficultSectionWords = `<div class="textbook__section" id="difficult-words-section"><img class="textbook__section-img textbook-small-img" src="./assets/svg/Book.svg">Сложные слова</div>`;
+    const difficultSectionWords = `<button class="textbook__section" id="difficult-words-section"><img class="textbook__section-img textbook-small-img" src="./assets/svg/Book.svg">Сложные слова</button>`;
     html += difficultSectionWords;
     return html + `</aside>`;
   }
@@ -52,6 +53,20 @@ class ViewerTextbook extends WordRender {
       </div>
     </nav>`;
   }
+  update(isAuthorized: boolean) {
+    const wordsButtons = document.querySelectorAll(
+      ".words-buttons"
+    ) as NodeListOf<HTMLButtonElement>;
+    if (isAuthorized) {
+      wordsButtons.forEach((btn) => {
+        btn.style.display = "block";
+      });
+    } else {
+      wordsButtons.forEach((btn) => {
+        btn.style.display = "none";
+      });
+    }
+  }
 }
 
 const viewerTextbook = new ViewerTextbook();
@@ -60,8 +75,9 @@ export default viewerTextbook;
 router.add("textbook", () => {
   const wordsNumber = 3600;
   const numberOfSections = 6;
-  if (!localStorage.getItem("sectionNumber")) {
+  if (!localStorage["sectionNumber"]) {
     localStorage.setItem("sectionNumber", "1");
   }
   viewerTextbook.renderMain(wordsNumber, numberOfSections);
+  user.subscribe(viewerTextbook);
 });

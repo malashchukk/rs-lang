@@ -1,5 +1,5 @@
 class Preloader {
-  private timer = setInterval(() => {});
+  private timer!: NodeJS.Timer;
   show(container: HTMLDivElement) {
     let preloader = document.querySelector(".preloader") as HTMLDivElement;
     if (preloader) {

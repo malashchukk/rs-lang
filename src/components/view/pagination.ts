@@ -1,21 +1,21 @@
 export default class PaginationButton {
   totalPages: number;
-  maxPagesVisible: number;
+  maxVisiblePages: number;
   currentPage: number;
-  pages: Array<number> = [];
+  pagesNumbers: Array<number> = [];
   currentPageBtn: HTMLButtonElement = document.createElement("button");
-  buttons = new Map();
-  frag: DocumentFragment = document.createDocumentFragment();
+  paginationButtons = new Map();
+  fragment: DocumentFragment = document.createDocumentFragment();
   disabled = {
     start: () => this.currentPage === 1,
     prev: () => this.currentPage === 1,
     end: () => this.currentPage >= this.totalPages,
     next: () => this.currentPage >= this.totalPages,
   };
-  paginationButtonContainer = document.createElement("div");
-  constructor(totalPages: number, maxPagesVisible = 10, currentPage = 1) {
+  paginationContainer = document.createElement("div");
+  constructor(totalPages: number, maxVisiblePages = 10, currentPage = 1) {
     this.currentPage = currentPage;
-    this.maxPagesVisible = maxPagesVisible;
+    this.maxVisiblePages = maxVisiblePages;
     this.totalPages = totalPages;
   }
   createButtons() {
@@ -23,7 +23,7 @@ export default class PaginationButton {
       const currentTarget = e?.currentTarget as HTMLButtonElement;
       this.currentPage = Number(currentTarget.textContent);
     };
-    this.buttons.set(
+    this.paginationButtons.set(
       this.createAndSetupButton(
         "start",
         "start-page",
@@ -33,7 +33,7 @@ export default class PaginationButton {
       (btn: HTMLButtonElement) => (btn.disabled = this.disabled.start())
     );
 
-    this.buttons.set(
+    this.paginationButtons.set(
       this.createAndSetupButton(
         "prev",
         "prev-page",
@@ -43,7 +43,7 @@ export default class PaginationButton {
       (btn: HTMLButtonElement) => (btn.disabled = this.disabled.prev())
     );
 
-    this.pages.map((pageNumber, index) => {
+    this.pagesNumbers.map((pageNumber, index) => {
       const isCurrentPage = this.currentPage === pageNumber;
       const button = this.createAndSetupButton(
         String(pageNumber),
@@ -56,10 +56,10 @@ export default class PaginationButton {
         this.currentPageBtn = button;
       }
 
-      this.buttons.set(button, this.onPageButtonUpdate(index));
+      this.paginationButtons.set(button, this.onPageButtonUpdate(index));
     });
 
-    this.buttons.set(
+    this.paginationButtons.set(
       this.createAndSetupButton(
         "next",
         "next-page",
@@ -69,7 +69,7 @@ export default class PaginationButton {
       (btn: HTMLButtonElement) => (btn.disabled = this.disabled.next())
     );
 
-    this.buttons.set(
+    this.paginationButtons.set(
       this.createAndSetupButton(
         "end",
         "end-page",
@@ -80,18 +80,18 @@ export default class PaginationButton {
     );
   }
   init(container: HTMLDivElement) {
-    this.pages = this.pageNumbers(
+    this.pagesNumbers = this.pageNumbers(
       this.totalPages,
-      this.maxPagesVisible,
+      this.maxVisiblePages,
       this.currentPage
     );
-    if (document.querySelector(".pagination-buttons")) {
-      document.querySelector(".pagination-buttons")?.remove();
+    if (document.querySelector(".pagination")) {
+      document.querySelector(".pagination")?.remove();
     }
-    this.paginationButtonContainer.className = "pagination-buttons";
+    this.paginationContainer.className = "pagination";
     this.createButtons();
-    this.buttons.forEach((_, btn) => this.frag.appendChild(btn));
-    this.paginationButtonContainer.appendChild(this.frag);
+    this.paginationButtons.forEach((_, btn) => this.fragment.appendChild(btn));
+    this.paginationContainer.appendChild(this.fragment);
     this.render(container);
   }
   pageNumbers = (total: number, max: number, current: number) => {
@@ -117,28 +117,28 @@ export default class PaginationButton {
       event;
     }
   ) {
-    const buttonElement = document.createElement("button");
-    buttonElement.textContent = label;
-    buttonElement.className = `page-btn ${cls}`;
-    buttonElement.disabled = disabled;
-    buttonElement.addEventListener("click", (e) => {
+    const newButton = document.createElement("button");
+    newButton.textContent = label;
+    newButton.className = `page-btn ${cls}`;
+    newButton.disabled = disabled;
+    newButton.addEventListener("click", (e) => {
       handleClick(e);
       this.update();
-      this.paginationButtonContainer.id = String(this.currentPage);
+      this.paginationContainer.id = String(this.currentPage);
       const currentPageBtn = this.currentPageBtn;
-      this.paginationButtonContainer.dispatchEvent(
+      this.paginationContainer.dispatchEvent(
         new CustomEvent("change", { detail: { currentPageBtn } })
       );
     });
 
-    return buttonElement;
+    return newButton;
   }
 
   onPageButtonUpdate(index: number) {
     return (btn: HTMLButtonElement) => {
-      btn.textContent = String(this.pages[index]);
+      btn.textContent = String(this.pagesNumbers[index]);
 
-      if (this.pages[index] === this.currentPage) {
+      if (this.pagesNumbers[index] === this.currentPage) {
         this.currentPageBtn.classList.remove("active");
         btn.classList.add("active");
         this.currentPageBtn = btn;
@@ -147,17 +147,17 @@ export default class PaginationButton {
     };
   }
   render(container: HTMLDivElement) {
-    container.appendChild(this.paginationButtonContainer);
+    container.appendChild(this.paginationContainer);
   }
 
   update(newPageNumber = this.currentPage) {
     this.currentPage = newPageNumber;
-    this.pages = this.pageNumbers(
+    this.pagesNumbers = this.pageNumbers(
       this.totalPages,
-      this.maxPagesVisible,
+      this.maxVisiblePages,
       this.currentPage
     );
-    this.buttons.forEach((updateButton, btn) => updateButton(btn));
+    this.paginationButtons.forEach((updateButton, btn) => updateButton(btn));
   }
 
   onChange = (
@@ -165,7 +165,7 @@ export default class PaginationButton {
       e;
     }
   ) => {
-    this.paginationButtonContainer.addEventListener("change", handler);
+    this.paginationContainer.addEventListener("change", handler);
   };
 }
 const currentPage = localStorage.getItem("currentPage") || 1;

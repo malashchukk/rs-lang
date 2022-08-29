@@ -27,17 +27,13 @@ class PopUp {
     const nameField = inputs.querySelector(".name") as HTMLInputElement;
     const emailField = inputs.querySelector(".email") as HTMLInputElement;
     const passwordField = inputs.querySelector(".password") as HTMLInputElement;
-    const showPassword = inputs.querySelector(
+    const visiblePassword = inputs.querySelector(
       ".show-password__checkbox"
     ) as HTMLInputElement;
-    showPassword.onclick = () => {
-      if (passwordField.type === "password") {
-        passwordField.type = "text";
-      } else {
-        passwordField.type = "password";
-      }
+    visiblePassword.onclick = () => {
+      passwordField.type =
+        passwordField.type === "password" ? "text" : "password";
     };
-    //
     const buttons = document.createElement("div") as HTMLDivElement;
     buttons.classList.add("buttons_login");
     buttons.innerHTML = `
@@ -156,8 +152,6 @@ class PopUp {
         openPopUpButton.addEventListener("click", () => {
           this.open();
         });
-        break;
-      default:
         break;
     }
     const signIn = document.querySelector(

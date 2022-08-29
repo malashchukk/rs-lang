@@ -13,7 +13,7 @@ export default class WordRender {
     );
     this.addAudioEvent();
   }
-  private async htmlCards(
+  protected async htmlCards(
     container: HTMLDivElement,
     pageNumber = 0,
     group = 0
@@ -29,14 +29,14 @@ export default class WordRender {
         cardsHtml = words.reduce((acc, curr) => {
           return (acc += `<div class="word-card" data-page="${curr.page} data-id="${curr.id}" data-="${curr.group}">
           <div class="word-card-aside"><img class="textbook__picture" src=${crudApi.baseLink}/${curr.image}></div>
-          <div class="word-card-main">
+          <div class="word-card-main" data-id="${curr.id}">
           <div class="words-info">
             <div class="textbook__word">${curr.word}  <div class="audio">
             <img src="./assets/png/volume.png" class="audio-img">
             <audio controls preloader="none" class="textbook__audio" src="${crudApi.baseLink}/${curr.audio}" type="audio/mpeg">
             </audio>
           </div>
-          <span class="word-transcription">${curr.transcription}</span><span class="word-translate">${curr.wordTranslate}</span></div>
+          <span class="word-transcription">${curr.transcription}</span><span class="word-translate translate">${curr.wordTranslate}</span></div>
             <div class="textbook__meaning">
             <div class="textMeaning">
               <span>${curr.textMeaning}</span>
@@ -46,7 +46,7 @@ export default class WordRender {
                 </audio>
               </span>
             </div>
-            <span class="textbook__textMeaning-translate">${curr.textMeaningTranslate}</span>
+            <span class="textbook__textMeaning-translate translate">${curr.textMeaningTranslate}</span>
           </div>
             <div class="word__example">
             <span>${curr.textExample}
@@ -56,12 +56,12 @@ export default class WordRender {
             </audio>
           </span>
             </span>
-            <span class="textbook__example-translate">${curr.textExampleTranslate}</span></div>
+            <span class="textbook__example-translate translate">${curr.textExampleTranslate}</span></div>
             </div>
             <div class="words-buttons">
-              <button class="add-to-difficult">
-                Добавить в сложные
-              </button>
+            </div>
+            <div class="word-card__message">
+                сообщение
             </div>
           </div>
           </div>`);
@@ -70,7 +70,7 @@ export default class WordRender {
     container.innerHTML = cardsHtml;
   }
 
-  private addAudioEvent() {
+  protected addAudioEvent() {
     const audios = document.querySelectorAll(".audio");
     audios.forEach((div) =>
       div.addEventListener("click", () => {
