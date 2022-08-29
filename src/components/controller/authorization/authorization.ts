@@ -22,7 +22,7 @@ class User {
       this.notify(true);
       return true;
     } else {
-      this.notify(true);
+      this.notify(false);
       return false;
     }
   }
