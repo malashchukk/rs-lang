@@ -1,8 +1,7 @@
 import "./main.scss"
 import { About } from "../aboutPage/aboutPage";
 import { Registration } from "../registration/registrationForm";
-//import { AudioCallView } from "../audioCall/audioCallView";
-import { showStartPageAudioCall } from "../audioCall/audioCallController";
+import { showStartPageAudioCall } from "../audioCall/audioCallView";
 
 export class Main{
     static instance: Main;
@@ -27,8 +26,7 @@ export class Main{
     ListenerBtn(){
         this.logo.addEventListener('click', this.showMain)
         this.btnAudioCall.addEventListener('click', ()=>{
-          showStartPageAudioCall()
-          //this.audioCall.clearMainFooter()
+          showStartPageAudioCall()          
         })
         this.btnEnter.forEach((button)=>{            
           button.addEventListener('click', this.autorotation.showForm)
