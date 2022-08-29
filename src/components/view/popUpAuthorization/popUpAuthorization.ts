@@ -56,6 +56,9 @@ class PopUp {
         this.showError("Некорректный пароль");
       } else {
         preloader.show(this.popUp);
+        const authorizationPreloader =
+          document.querySelector(".preloader__loader");
+        authorizationPreloader?.classList.add("loader-authorization");
         document.body.style.pointerEvents = "none";
         await user.logIn({
           email: emailField.value,
@@ -103,6 +106,9 @@ class PopUp {
         this.showError("Некорректный пароль");
       } else {
         preloader.show(this.popUp);
+        const authorizationPreloader =
+          document.querySelector(".preloader__loader");
+        authorizationPreloader?.classList.add("loader-authorization");
         document.body.style.pointerEvents = "none";
         await user.signUp({
           name: nameField.value,
