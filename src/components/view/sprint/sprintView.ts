@@ -1,13 +1,11 @@
-import router from "../../controller/Router";
-
 class SprintView {
+  startGame() {
+    console.log("start");
+  }
   renderStart() {
     alert("There will be sprint");
   }
 }
 const sprintView = new SprintView();
-router.add("sprint", () => {
-  sprintView.renderStart();
-});
 
 export default sprintView;
