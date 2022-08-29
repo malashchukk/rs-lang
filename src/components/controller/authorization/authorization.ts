@@ -106,5 +106,3 @@ class User {
 }
 const user = new User();
 export default user;
-
-// this.signIn({ email: "black@will.com", password: "qwerty123" });
