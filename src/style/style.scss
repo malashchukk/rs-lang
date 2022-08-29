@@ -1,13 +1,11 @@
 @import url(./css/reset.css);
+@import "./preloader";
 @import "./footer";
 @import "../components/view/popUpAuthorization/authorizationPopUp";
 @import "../components/view/popUpAuthorization/form";
 @import "./textbook.scss";
-@import "./preloader.scss";
+
 @import "./pagination.scss";
-body {
-  background-color: #f2f7fd;
-}
 .wrapper {
   min-height: 100vh;
   display: flex;
@@ -16,6 +14,7 @@ body {
 .main {
   flex: 1 0 auto;
 }
+
 html{
     height: 100%;
     box-sizing: border-box;
@@ -24,6 +23,7 @@ body{
     display: flex;
     flex-direction: column;
     height: 100%;
+    background-color: #f2f7fd;
 }
 
 .header {

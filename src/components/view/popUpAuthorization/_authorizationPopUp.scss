@@ -31,7 +31,6 @@
   visibility: hidden;
   transition: all 0.7s;
 
-
   &__close {
     cursor: pointer;
     text-decoration: none;
@@ -49,6 +48,7 @@
   & p {
     color: white;
   }
+  
   &__background{
     z-index: 1001;
     position: absolute;

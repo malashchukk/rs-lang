@@ -85,8 +85,10 @@
 .textbook__words-wrapper {
   & .preloader {
     margin: 50px 0 0 0;
-    height:  calc(100% - 50px);
-    width: calc(100% - 120px);
+    & .preloader__loader {
+      position: relative;
+      top: 50vh;
+    }
   }
   grid-column: 2/3;
   gap: 20px;

@@ -17,6 +17,7 @@ class User {
   }
   isAuthorization() {
     if (localStorage["user"]) {
+      this.currUser = JSON.parse(localStorage["user"]);
       this.testToken();
       this.notify(true);
       return true;
@@ -38,7 +39,9 @@ class User {
     if (data) {
       this.isAuthorization();
     } else {
-      alert("Аккаунт не найдено, попробуйте зарегистрироваться");
+      alert(
+        "Пароль не верный или аккаунт не найдено, попробуйте зарегистрироваться"
+      );
     }
   }
   async signUp(options: { name: string; email: string; password: string }) {
@@ -66,7 +69,7 @@ class User {
       {
         endpoint: `/users/${this.currUser.userId}/tokens`,
       },
-      `${this.currUser.refreshToken}`
+      this.currUser.refreshToken
     );
     localStorage["user"].token = data.token;
     localStorage["user"].refreshToken = data.refreshToken;

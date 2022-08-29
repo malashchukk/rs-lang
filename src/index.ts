@@ -7,13 +7,6 @@ import { Main } from "./components/view/main/main";
 import { About } from "./components/view/aboutPage/aboutPage";
 import user from "./components/controller/authorization/authorization";
 import popUp from "./components/view/popUpAuthorization/popUpAuthorization";
-const aboutTeam = new About();
-aboutTeam.ListenerBtnAbout();
-const mainText = new Main();
-popUp.replacePopUpButton("unauthorized");
-mainText.showMain();
-mainText.ListenerLogo();
-user.isAuthorization();
 
 // import crudApi from "./components/controller/CRUD/CrudApi";
 
@@ -32,7 +25,7 @@ user.isAuthorization();
 //               "userWord.difficulty": "hard",
 //             },
 //           ],
-//         }) 
+//         })
 //       },
 //     },
 //     JSON.parse(localStorage["user"]).token
@@ -47,3 +40,12 @@ user.isAuthorization();
 // // //     }
 // // //   )
 // // //   .then((data) => console.log("fefefe", data));
+
+const aboutTeam = new About();
+aboutTeam.ListenerBtnAbout();
+const mainText = new Main();
+mainText.showMain();
+mainText.ListenerLogo();
+
+popUp.replacePopUpButton("unauthorized");
+user.isAuthorization();
