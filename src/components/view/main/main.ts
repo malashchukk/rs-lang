@@ -1,25 +1,24 @@
-import "./main.scss"
+import "./main.scss";
 
-export class Main{
-    static instance: Main;
-    logo = document.querySelector('.logo') as HTMLElement;    
+export class Main {
+  static instance: Main;
+  logo = document.querySelector(".logo") as HTMLElement;
 
-    constructor() {
-        if (typeof Main.instance === 'object') {
-            return Main.instance;
-        }   
-        Main.instance = this;
-        return Main.instance;
+  constructor() {
+    if (typeof Main.instance === "object") {
+      return Main.instance;
     }
+    Main.instance = this;
+    return Main.instance;
+  }
 
-    ListenerLogo(){
-        this.logo.addEventListener('click', this.showMain)
-        
-    }
+  ListenerLogo() {
+    this.logo.addEventListener("click", this.showMain);
+  }
 
-    showMain(): void{
-        const main = document.querySelector('.main') as HTMLElement;
-        main.innerHTML = `
+  showMain(): void {
+    const main = document.querySelector(".main") as HTMLElement;
+    main.innerHTML = `
         <section class="section_presentation_rslang">
         <div class="main_content">
           <div class="section_presentation_content">
@@ -69,12 +68,11 @@ export class Main{
             <img src="./assets/jpg/people.jpg">
           </div>
           <div class="section_join_text">
-          <h2 class="section_join_title">Присоединяйся к нам уже сегодня!</h2>                            
-          <a href="/#/authorization" class="logoin enter">Зарегистрироваться</a>
+          <h2 class="section_join_title">Присоединяйся к нам уже сегодня!</h2>
+          <button class="authorization-buttons" href="account"></
           </div>           
       </div>          
     </section>
-        `
-    }
-
+        `;
+  }
 }
