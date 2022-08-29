@@ -22,6 +22,7 @@ class User {
       this.notify(true);
       return true;
     } else {
+      this.notify(false);
       return false;
     }
   }
@@ -39,6 +40,7 @@ class User {
     if (data) {
       this.isAuthorization();
     } else {
+      localStorage.removeItem("user");
       alert(
         "Пароль не верный или аккаунт не найдено, попробуйте зарегистрироваться"
       );
@@ -97,12 +99,10 @@ class User {
     }
   }
   notify(option: boolean) {
-    for (let i = 0; i < this.subscribers.length; i += 1) {
+    for (let i = 0; i <= this.subscribers.length; i += 1) {
       this.subscribers[i]?.update(option);
     }
   }
 }
 const user = new User();
 export default user;
-
-// this.signIn({ email: "black@will.com", password: "qwerty123" });
