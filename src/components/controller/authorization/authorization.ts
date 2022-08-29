@@ -22,6 +22,7 @@ class User {
       this.notify(true);
       return true;
     } else {
+      this.notify(true);
       return false;
     }
   }
@@ -97,7 +98,7 @@ class User {
     }
   }
   notify(option: boolean) {
-    for (let i = 0; i < this.subscribers.length; i += 1) {
+    for (let i = 0; i <= this.subscribers.length; i += 1) {
       this.subscribers[i]?.update(option);
     }
   }
