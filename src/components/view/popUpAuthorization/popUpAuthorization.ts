@@ -216,7 +216,7 @@ class PopUp {
         });
         logoutButton.addEventListener("click", () => {
           this.replacePopUpButton("unauthorized");
-          localStorage.clear();
+          localStorage.removeItem("user");
           logoutButton.remove();
         });
         signIn.replaceWith(openPopUpButton, logoutButton);
