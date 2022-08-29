@@ -39,7 +39,9 @@ class User {
     if (data) {
       this.isAuthorization();
     } else {
-      alert("Аккаунт не найдено, попробуйте зарегистрироваться");
+      alert(
+        "Пароль не верный или аккаунт не найдено, попробуйте зарегистрироваться"
+      );
     }
   }
   async signUp(options: { name: string; email: string; password: string }) {
