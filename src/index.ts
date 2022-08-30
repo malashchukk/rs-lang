@@ -18,6 +18,8 @@ popUp.replacePopUpButton("unauthorized");
 user.isAuthorization();
 
 router.add("sprint", () => {
-  // alert(123);
-  sprintView.renderStart();
+  // alert(123);\
+
+  sprintView.renderStartScreen();
+  sprintView.renderCard();
 });
