@@ -1,11 +1,11 @@
-import{ gameController } from './audioCallController'
+import { gameController } from "./audioCallController";
 
-class AudioCallView{
-    main = document.querySelector('.main') as HTMLElement;
+class AudioCallView {
+  main = document.querySelector(".main") as HTMLElement;
 
-    showStartPageAudioCall(){
-        this.clearMainFooter()  
-        this.main.innerHTML = `
+  showStartPageAudioCall() {
+    this.clearMainFooter();
+    this.main.innerHTML = `
         <div class="container_audioCall">       
             <h2 class="game_title">Аудиовызов</h2>
             <p class="game_description1">Тренировка Аудиовызов улучшает восприятие речи на слух.</p> 
@@ -31,18 +31,26 @@ class AudioCallView{
             <img src="./assets/svg/cross.svg">        
             </div>
         </div>      
-            `;  
-        const btnStartGameAudioCall = document.querySelector('.btn_start_audio_call') as HTMLElement;    
-        btnStartGameAudioCall?.addEventListener('click', ()=>{            
-              gameController.getLevel();
-              gameController.initAudioCallGame();                 
-        })   
-        gameController.listenerCloseBtn() 
-    }
+            `;
+    const btnStartGameAudioCall = document.querySelector(
+      ".btn_start_audio_call"
+    ) as HTMLElement;
+    btnStartGameAudioCall?.addEventListener("click", () => {
+      gameController.getLevel();
+      gameController.initAudioCallGame();
+    });
+    gameController.listenerCloseBtn();
+  }
 
-    renderGamePage(arrWordsRus:string[], wordEn:string, voiceEn:string, imageEn: string, wordRus:string){
-        this.clearMainFooter()
-        this.main.innerHTML = `
+  renderGamePage(
+    arrWordsRus: string[],
+    wordEn: string,
+    voiceEn: string,
+    imageEn: string,
+    wordRus: string
+  ) {
+    this.clearMainFooter();
+    this.main.innerHTML = `
         <div class="game">
         <div class="close_btn">
             <img src="./assets/svg/cross.svg">        
@@ -56,7 +64,9 @@ class AudioCallView{
                 </div>
                 <div class="game__voice-word">
                     <div class="game__voice">
-                        <img  src="./assets/svg/icon-audio.svg"  ${this.playSound(voiceEn)}>           
+                        <img  src="./assets/svg/icon-audio.svg"  ${this.playSound(
+                          voiceEn
+                        )}>           
                     </div>          
                 <div class="game__word">${wordEn}</div>
                 <div class="game__word_rus">${wordRus}</div>
@@ -82,17 +92,17 @@ class AudioCallView{
                 <div class="game__btn button">Не знаю</div>
             </div>
         </div>
-        `
-    }
-    playSound(voiceEn:string) {
-        const audioElement = new Audio(`https://rslang-malashchukk.herokuapp.com/${voiceEn}`);
-        audioElement.play();
-    }
-    showResultGame(){   
-        let point = gameController.arrTrueAnswer.length*10
-        let percent = gameController.arrTrueAnswer.length/20*100
-        this.clearMainFooter()  
-        this.main.innerHTML = `
+        `;
+  }
+  playSound(voiceEn: string) {
+    const audioElement = new Audio(`https://rslang-malashchukk.herokuapp.com/${voiceEn}`);
+    audioElement.play();
+  }
+  showResultGame() {
+    const point = gameController.arrTrueAnswer.length * 10;
+    const percent = (gameController.arrTrueAnswer.length / 20) * 100;
+    this.clearMainFooter();
+    this.main.innerHTML = `
         <div class="games_result_wrapper">       
             <div class="games_result">
               <div class="game-results">
@@ -115,23 +125,27 @@ class AudioCallView{
                   </div>              
               </div>
               <button class="close_result_game">Закрыть</button>
-            </div>`
-        this.generateLi(gameController.arrTrueAnswer, 'known_item', 'word_know');
-        this.generateLi(gameController.arrFalseAnswer, 'mistake_item', 'word_mistake')
+            </div>`;
+    this.generateLi(gameController.arrTrueAnswer, "known_item", "word_know");
+    this.generateLi(
+      gameController.arrFalseAnswer,
+      "mistake_item",
+      "word_mistake"
+    );
+  }
+  generateLi(array: string[], classname: string, selector: string) {
+    const ul = document.querySelector(`.${selector}`) as HTMLElement;
+    for (let i = 0; i < array.length; i++) {
+      const li = document.createElement("li");
+      li.className = `${classname}`;
+      li.innerText = `${array[i]}`;
+      ul.append(li);
     }
-    generateLi(array:string[], classname: string, selector:string){    
-        const ul = document.querySelector(`.${selector}`) as HTMLElement;
-        for(let i = 0; i < array.length; i++){
-            const li = document.createElement('li');
-            li.className = `${classname}`;
-            li.innerText = `${array[i]}`
-            ul.append(li)
-        }      
-    }
-    clearMainFooter(){
-        const footer = document.querySelector('.footer') as HTMLElement;
-        footer.style.display = 'none'
-    }
+  }
+  clearMainFooter() {
+    const footer = document.querySelector(".footer") as HTMLElement;
+    footer.style.display = "none";
+  }
 }
- 
+
 export const audioCallView = new AudioCallView();

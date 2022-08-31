@@ -1,19 +1,19 @@
-import "./form.scss"
+import "./form.scss";
 
-export class Registration{
-    static instance: Registration;     
+export class Registration {
+  static instance: Registration;
 
-    constructor() {
-        if (typeof Registration.instance === 'object') {
-            return Registration.instance;
-        }   
-        Registration.instance = this;
-        return Registration.instance;
-    }   
+  constructor() {
+    if (typeof Registration.instance === "object") {
+      return Registration.instance;
+    }
+    Registration.instance = this;
+    return Registration.instance;
+  }
 
-    showForm(): void{
-        const main = document.querySelector('.main') as HTMLElement;
-        main.innerHTML = `
+  showForm(): void {
+    const main = document.querySelector(".main") as HTMLElement;
+    main.innerHTML = `
         <div class="wrapper_login_page">
           <section class="login-page">
             <h1 class="logo-title">Войти в систему</h1>
@@ -30,12 +30,6 @@ export class Registration{
             </form>
           </section> 
         </div>
-        `
-    }
+        `;
+  }
 }
-
-
- 
-    
-
-    

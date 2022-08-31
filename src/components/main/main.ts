@@ -1,45 +1,43 @@
-import "./main.scss"
+import "./main.scss";
 import { About } from "../aboutPage/aboutPage";
 import { Registration } from "../registration/registrationForm";
 import { audioCallView } from "../audioCall/audioCallView";
 
-export class Main{
-    static instance: Main;
-    pageTeam = new About();
-    autorotation = new Registration(); 
-    //audioCall = new AudioCallView();
+export class Main {
+  static instance: Main;
+  pageTeam = new About();
+  autorotation = new Registration();
+  //audioCall = new AudioCallView();
 
-    logo = document.querySelector('.logo') as HTMLElement;  
-    btnAbout = document.querySelector('.nav_about') as HTMLElement;
-    btnEnter = document.querySelectorAll('.enter') as NodeList; 
-    btnAudioCall = document.querySelector('.nav_games_audioCall') as HTMLElement;  
-    
+  logo = document.querySelector(".logo") as HTMLElement;
+  btnAbout = document.querySelector(".nav_about") as HTMLElement;
+  btnEnter = document.querySelectorAll(".enter") as NodeList;
+  btnAudioCall = document.querySelector(".nav_games_audioCall") as HTMLElement;
 
-    constructor() {
-        if (typeof Main.instance === 'object') {
-            return Main.instance;
-        }   
-        Main.instance = this;
-        return Main.instance;
+  constructor() {
+    if (typeof Main.instance === "object") {
+      return Main.instance;
     }
+    Main.instance = this;
+    return Main.instance;
+  }
 
-    ListenerBtn(){
-        this.logo.addEventListener('click', this.showMain)
-        this.btnAudioCall.addEventListener('click', ()=>{
-          audioCallView.showStartPageAudioCall()          
-        })
-        this.btnEnter.forEach((button)=>{            
-          button.addEventListener('click', this.autorotation.showForm)
-      })
-        this.btnAbout.addEventListener('click', this.pageTeam.showAbout)
-       
-   }   
+  ListenerBtn() {
+    this.logo.addEventListener("click", this.showMain);
+    this.btnAudioCall.addEventListener("click", () => {
+      audioCallView.showStartPageAudioCall();
+    });
+    this.btnEnter.forEach((button) => {
+      button.addEventListener("click", this.autorotation.showForm);
+    });
+    this.btnAbout.addEventListener("click", this.pageTeam.showAbout);
+  }
 
-    showMain(): void{
-        const main = document.querySelector('.main') as HTMLElement;
-        const footer = document.querySelector('.footer') as HTMLElement;
-        footer.style.display = 'block';
-        main.innerHTML = `
+  showMain(): void {
+    const main = document.querySelector(".main") as HTMLElement;
+    const footer = document.querySelector(".footer") as HTMLElement;
+    footer.style.display = "block";
+    main.innerHTML = `
         <section class="section_presentation_rslang">
         <div class="main_content">
           <div class="section_presentation_content">
@@ -94,7 +92,6 @@ export class Main{
           </div>           
       </div>          
     </section>
-        `
-    }
-
+        `;
+  }
 }
