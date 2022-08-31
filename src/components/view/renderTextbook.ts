@@ -10,6 +10,7 @@ class ViewerTextbook extends RenderTextbookWords {
   }
 
   async renderMain(wordsNumber: number, numberOfSections: number) {
+    const defaultNumber = 1;
     this.removeMainContent();
     this.mainContent.innerHTML = `<div class="textbook">${this.drawTextbookNavigation()} ${this.drawTextbookAside(
       numberOfSections
@@ -17,8 +18,8 @@ class ViewerTextbook extends RenderTextbookWords {
     if (!localStorage["isDifficultySection"]) {
       await this.renderCards(
         document.querySelector(".textbook__words-wrapper") as HTMLDivElement,
-        Number(localStorage["currentPage"] || 1) - 1,
-        Number(localStorage["sectionNumber"] || 1) - 1
+        Number(localStorage["currentPage"] || defaultNumber) - defaultNumber,
+        Number(localStorage["sectionNumber"] || defaultNumber) - defaultNumber
       );
     }
 
@@ -31,8 +32,8 @@ class ViewerTextbook extends RenderTextbookWords {
       localStorage.setItem("currentPage", String(Number(parseInt(target.id))));
       this.renderCards(
         document.querySelector(".textbook__words-wrapper") as HTMLDivElement,
-        Number(localStorage["currentPage"] || 1) - 1,
-        Number(localStorage["sectionNumber"] || 1) - 1
+        Number(localStorage["currentPage"] || defaultNumber) - defaultNumber,
+        Number(localStorage["sectionNumber"] || defaultNumber) - defaultNumber
       );
     });
     if (localStorage["isDifficultySection"] && localStorage["user"]) {
