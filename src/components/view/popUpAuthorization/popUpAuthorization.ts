@@ -51,13 +51,15 @@ class PopUp {
       } else if (passwordField.value.length < 8) {
         this.showError("Некорректный пароль");
       } else {
-        preloader.show(this.popUp);
+        preloader.init(this.popUp);
+        const authorizationPreloader =
+          document.querySelector(".preloader__loader");
+        authorizationPreloader?.classList.add("loader-authorization");
         document.body.style.pointerEvents = "none";
         await user.logIn({
           email: emailField.value,
           password: passwordField.value,
         });
-        preloader.hideInHtml();
         document.body.style.pointerEvents = "";
         this.close();
       }
@@ -98,7 +100,10 @@ class PopUp {
       } else if (passwordField.value.length < 8) {
         this.showError("Некорректный пароль");
       } else {
-        preloader.show(this.popUp);
+        preloader.init(this.popUp);
+        const authorizationPreloader =
+          document.querySelector(".preloader__loader");
+        authorizationPreloader?.classList.add("loader-authorization");
         document.body.style.pointerEvents = "none";
         await user.signUp({
           name: nameField.value,
@@ -207,8 +212,9 @@ class PopUp {
         });
         logoutButton.addEventListener("click", () => {
           this.replacePopUpButton("unauthorized");
-          localStorage.clear();
+          localStorage.removeItem("user");
           logoutButton.remove();
+          user.isAuthorization();
         });
         signIn.replaceWith(openPopUpButton, logoutButton);
         break;

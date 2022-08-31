@@ -1,5 +1,6 @@
 export default interface IWords {
-  id: string;
+  id?: string;
+  _id?: string;
   group: number;
   page: number;
   word: string;
@@ -13,4 +14,8 @@ export default interface IWords {
   wordTranslate: string;
   textMeaningTranslate: string;
   textExampleTranslate: string;
+  userWord?: {
+    difficulty: string;
+    optional: { guessCount: number; isLearned: boolean };
+  };
 }

@@ -1,6 +1,10 @@
 .preloader__loader {
   position: relative;
-  top: 50vh;
+  top: calc(50vh);
+}
+.loader-authorization {
+  position: relative;
+  top: calc(50% - 50px);
 }
 .preloader {
   display: flex;

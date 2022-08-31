@@ -1,10 +1,13 @@
 class Preloader {
   private timer!: NodeJS.Timer;
-  show(container: HTMLDivElement) {
+  private container!: HTMLDivElement;
+  init(container: HTMLDivElement) {
+    this.container = container;
     let preloader = document.querySelector(".preloader") as HTMLDivElement;
     if (preloader) {
       preloader.style.opacity = "1";
       preloader.style.zIndex = "1000";
+      preloader.style.display = "flex";
     } else {
       preloader = document.createElement("div");
       container.append(preloader);
@@ -16,23 +19,25 @@ class Preloader {
     `;
       preloader.outerHTML = preloaderHTML;
     }
+    this.hide();
   }
   async hideInHtml() {
     const preloader = document.querySelector(".preloader") as HTMLDivElement;
     preloader.style.opacity = "0";
     preloader.style.zIndex = "-1";
+    setTimeout(() => {
+      preloader.style.display = "none";
+    }, 400);
   }
-  async hide(where: HTMLDivElement) {
+  private async hide() {
     clearInterval(this.timer);
-    console.log(where, this.timer);
-    const className = where.className;
+    const className = this.container.className;
     const images = document.querySelectorAll(`.${className} img`);
     let loaded = 0;
     for (let i = 0; i < images.length; i += 1) {
       images[i]?.addEventListener("load", () => (loaded += 1));
     }
     this.timer = setInterval(() => {
-      console.log(loaded, images.length);
       if (loaded === images.length) {
         this.hideInHtml();
         clearInterval(this.timer);

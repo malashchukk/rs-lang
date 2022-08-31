@@ -14,20 +14,20 @@ class ViewerTextbook extends RenderTextbookWords {
     this.mainContent.innerHTML = `<div class="textbook">${this.drawTextbookNavigation()} ${this.drawTextbookAside(
       numberOfSections
     )} <div class="textbook__words-wrapper"></div></div>`;
-    await this.renderCards(
-      document.querySelector(".textbook__words-wrapper") as HTMLDivElement,
-      Number(localStorage["currentPage"] || 1) - 1,
-      Number(localStorage["sectionNumber"] || 1) - 1
-    );
-    // вынести куда-то
+    if (!localStorage["isDifficultySection"]) {
+      await this.renderCards(
+        document.querySelector(".textbook__words-wrapper") as HTMLDivElement,
+        Number(localStorage["currentPage"] || 1) - 1,
+        Number(localStorage["sectionNumber"] || 1) - 1
+      );
+    }
 
-    new TextbookSections(wordsNumber);
+    const sections = new TextbookSections(wordsNumber);
     textbookPagination.init(
       document.querySelector(".textbook") as HTMLDivElement
     );
     textbookPagination.onChange((e) => {
       const target = e?.target as HTMLDivElement;
-      console.log(Number(parseInt(target.id)));
       localStorage.setItem("currentPage", String(Number(parseInt(target.id))));
       this.renderCards(
         document.querySelector(".textbook__words-wrapper") as HTMLDivElement,
@@ -35,6 +35,9 @@ class ViewerTextbook extends RenderTextbookWords {
         Number(localStorage["sectionNumber"] || 1) - 1
       );
     });
+    if (localStorage["isDifficultySection"] && localStorage["user"]) {
+      await sections.showDifficultWords();
+    }
   }
   drawTextbookAside(numberOfSection: number): string {
     let html = `<aside class="main__textbookNav">`;
@@ -52,20 +55,6 @@ class ViewerTextbook extends RenderTextbookWords {
       <span>НАСТРОЙКИ</span><img src="./assets/svg/applications-system.svg" class="textbook-small-img settings-img" alt="settings">
       </div>
     </nav>`;
-  }
-  update(isAuthorized: boolean) {
-    const wordsButtons = document.querySelectorAll(
-      ".words-buttons"
-    ) as NodeListOf<HTMLButtonElement>;
-    if (isAuthorized) {
-      wordsButtons.forEach((btn) => {
-        btn.style.display = "block";
-      });
-    } else {
-      wordsButtons.forEach((btn) => {
-        btn.style.display = "none";
-      });
-    }
   }
 }
 
