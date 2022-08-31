@@ -1,24 +1,20 @@
+import sprint from "../../controller/sprint/sprint";
+
 class SprintView {
-  startGame() {
-    alert("start");
-  }
-  closeGame() {
-    alert("end");
-  }
   renderCard() {
     const sprintGame = document.querySelector(".sprint-game") as HTMLDivElement;
     const html = `
-    <p class="sprint-game__score">220</p>
+    <p class="sprint-game__score" id="score"></p>
       <div class="card">
         <div class="card__timer"></div>
         <div class="tries">
-          <div class="tries__circle active" id="first"></div>
+          <div class="tries__circle inactive" id="first"></div>
           <div class="tries__circle inactive" id="second"></div>
           <div class="tries__circle inactive" id="third"></div>
         </div>
         <div class="words">
-          <p class="words__original">bicecle</p>
-          <p class="words__translate">утка</p>
+          <p class="words__original"></p>
+          <p class="words__translate"></p>
         </div>
         <div class="buttons-wrapper">
           <button class="buttons-wrapper__button correct"> &#8592 Верно</button>
@@ -51,17 +47,12 @@ class SprintView {
         </select>
       </div>
       <button class="sprint-game__start-btn" id="startSprintGame">Начать</button>
-      <a href="/" class="sprint-game__close-btn" id="closeSprintGame">
-        <img src="./assets/svg/cross.svg" alt="">
-      </a>
-    `;
+      `;
     sprintWrapper.innerHTML = html;
     main?.replaceChildren(sprintWrapper);
 
     const startButton = document.getElementById("startSprintGame");
-    startButton?.addEventListener("click", this.startGame);
-    const closeButton = document.getElementById("closeSprintGame");
-    closeButton?.addEventListener("click", this.closeGame);
+    startButton?.addEventListener("click", sprint.getWords);
   }
 }
 const sprintView = new SprintView();

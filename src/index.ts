@@ -9,17 +9,14 @@ import sprintView from "./components/view/sprint/sprintView";
 // import sprint from "./components/controller/sprint/sprint";
 
 const aboutTeam = new About();
-aboutTeam.ListenerBtnAbout();
+router.add("about", () => aboutTeam.showAbout());
 const mainText = new Main();
-mainText.showMain();
-mainText.ListenerLogo();
+router.add("home", () => mainText.showMain());
 
 popUp.replacePopUpButton("unauthorized");
 user.isAuthorization();
 
 router.add("sprint", () => {
-  // alert(123);\
-
   sprintView.renderStartScreen();
   sprintView.renderCard();
 });
