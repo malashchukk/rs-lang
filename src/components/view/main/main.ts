@@ -1,8 +1,10 @@
 import "./main.scss";
+import { showPageStatistic } from '../statistic/statistic'
 
 export class Main {
   static instance: Main;
   logo = document.querySelector(".logo") as HTMLElement;
+  statistic = document.querySelector(".nav_statistics") as HTMLElement;
 
   constructor() {
     if (typeof Main.instance === "object") {
@@ -14,6 +16,7 @@ export class Main {
 
   ListenerLogo() {
     this.logo.addEventListener("click", this.showMain);
+    this.statistic.addEventListener("click", showPageStatistic)
   }
 
   showMain(): void {
