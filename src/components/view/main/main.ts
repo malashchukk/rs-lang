@@ -1,5 +1,5 @@
 import "./main.scss";
-import { showPageStatistic } from '../statistic/statistic'
+import { showStatistic } from "../statistic/statistic";
 
 export class Main {
   static instance: Main;
@@ -16,7 +16,7 @@ export class Main {
 
   ListenerLogo() {
     this.logo.addEventListener("click", this.showMain);
-    this.statistic.addEventListener("click", showPageStatistic)
+    this.statistic.addEventListener("click", showStatistic.getAccount);
   }
 
   showMain(): void {
