@@ -1,10 +1,12 @@
 import "./main.scss";
 import { showStatistic } from "../statistic/statistic";
+import { audioCallView } from "../audioCall/audioCallView";
 
 export class Main {
   static instance: Main;
   logo = document.querySelector(".logo") as HTMLElement;
   statistic = document.querySelector(".nav_statistics") as HTMLElement;
+  btnAudioCall = document.querySelector(".nav_games_audioCall") as HTMLElement;
 
   constructor() {
     if (typeof Main.instance === "object") {
@@ -17,6 +19,9 @@ export class Main {
   ListenerLogo() {
     this.logo.addEventListener("click", this.showMain);
     this.statistic.addEventListener("click", showStatistic.getAccount);
+    this.btnAudioCall.addEventListener("click", () => {
+      audioCallView.showStartPageAudioCall();
+    });
   }
 
   showMain(): void {
