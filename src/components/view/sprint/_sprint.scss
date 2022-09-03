@@ -3,14 +3,20 @@ $color-white-text-header: #FFFFFF;
 $color-shadow-text: #045968;
 $font-cursive: Bangers, cursive;
 $font: Bangers;
+.sprint-game-wrapper{
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
 
+  background-color: rgba(233, 233, 226, 0.178);
+}
 .sprint-game{
+  grid-column: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  background-color: rgba(233, 233, 226, 0.2);
+  // background-color: rgba(233, 233, 226, 0.178);
   margin: 0 auto;
   padding-bottom: 1rem;
   text-align: center;
@@ -50,7 +56,7 @@ $font: Bangers;
       width: 8rem;
       height: 3rem;
       font-size: 1rem;
-      background: #cbd1cf;
+      // background: #cbd1cf;
       overflow: hidden;
       border-radius: 5px;
       padding: 0 2.5rem;
@@ -109,7 +115,7 @@ $font: Bangers;
         border-radius: 50%;
       }
       .inactive{
-        background: rgb(220, 202, 172);
+        background-color: rgba(233, 233, 226, 0.178);
       }
       .active{
         background: green;
@@ -130,7 +136,6 @@ $font: Bangers;
     .buttons-wrapper{
       display: flex;
       flex-direction: column;
-      // justify-content: space-between;
       &__button{
         cursor: pointer;
         width: 100%;
@@ -144,15 +149,58 @@ $font: Bangers;
       .correct{
         background-color: rgba(0, 128, 0, 0.772);
         &:hover {
-          background: darken(rgba(0, 128, 0, 0.772), 10)
+          background: darken(rgba(0, 128, 0, 0.772), 10);
         }
       }
       .incorrect{
         background-color: rgba(255, 0, 0, 0.529);
         &:hover {
-          background: darken(rgba(255, 0, 0, 0.529), 10)
+          background: darken(rgba(255, 0, 0, 0.529), 10);
         }
       }
     }
   }
+}
+.timer-wrapper{
+  grid-column: 3;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  height: min-content;
+  @keyframes circletimer{
+    from {
+      stroke-dashoffset: 500;
+      stroke-dasharray: 500;
+      }
+    to {
+      stroke-dashoffset: 0;
+      stroke-dasharray: 500;
+      }
+  }
+  svg{
+    position: relative;
+    background-color: transparent;
+    transform:  rotateZ(-90deg);
+    .circle{
+      stroke: #de6655;
+      stroke-width: 16;
+      fill: transparent;
+      stroke-dashoffset: 500;
+      stroke-dasharray: 0;
+      animation: 30s circletimer linear;
+    }
+  }
+  .timer{
+    position: relative;
+    text-align: center;
+    display: block;
+    transform: translate(0, -290%);
+    color: #de6655;
+    font-size: 42px;
+    font-weight: 700;
+  }
+    
 }
