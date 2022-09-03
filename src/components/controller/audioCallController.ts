@@ -1,6 +1,5 @@
-
 import crudApi from "../controller/CRUD/CrudApi";
-import { Main } from "../view/main/main";
+import { mainView } from "../view/main/main";
 import { audioCallView } from "../view/audioCall/audioCallView";
 import IWords from "../view/IWords";
 
@@ -8,11 +7,14 @@ class AudioCallController {
   private progressWidth = 0;
   private progressStep = 5;
   level = 0;
-  page = 0;  
+  page = 0;
   private arrWordsRus: string[] = [];
   private countNumberWord = 0;
   arrTrueAnswer: string[] = [];
   arrFalseAnswer: string[] = [];
+  private ev1 = (event: KeyboardEvent) => {
+    this.keyPress(event);
+  };
   private reserveArr: string[] = [
     "хобби",
     "больница",
@@ -27,58 +29,58 @@ class AudioCallController {
     "скорость",
     "бремя",
   ];
-  startGame(){
+  startGame() {
     this.arrWordsRus.length = 0;
     this.progressWidth = 0;
-    this.arrWordsRus  = [];
+    this.arrWordsRus = [];
     this.arrTrueAnswer = [];
     this.arrFalseAnswer = [];
     this.countNumberWord = 0;
-    this.initAudioCallGame()
+    this.initAudioCallGame();
   }
 
-  async initAudioCallGame() {           
-    if (this.countNumberWord < 10) {      
+  async initAudioCallGame() {
+    if (this.countNumberWord < 10) {
+      this.arrWordsRus.length = 0;
       const myDataWords = await crudApi.getItem<IWords[]>({
         endpoint: `/words?group=${this.level}&page=${this.page}`,
       });
 
-      const word: string | undefined = myDataWords[this.countNumberWord]?.word;
-      const audio: string | undefined = myDataWords[this.countNumberWord]?.audio;
-      const image: string | undefined = myDataWords[this.countNumberWord]?.image;
-      const wordTranslate: string | undefined = myDataWords[this.countNumberWord]?.wordTranslate;
+      const { word, audio, image, wordTranslate } = myDataWords[
+        this.countNumberWord
+      ] as IWords;
 
-      if (word && audio && image && wordTranslate) {
-        this.arrWordsRus.push(wordTranslate);
-        this.createArrayRusWord();
-        audioCallView.renderGamePage(
-          this.arrWordsRus,
-          word,
-          audio,
-          image,
-          wordTranslate
-        );
+      this.arrWordsRus.push(wordTranslate);
+      this.createArrayRusWord();
+      audioCallView.renderGamePage(
+        this.arrWordsRus,
+        word,
+        audio,
+        image,
+        wordTranslate
+      );
 
-        const gameWords = document.querySelector(".game__words") as HTMLElement;
-        gameWords.addEventListener("click", (event) => {
-          const targetParent = (event.target as HTMLElement).parentElement as HTMLElement;
-          if ((targetParent as HTMLElement).className === "words__item") {
-            gameWords.classList.add("active");
-            this.countNumberWord += 1;
-            this.giveAnswer(wordTranslate, word, targetParent);
-          }
-        });
+      const gameWords = document.querySelector(".game__words") as HTMLElement;
+      gameWords.addEventListener("click", (event) => {
+        const targetParent = (event.target as HTMLElement)
+          .parentElement as HTMLElement;
+        if ((targetParent as HTMLElement).className === "words__item") {
+          gameWords.classList.add("active");
+          this.countNumberWord += 1;
+          this.giveAnswer(wordTranslate, word, targetParent);
+        }
+      });
 
-        const gameBtn = document.querySelector(".game .game__btn.button") as HTMLElement;
-        gameBtn.addEventListener("click", (event) => {
-          if ((event.target as HTMLElement).outerText === "Не знаю") {
-            this.showAnswerIfClickDontKnow(wordTranslate, word);
-            this.countNumberWord += 1;
-          } else {
-            this.initAudioCallGame();
-          }
-        });
-      }
+      const gameBtn = document.querySelector(".game .game__btn.button") as HTMLElement;
+      gameBtn.addEventListener("click", (event) => {
+        if ((event.target as HTMLElement).outerText === "Не знаю") {
+          this.showAnswerIfClickDontKnow(wordTranslate, word);
+          this.countNumberWord += 1;
+        } else {
+          document.removeEventListener("keyup", this.ev1);
+          this.initAudioCallGame();
+        }
+      });
 
       const progressBarTop = document.querySelector(".game_progress") as HTMLElement;
 
@@ -89,32 +91,25 @@ class AudioCallController {
         this.createAudio(`https://rslang-malashchukk.herokuapp.com/${audio}`);
       });
 
-      window.addEventListener("keyup", (event) => {
-        this.keyPress(event);
-
-        // document.removeEventListener('keyup', ()=> {
-        //     this.keyPress(event)
-        // })
-      });
+      window.addEventListener("keyup", this.ev1);
       this.listenerCloseBtn();
-
     } else {
+
       audioCallView.showResultGame();
+
       const btnCloseBtn = document.querySelector(".close_result_game") as HTMLElement;
       btnCloseBtn.addEventListener("click", () => {
-        const mainPage = new Main(); /*****************************fix*********************** */
-        mainPage.showMain();
-        audioCallView.clearMainFooter('block')
+        mainView.showMain();
+        audioCallView.clearMainFooter("block");
       });
     }
   }
 
-  listenerCloseBtn() {    
+  listenerCloseBtn() {
     const close = document.querySelector(".close_btn") as HTMLElement;
     close.addEventListener("click", () => {
-      const mainPage = new Main(); /*****************************fix*********************** */
-      mainPage.showMain();
-      audioCallView.clearMainFooter('block')
+      mainView.showMain();
+      audioCallView.clearMainFooter("block");
     });
   }
 
@@ -179,7 +174,9 @@ class AudioCallController {
 
   progressGame() {
     this.progressWidth += this.progressStep;
-    const progressBarTop = document.querySelector(".game_progress") as HTMLElement;
+    const progressBarTop = document.querySelector(
+      ".game_progress"
+    ) as HTMLElement;
     progressBarTop.style.width = `${this.progressWidth}%`;
   }
 
@@ -211,6 +208,7 @@ class AudioCallController {
     const game = document.querySelector(".container_audioCall") as HTMLElement;
 
     if (keyUp === " " && gameBtn.outerText === "Далее") {
+      document.removeEventListener("keyup", this.ev1);
       this.initAudioCallGame();
     }
 

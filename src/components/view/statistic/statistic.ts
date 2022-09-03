@@ -6,30 +6,32 @@ import {
 } from "../../controller/statistic/IStatisticStore";
 
 class Statistic {
+  private userId = "";
+  private userToken = "";
 
-  userId: string  = ''
-  userToken: string  = ''
-
-  async getStatistic(): Promise<void> {    
+  async getStatistic(): Promise<void> {
     const statistic: IStatisticsStore = await crudApi.getItem(
       {
-        endpoint: `/users/${
-          this.userId
-        }/statistics`,
+        endpoint: `/users/${this.userId}/statistics`,
       },
       this.userToken
     );
-
-    statistic ? this.showPageStatistic(statistic) : this.showPageStatistic();
+    if (
+      statistic &&
+      statistic.optional.currentDate === new Date().toISOString().slice(0, 10)
+    ) {
+      this.showPageStatistic(statistic);
+    } else {
+      this.showPageStatistic();
+    }
   }
 
   getAccount() {
-    let user = JSON.parse(localStorage["user"])   
-    
-    if (user) {
+    if (localStorage["user"]) {
+      const user = JSON.parse(localStorage["user"]);
       this.userId = user.userId;
       this.userToken = user.token;
-      this.getStatistic(); /*********************************asked***************************** */
+      showStatistic.getStatistic();
     } else {
       alert("Вы не авторизованы");
     }
@@ -56,9 +58,9 @@ class Statistic {
         </div>
         <div class="game_statistic_card">
           <h2>Аудиовызов</h2>
-          <h3><img src="assets/svg/checkMark.svg">Изучено ${statistic.optional.audioCall.wordInGame} слов.</h3>
-          <h3><img src="assets/svg/checkMark.svg">Правильных ответов: ${statistic.optional.audioCall.rightAnswers}%.</h3>
-          <h3><img src="assets/svg/checkMark.svg">Самая длинная серия правильных ответов: ${statistic.optional.audioCall.InRow}.</h3>
+          <h3><img src="assets/svg/checkMark.svg">Изучено ${statistic.optional.audioCall.wordsInGame} слов.</h3>
+          <h3><img src="assets/svg/checkMark.svg">Правильных ответов: ${statistic.optional.audioCall.correctAnswers}%.</h3>
+          <h3><img src="assets/svg/checkMark.svg">Самая длинная серия правильных ответов: ${statistic.optional.audioCall.maxInRow}.</h3>
           <div class="circle"></div>
         </div>
       </div>

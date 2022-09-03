@@ -5,7 +5,7 @@ class AudioCallView {
   main = document.querySelector(".main") as HTMLElement;
 
   showStartPageAudioCall() {
-    this.clearMainFooter('none');
+    this.clearMainFooter("none");
     this.main.innerHTML = `
         <div class="container_audioCall">       
             <h2 class="game_title">Аудиовызов</h2>
@@ -33,10 +33,12 @@ class AudioCallView {
             </div>
         </div>      
             `;
-    const btnStartGameAudioCall = document.querySelector(".btn_start_audio_call") as HTMLElement;
+    const btnStartGameAudioCall = document.querySelector(
+      ".btn_start_audio_call"
+    ) as HTMLElement;
     btnStartGameAudioCall?.addEventListener("click", () => {
       gameController.getLevel();
-      gameController.startGame();      
+      gameController.startGame();
     });
     gameController.listenerCloseBtn();
   }
@@ -47,8 +49,8 @@ class AudioCallView {
     voiceEn: string,
     imageEn: string,
     wordRus: string
-  ) {   
-    this.clearMainFooter('none');
+  ) {
+    this.clearMainFooter("none");
     this.main.innerHTML = `
         <div class="game">
         <div class="close_btn">
@@ -58,7 +60,7 @@ class AudioCallView {
             <div class="container_audioCall">
                 <div class="game__image">
                     <div class="image image_audioCall">
-                        <img src="https://rslang-malashchukk.herokuapp.com/${imageEn}">
+                        <img class="img_word" src="https://rslang-malashchukk.herokuapp.com/${imageEn}">
                     </div>
                 </div>
                 <div class="game__voice-word">
@@ -94,13 +96,15 @@ class AudioCallView {
         `;
   }
   playSound(voiceEn: string) {
-    const audioElement = new Audio(`https://rslang-malashchukk.herokuapp.com/${voiceEn}`);
+    const audioElement = new Audio(
+      `https://rslang-malashchukk.herokuapp.com/${voiceEn}`
+    );
     audioElement.play();
   }
   showResultGame() {
     const point = gameController.arrTrueAnswer.length * 10;
     const percent = (gameController.arrTrueAnswer.length / 20) * 100;
-    this.clearMainFooter('none');
+    this.clearMainFooter("none");
     this.main.innerHTML = `
         <div class="games_result_wrapper">       
             <div class="games_result">
@@ -141,10 +145,31 @@ class AudioCallView {
       ul.append(li);
     }
   }
-  clearMainFooter(meaning:string) {
+  clearMainFooter(meaning: string) {
     const footer = document.querySelector(".footer") as HTMLElement;
     footer.style.display = `${meaning}`;
   }
+  // replacementWord(arrWordsRus: string[],
+  //   wordEn: string,
+  //   voiceEn: string,
+  //   imageEn: string,
+  //   wordRus: string){
+  //   const imgWord = document.querySelector('.img_word') as HTMLImageElement;
+  //   imgWord.src = `https://rslang-malashchukk.herokuapp.com/${imageEn}`;
+  //   this.playSound(voiceEn);
+  //   const gameWord = document.querySelector('.game__word') as HTMLElement;
+  //   gameWord.innerHTML = wordEn;
+  //   const gameWordRus = document.querySelector('.game__word_rus') as HTMLElement;
+  //   gameWordRus.innerHTML = wordRus;
+  //   const wordsName = document.querySelectorAll('.words__name') as NodeListOf<HTMLElement>;
+  //   for (let i = 0; i < arrWordsRus.length; ) {
+  //     wordsName.forEach((el: any)=>{
+  //         el.innerHTML = arrWordsRus[i];
+  //         i++
+  //     })
+  //   }
+
+  // }
 }
 
 export const audioCallView = new AudioCallView();

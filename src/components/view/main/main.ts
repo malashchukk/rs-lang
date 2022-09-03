@@ -84,3 +84,5 @@ export class Main {
         `;
   }
 }
+
+export const mainView = new Main();
