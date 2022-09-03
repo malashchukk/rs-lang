@@ -6,8 +6,8 @@ $font: Bangers;
 .sprint-game-wrapper{
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
-
-  background-color: rgba(233, 233, 226, 0.178);
+  // grid-template-rows: 1fr 3fr;
+  // background-color: rgba(233, 233, 226, 0.178);
 }
 .sprint-game{
   grid-column: 2;
@@ -92,6 +92,7 @@ $font: Bangers;
   &__score{
     font-family: Quicksand, sans-serif;
     font-size: 5rem;
+    margin: 10vh 0;
   }
   .card{
     background: #add6f3;
@@ -102,9 +103,6 @@ $font: Bangers;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    &__timer{
-      // TODO
-    }
     .tries{
       display: flex;
       justify-content: space-evenly;

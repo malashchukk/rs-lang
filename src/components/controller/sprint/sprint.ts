@@ -1,21 +1,23 @@
 import IWords from "../../view/IWords";
 import sprintView from "../../view/sprint/sprintView";
 import crudApi from "../CRUD/CrudApi";
-
+type answer = {
+  result: boolean;
+  wordId: string;
+};
 class Sprint {
   score = 0;
   tries = 0;
+  maxInRow = 0;
   words!: [IWords];
   level!: number;
   page!: number;
-  answers: [{ result: boolean; wordId: string }] = [
-    { result: true, wordId: "" },
-  ];
+  answers: answer[] = [];
   currCard = {
-    same: true,
-    original: "go",
-    wordId: "id",
-    translate: "Идти",
+    same: false,
+    original: "",
+    wordId: "",
+    translate: "",
   };
 
   getLevel() {
@@ -29,8 +31,7 @@ class Sprint {
     this.level = this.getLevel();
     this.page = this.pageRandomGeneration();
     await this.getWords();
-    // this.answers.pop();
-    await sprintView.renderTimer();
+    sprintView.renderTimer();
     this.startCountdown();
     this.createRandomCard();
   }
@@ -38,7 +39,9 @@ class Sprint {
   async endGame() {
     // TODO: EDIT
     const main = document.querySelector(".main") as HTMLDivElement;
-    main.innerHTML = "Game Over";
+    main.innerHTML = `${JSON.stringify(this.answers)}`;
+    console.log("max in row: ", this.maxInRow);
+    console.log("answers: ", this.answers);
   }
 
   async getWords() {
@@ -67,15 +70,19 @@ class Sprint {
   clearCountdown(interval: NodeJS.Timer) {
     clearTimeout(interval);
   }
-  async createRandomCard() {
+  createRandomCard() {
+    console.log(this.answers.length);
+    if (this.answers.length >= 20) {
+      this.createButtonsEvent();
+      return;
+    }
     const isSame = Math.floor(Math.random() * 1.9);
     this.currCard.same = !!isSame;
-    const numOfWord = this.answers.length - 1;
+    const numOfWord = this.answers.length;
     if (isSame) {
       this.currCard.original = this.words[numOfWord]!.word;
       this.currCard.wordId = this.words[numOfWord]!.id!;
       this.currCard.translate = this.words[numOfWord]!.wordTranslate;
-      console.log(numOfWord);
       console.log(this.currCard);
     } else {
       this.currCard.original = this.words[numOfWord]!.word;
@@ -100,19 +107,16 @@ class Sprint {
     ) as HTMLDivElement;
     if (buttonsWrapper) {
       const buttons = buttonsWrapper.children;
-      if (this.answers.length < 20) {
-        for (const i of buttons) {
-          const el = i as HTMLElement;
-          el.addEventListener("click", async () => {
-            if (el.dataset["type"] === `${this.currCard.same}`) {
-              this.buttonCorrectAction();
-            } else {
-              this.buttonIncorrectAction();
-            }
-            console.log(this.tries);
-          });
-        }
-        this.keyButtonsEvent();
+      this.keyButtonsEvent();
+      for (const i of buttons) {
+        const el = i as HTMLElement;
+        el.addEventListener("click", async () => {
+          if (el.dataset["type"] === `${this.currCard.same}`) {
+            this.buttonCorrectAction();
+          } else {
+            this.buttonIncorrectAction();
+          }
+        });
       }
     }
   }
@@ -121,30 +125,33 @@ class Sprint {
       e = e || window.event;
       if (e.key === "ArrowUp") {
         if ("true" === `${this.currCard.same}`) {
-          await this.buttonCorrectAction();
+          this.buttonCorrectAction();
         } else {
           this.buttonIncorrectAction();
         }
+        document.onkeyup = null;
       } else if (e.key === "ArrowDown") {
         if ("false" === `${this.currCard.same}`) {
-          await this.buttonCorrectAction();
+          this.buttonCorrectAction();
         } else {
           this.buttonIncorrectAction();
         }
+        document.onkeyup = null;
       }
     };
   }
-  async buttonCorrectAction() {
+  buttonCorrectAction() {
     if (this.answers.length < 20) {
       this.answers.push({ result: true, wordId: this.currCard.wordId });
       document.body.style.background = "green";
       setTimeout(() => {
-        if (this.tries === 3) {
+        if (this.tries >= 3) {
           this.score += 20;
         } else {
-          this.tries += 1;
           this.score += 10;
         }
+        this.tries += 1;
+        this.maxInRow = this.tries > this.maxInRow ? this.tries : this.maxInRow;
         document.body.style.background = "";
         this.createRandomCard();
       }, 500);
@@ -154,9 +161,10 @@ class Sprint {
   }
   async buttonIncorrectAction() {
     if (this.answers.length < 20) {
-      this.answers.push({ result: true, wordId: this.currCard.wordId });
+      this.answers.push({ result: false, wordId: this.currCard.wordId });
       document.body.style.background = "red";
       setTimeout(() => {
+        this.maxInRow = this.tries > this.maxInRow ? this.tries : this.maxInRow;
         this.tries = 0;
         this.createRandomCard();
         document.body.style.background = "";
