@@ -5,6 +5,7 @@ import {
   IGameStore,
   IInformStatistic,
 } from "./IStatisticStore";
+import IWords from '../../view/IWords'
 
 class SetStatistic {
   learnWords = 0;
@@ -51,17 +52,39 @@ class SetStatistic {
   }
 
   collectStatistic() {
-    if (
-      this.newStatistic.optional.currentDate !==
+    if (this.newStatistic.optional.currentDate !==
       new Date().toISOString().slice(0, 10)
     ) {
       this.clearStatistics();
     }
     this.getNewWord();
     this.getTrueAnswer();
-
+    this.getLearnedWord();
     localStorage["statistic"] = JSON.stringify(this.inform);
     this.loadStatistic();
+  }
+  
+  async getLearnedWord(){
+    let countLearn = 0;
+   
+     const word: IWords[]  = await crudApi.getItem(
+        {
+          endpoint: `/users/${JSON.parse(localStorage["user"]).userId}/words`,
+        },
+        JSON.parse(localStorage["user"]).token
+      );
+
+      if(word.length === 0){
+        this.newStatistic.learnedWords = 0
+      }else{
+        word.forEach((item: IWords)=>{
+          const {userWord} = item
+          if(userWord?.optional.isLearned){
+             countLearn += 1
+          }
+        })
+      }
+      this.newStatistic.learnedWords = countLearn      
   }
 
   getNewWord() {
@@ -118,8 +141,7 @@ class SetStatistic {
           ? this.inform.rowAudioCall
           : gameType.maxInRow;
       this.inform.trueAnswersAudioCall += gameType.trueAnswers;
-      this.inform.allAnswerAudioCall += 5;
-      console.log(this.inform.newWordsAudioCall);
+      this.inform.allAnswerAudioCall += 5;      
       this.inform.newWordsAudioCall = [
         ...this.inform.newWordsAudioCall,
         ...(gameType.arrayAllWord || []),
