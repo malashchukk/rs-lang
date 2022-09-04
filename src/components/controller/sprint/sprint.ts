@@ -6,45 +6,62 @@ type answer = {
   wordId: string;
 };
 class Sprint {
-  score = 0;
-  tries = 0;
-  maxInRow = 0;
-  words!: [IWords];
-  level!: number;
-  page!: number;
-  answers: answer[] = [];
-  currCard = {
+  private score = 0;
+  private tries = 0;
+  private maxInRow = 0;
+  private words!: [IWords];
+  private level!: number;
+  private page!: number;
+  private answers: answer[] = [];
+  private currCard = {
     same: false,
     original: "",
     wordId: "",
     translate: "",
   };
 
-  getLevel() {
+  private getLevel() {
     const selectLevel = document.querySelector(
       ".inform-level__select"
     ) as HTMLSelectElement;
     return Number(selectLevel.value);
   }
-
+  private async linkChangeAction() {
+    await this.endGame();
+  }
   async startGame() {
     this.level = this.getLevel();
     this.page = this.pageRandomGeneration();
     await this.getWords();
     sprintView.renderTimer();
-    this.startCountdown();
     this.createRandomCard();
+    this.startCountdown();
   }
-
-  async endGame() {
+  async startGameTextbook() {
+    this.level = localStorage["group"];
+    this.page = localStorage["page"];
+    await this.getWords();
+    this.createRandomCard();
+    this.startCountdown();
+  }
+  private async endGame() {
     // TODO: EDIT
+    this.score = 0;
+    this.answers.length = 0;
+    this.tries = 0;
+    this.currCard = {
+      same: false,
+      original: "",
+      wordId: "",
+      translate: "",
+    };
     const main = document.querySelector(".main") as HTMLDivElement;
     main.innerHTML = `${JSON.stringify(this.answers)}`;
     console.log("max in row: ", this.maxInRow);
     console.log("answers: ", this.answers);
   }
 
-  async getWords() {
+  private async getWords() {
     const data: [IWords] = await crudApi.getItem({
       endpoint: "/words",
       options: {
@@ -54,7 +71,10 @@ class Sprint {
     });
     this.words = this.shuffle(data);
   }
-  startCountdown() {
+  private startCountdown() {
+    window.addEventListener("popstate", this.linkChangeAction.bind(this), {
+      once: true,
+    });
     const timer = document.querySelector(".timer") as HTMLSpanElement;
     let countdownBegin = 30;
     const count = setInterval(() => {
@@ -67,11 +87,10 @@ class Sprint {
       }
     }, 1000);
   }
-  clearCountdown(interval: NodeJS.Timer) {
+  private clearCountdown(interval: NodeJS.Timer) {
     clearTimeout(interval);
   }
-  createRandomCard() {
-    console.log(this.answers.length);
+  private createRandomCard() {
     if (this.answers.length >= 20) {
       this.createButtonsEvent();
       return;
@@ -101,7 +120,7 @@ class Sprint {
     });
     this.createButtonsEvent();
   }
-  createButtonsEvent() {
+  private createButtonsEvent() {
     const buttonsWrapper = document.querySelector(
       ".buttons-wrapper"
     ) as HTMLDivElement;
@@ -120,7 +139,7 @@ class Sprint {
       }
     }
   }
-  keyButtonsEvent() {
+  private keyButtonsEvent() {
     document.onkeyup = async (e) => {
       e = e || window.event;
       if (e.key === "ArrowUp") {
@@ -140,7 +159,7 @@ class Sprint {
       }
     };
   }
-  buttonCorrectAction() {
+  private buttonCorrectAction() {
     if (this.answers.length < 20) {
       this.answers.push({ result: true, wordId: this.currCard.wordId });
       document.body.style.background = "green";
@@ -159,7 +178,7 @@ class Sprint {
       this.endGame();
     }
   }
-  async buttonIncorrectAction() {
+  private async buttonIncorrectAction() {
     if (this.answers.length < 20) {
       this.answers.push({ result: false, wordId: this.currCard.wordId });
       document.body.style.background = "red";
@@ -173,22 +192,17 @@ class Sprint {
       this.endGame();
     }
   }
-  pageRandomGeneration(): number {
+  private pageRandomGeneration(): number {
     return Math.floor(Math.random() * 29);
   }
-  shuffle(arr: [IWords]) {
+  private shuffle(arr: [IWords]) {
     arr
       .map((value) => ({ value, sort: Math.random() }))
       .sort((a, b) => a.sort - b.sort)
       .map(({ value }) => value);
     return arr;
   }
-  // start game
-  // get words
-  // count score
   // final result
-  // timers
-  // tries
 }
 const sprint = new Sprint();
 export default sprint;

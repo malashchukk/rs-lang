@@ -8,33 +8,40 @@ class SprintView {
     original: string;
     translate: string;
   }) {
-    const sprintGame = document.querySelector(".sprint-game") as HTMLDivElement;
+    const main = document.querySelector(".main") as HTMLDivElement;
+    const sprintWrapper = document.createElement("div");
+    sprintWrapper.classList.add("sprint-game-wrapper");
     const html = `
-    <p class="sprint-game__score" id="score">${options.score}</p>
-    <div class="card">
-      <div class="card__timer"></div>
-      <div class="tries">
-        <div class="tries__circle inactive" id="first"></div>
-        <div class="tries__circle inactive" id="second"></div>
-        <div class="tries__circle inactive" id="third"></div>
-      </div>
-      <div class="words">
-        <p class="words__original">${options.original}</p>
-        <p class="words__translate">${options.translate}</p>
-      </div>
-      <div class="buttons-wrapper">
-        <button data-type="true" class="buttons-wrapper__button correct">Верно</button>
-        <button data-type="false" class="buttons-wrapper__button incorrect">Неверно</button>
+    <div class="timer-wrapper"></div>
+    <div class="sprint-game">
+      <p class="sprint-game__score" id="score">${options.score}</p>
+      <div class="card">
+        <div class="card__timer"></div>
+        <div class="tries">
+          <div class="tries__circle inactive" id="first"></div>
+          <div class="tries__circle inactive" id="second"></div>
+          <div class="tries__circle inactive" id="third"></div>
+        </div>
+        <div class="words">
+          <p class="words__original">${options.original}</p>
+          <p class="words__translate">${options.translate}</p>
+        </div>
+        <div class="buttons-wrapper">
+          <button data-type="true" class="buttons-wrapper__button correct">Верно</button>
+          <button data-type="false" class="buttons-wrapper__button incorrect">Неверно</button>
+        </div>
       </div>
     </div>
     `;
-    sprintGame.innerHTML = `${html}`;
+    sprintWrapper.innerHTML = `${html}`;
+    main.replaceChildren(sprintWrapper);
     const tries: NodeListOf<HTMLElement> =
-      sprintGame.querySelectorAll(".tries__circle");
+      sprintWrapper.querySelectorAll(".tries__circle");
     for (let i = 0; i !== options.countOfTries; i += 1) {
       tries[i]?.classList.remove("inactive");
       tries[i]?.classList.add("active");
     }
+    this.renderTimer();
   }
   renderTimer() {
     const timerWrapper = document.querySelector(
