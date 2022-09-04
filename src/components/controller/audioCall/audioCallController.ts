@@ -47,7 +47,7 @@ class AudioCallController {
   }
 
   async initAudioCallGame() {
-    if (this.countNumberWord < 5) {
+    if (this.countNumberWord < 20) {
       this.arrWordsRus.length = 0;
       const myDataWords = await crudApi.getItem<IWords[]>({
         endpoint: `/words?group=${this.level}&page=${this.page}`,

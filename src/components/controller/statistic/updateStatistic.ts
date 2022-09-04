@@ -128,7 +128,7 @@ class SetStatistic {
           ? this.inform.rowSpirit
           : gameType.maxInRow;
       this.inform.trueAnswersSpirit += gameType.trueAnswers;
-      this.inform.allAnswerSpirit += 5;
+      this.inform.allAnswerSpirit += 20;
       this.inform.newWordsSpirit = [
         ...this.inform.newWordsSpirit,
         ...(gameType.arrayAllWord || []),
@@ -141,7 +141,7 @@ class SetStatistic {
           ? this.inform.rowAudioCall
           : gameType.maxInRow;
       this.inform.trueAnswersAudioCall += gameType.trueAnswers;
-      this.inform.allAnswerAudioCall += 5;      
+      this.inform.allAnswerAudioCall += 20;      
       this.inform.newWordsAudioCall = [
         ...this.inform.newWordsAudioCall,
         ...(gameType.arrayAllWord || []),
