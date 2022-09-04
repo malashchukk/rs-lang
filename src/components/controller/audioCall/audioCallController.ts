@@ -1,13 +1,18 @@
-import crudApi from "../controller/CRUD/CrudApi";
-import { mainView } from "../view/main/main";
-import { audioCallView } from "../view/audioCall/audioCallView";
-import IWords from "../view/IWords";
+import crudApi from "../CRUD/CrudApi";
+import { mainView } from "../../view/main/main";
+import { audioCallView } from "../../view/audioCall/audioCallView";
+import IWords from "../../view/IWords";
+import { updateStat } from "../statistic/updateStatistic";
+import { IGameStore } from "../statistic/IStatisticStore";
 
 class AudioCallController {
   private progressWidth = 0;
   private progressStep = 5;
   level = 0;
   page = 0;
+  maxInRow = 0;
+  inRow = 0;
+  arrId: string[] = [];
   private arrWordsRus: string[] = [];
   private countNumberWord = 0;
   arrTrueAnswer: string[] = [];
@@ -29,24 +34,26 @@ class AudioCallController {
     "скорость",
     "бремя",
   ];
+
   startGame() {
     this.arrWordsRus.length = 0;
     this.progressWidth = 0;
-    this.arrWordsRus = [];
     this.arrTrueAnswer = [];
     this.arrFalseAnswer = [];
     this.countNumberWord = 0;
+    this.inRow = 0;
+    this.arrId = [];
     this.initAudioCallGame();
   }
 
   async initAudioCallGame() {
-    if (this.countNumberWord < 10) {
+    if (this.countNumberWord < 5) {
       this.arrWordsRus.length = 0;
       const myDataWords = await crudApi.getItem<IWords[]>({
         endpoint: `/words?group=${this.level}&page=${this.page}`,
       });
 
-      const { word, audio, image, wordTranslate } = myDataWords[
+      const { id, word, audio, image, wordTranslate } = myDataWords[
         this.countNumberWord
       ] as IWords;
 
@@ -59,7 +66,7 @@ class AudioCallController {
         image,
         wordTranslate
       );
-
+      id ? this.arrId.push(id) : console.log("not found id");
       const gameWords = document.querySelector(".game__words") as HTMLElement;
       gameWords.addEventListener("click", (event) => {
         const targetParent = (event.target as HTMLElement)
@@ -71,7 +78,9 @@ class AudioCallController {
         }
       });
 
-      const gameBtn = document.querySelector(".game .game__btn.button") as HTMLElement;
+      const gameBtn = document.querySelector(
+        ".game .game__btn.button"
+      ) as HTMLElement;
       gameBtn.addEventListener("click", (event) => {
         if ((event.target as HTMLElement).outerText === "Не знаю") {
           this.showAnswerIfClickDontKnow(wordTranslate, word);
@@ -82,7 +91,9 @@ class AudioCallController {
         }
       });
 
-      const progressBarTop = document.querySelector(".game_progress") as HTMLElement;
+      const progressBarTop = document.querySelector(
+        ".game_progress"
+      ) as HTMLElement;
 
       progressBarTop.style.width = `${this.progressWidth}%`;
 
@@ -94,14 +105,38 @@ class AudioCallController {
       window.addEventListener("keyup", this.ev1);
       this.listenerCloseBtn();
     } else {
+      const point = this.arrTrueAnswer.length * 10;
+      const percent = (this.arrTrueAnswer.length / 20) * 100;
+      audioCallView.showResultGame(point, percent);
 
-      audioCallView.showResultGame();
-
-      const btnCloseBtn = document.querySelector(".close_result_game") as HTMLElement;
+      const btnCloseBtn = document.querySelector(
+        ".close_result_game"
+      ) as HTMLElement;
       btnCloseBtn.addEventListener("click", () => {
-        mainView.showMain();
-        audioCallView.clearMainFooter("block");
+        this.collectInfoResult(point);
       });
+    }
+  }
+
+  collectInfoResult(point: number) {
+    this.page = this.page > 20 ? 0 : this.page + 1;
+    audioCallView.clearMainFooter("block");
+    mainView.showMain();
+
+    const audioCall: IGameStore = {
+      name: "audioCall",
+      arrayAllWord: [],
+      points: 0,
+      maxInRow: 0,
+      trueAnswers: 0,
+    };
+
+    audioCall.arrayAllWord = [...this.arrId];
+    audioCall.points = point;
+    audioCall.trueAnswers = this.arrTrueAnswer.length;
+    audioCall.maxInRow = this.maxInRow;
+    if (localStorage["user"]) {
+      updateStat.updateStatisticGame(audioCall);
     }
   }
 
@@ -114,7 +149,9 @@ class AudioCallController {
   }
 
   getLevel() {
-    const selectLevel = document.querySelector(".lvl-select") as HTMLSelectElement;
+    const selectLevel = document.querySelector(
+      ".lvl-select"
+    ) as HTMLSelectElement;
     this.level = +selectLevel.value - 1;
   }
 
@@ -127,14 +164,17 @@ class AudioCallController {
     const gameBtn = document.querySelector(".game__btn") as HTMLElement;
     const getWordRusText = (event.lastElementChild as HTMLElement).innerHTML;
     const allWords = document.querySelectorAll(".words__item");
-    const imgAnswer = document.querySelector(".container_audioCall") as HTMLElement;
+    const imgAnswer = document.querySelector(
+      ".container_audioCall"
+    ) as HTMLElement;
 
     this.progressGame();
 
     imgAnswer.classList.add("active");
-
+    const countRow = this.arrTrueAnswer.length;
     if (getWordRusText === wordTranslate) {
       this.arrTrueAnswer.push(word);
+
       this.createAudio("../../assets/audio/audio_correct.mp3");
 
       allWords.forEach((element) => {
@@ -157,9 +197,19 @@ class AudioCallController {
       });
       event.classList.add("line-through");
     }
+    this.calculateRow(countRow);
     gameBtn.innerText = "Далее";
   }
 
+  calculateRow(oldCount: number) {
+    const newCountRow = this.arrTrueAnswer.length;
+    if (oldCount + 1 === newCountRow) {
+      this.inRow += 1;
+      this.maxInRow = this.inRow > this.maxInRow ? this.inRow : this.maxInRow;
+    } else {
+      this.inRow = 0;
+    }
+  }
   createArrayRusWord() {
     const countOtherRusWord = 4;
     this.randomSort(this.reserveArr);
@@ -183,7 +233,9 @@ class AudioCallController {
   showAnswerIfClickDontKnow(wordTranslate: string, word: string) {
     const gameBtn = document.querySelector(".game__btn") as HTMLElement;
     const allWords = document.querySelectorAll(".words__item");
-    const imgAnswer = document.querySelector(".container_audioCall") as HTMLElement;
+    const imgAnswer = document.querySelector(
+      ".container_audioCall"
+    ) as HTMLElement;
 
     imgAnswer.classList.add("active");
     this.arrFalseAnswer.push(word);
@@ -200,11 +252,18 @@ class AudioCallController {
   }
 
   keyPress(event: KeyboardEvent) {
-    const word = (document.querySelector(".game__word") as HTMLElement).outerText;
-    const wordTranslate = (document.querySelector(".game__word_rus") as HTMLElement).outerText;
-    const gameNumber = document.querySelectorAll(".words__item") as NodeListOf<HTMLElement>;
+    const word = (document.querySelector(".game__word") as HTMLElement)
+      .outerText;
+    const wordTranslate = (
+      document.querySelector(".game__word_rus") as HTMLElement
+    ).outerText;
+    const gameNumber = document.querySelectorAll(
+      ".words__item"
+    ) as NodeListOf<HTMLElement>;
     const keyUp = event.key;
-    const gameBtn = document.querySelector(".game .game__btn.button") as HTMLElement;
+    const gameBtn = document.querySelector(
+      ".game .game__btn.button"
+    ) as HTMLElement;
     const game = document.querySelector(".container_audioCall") as HTMLElement;
 
     if (keyUp === " " && gameBtn.outerText === "Далее") {

@@ -1,5 +1,5 @@
 import "./audioCallStyle.scss";
-import { gameController } from "../../controller/audioCallController";
+import { gameController } from "../../controller/audioCall/audioCallController";
 
 class AudioCallView {
   main = document.querySelector(".main") as HTMLElement;
@@ -101,9 +101,7 @@ class AudioCallView {
     );
     audioElement.play();
   }
-  showResultGame() {
-    const point = gameController.arrTrueAnswer.length * 10;
-    const percent = (gameController.arrTrueAnswer.length / 20) * 100;
+  showResultGame(point: number, percent: number) {
     this.clearMainFooter("none");
     this.main.innerHTML = `
         <div class="games_result_wrapper">       
@@ -136,11 +134,11 @@ class AudioCallView {
       "word_mistake"
     );
   }
-  generateLi(array: string[], classname: string, selector: string) {
+  generateLi(array: string[], classnames: string, selector: string) {
     const ul = document.querySelector(`.${selector}`) as HTMLElement;
     for (let i = 0; i < array.length; i++) {
       const li = document.createElement("li");
-      li.className = `${classname}`;
+      li.className = `${classnames}`;
       li.innerText = `${array[i]}`;
       ul.append(li);
     }

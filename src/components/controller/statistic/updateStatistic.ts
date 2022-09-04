@@ -1,47 +1,32 @@
 import crudApi from "../CRUD/CrudApi";
 import {
-  IStatisticsStore /*, statisticDefault */,
+  IStatisticsStore,
+  statisticDefault,
   IGameStore,
+  IInformStatistic,
 } from "./IStatisticStore";
 
-// const newStatistic: IStatisticsStore = {
-//   learnedWords: 56,
-//   optional: {
-//     currentDate: new Date().toISOString().slice(0, 10),
-//     newWord: 3,
-//     correctAnswer: 9,
-//     sprint: {
-//       maxInRow: 6,
-//       correctAnswers: 5,
-//       wordsInGame: 5,
-//     },
-//     audioCall: {
-//       InRow: 6,
-//       rightAnswers: 9,
-//       wordInGame: 11,
-//     },
-//   },
-// };
-
 class SetStatistic {
-  newStatistic: IStatisticsStore = {
-    learnedWords: 0,
-    optional: {
-      currentDate: new Date().toISOString().slice(0, 10),
-      newWord: 0,
-      correctAnswer: 0,
-      sprint: {
-        maxInRow: 0,
-        correctAnswers: 0,
-        wordsInGame: 0,
-      },
-      audioCall: {
-        maxInRow: 0,
-        correctAnswers: 0,
-        wordsInGame: 0,
-      },
-    },
-  };
+  learnWords = 0;
+  newStatistic: IStatisticsStore = statisticDefault;
+  inform: IInformStatistic;
+
+  constructor() {
+    if (localStorage["statistic"]) {
+      this.inform = JSON.parse(localStorage["statistic"]);
+    } else {
+      this.inform = {
+        newWordsSpirit: [],
+        newWordsAudioCall: [],
+        allAnswerSpirit: 0,
+        allAnswerAudioCall: 0,
+        trueAnswersSpirit: 0,
+        trueAnswersAudioCall: 0,
+        rowSpirit: 0,
+        rowAudioCall: 0,
+      };
+    }
+  }
 
   loadStatistic() {
     crudApi.updateItems(
@@ -56,28 +41,93 @@ class SetStatistic {
   }
 
   clearStatistics() {
-    // Object.entries(statisticDefault).forEach(([key, value]) => {
-    //   this.newStatistic[key] = value;
-    // });
+    this.newStatistic = statisticDefault;
+    this.inform.newWordsSpirit = [];
+    this.inform.newWordsAudioCall = [];
+    this.inform.allAnswerSpirit = 0;
+    this.inform.allAnswerAudioCall = 0;
+    this.inform.trueAnswersSpirit = 0;
+    this.inform.trueAnswersAudioCall = 0;
+  }
+
+  collectStatistic() {
+    if (
+      this.newStatistic.optional.currentDate !==
+      new Date().toISOString().slice(0, 10)
+    ) {
+      this.clearStatistics();
+    }
+    this.getNewWord();
+    this.getTrueAnswer();
+
+    localStorage["statistic"] = JSON.stringify(this.inform);
+    this.loadStatistic();
+  }
+
+  getNewWord() {
+    const stat = this.newStatistic.optional;
+    stat.sprint.wordsInGame = new Set(this.inform.newWordsSpirit).size;
+    stat.audioCall.wordsInGame = new Set(this.inform.newWordsAudioCall).size;
+    stat.newWord = new Set([
+      ...this.inform.newWordsSpirit,
+      ...this.inform.newWordsAudioCall,
+    ]).size;
+    stat.sprint.maxInRow = this.inform.rowSpirit;
+    stat.audioCall.maxInRow = this.inform.rowAudioCall;
+  }
+  getTrueAnswer() {
+    const stat = this.newStatistic.optional;
+    stat.sprint.trueAnswers = this.getPercent(
+      this.inform.trueAnswersSpirit,
+      this.inform.allAnswerSpirit
+    );
+    stat.audioCall.trueAnswers = this.getPercent(
+      this.inform.trueAnswersAudioCall,
+      this.inform.allAnswerAudioCall
+    );
+    const allAnswer =
+      this.inform.allAnswerSpirit + this.inform.allAnswerAudioCall;
+    const allCorAn =
+      this.inform.trueAnswersSpirit + this.inform.trueAnswersAudioCall;
+    stat.trueAnswer = this.getPercent(allCorAn, allAnswer);
+  }
+
+  getPercent(correct: number, all: number) {
+    const res = (correct * 100) / all;
+    return Math.round(res ? res : 0);
   }
 
   updateStatisticGame(gameType: IGameStore) {
-    if (gameType.name && gameType.name === "sprint") {
+    if (gameType.name === "sprint") {
       const sprint = this.newStatistic.optional.sprint;
-      sprint.correctAnswers += gameType.correctAnswers;
-      sprint.maxInRow =
-        sprint.maxInRow > gameType.maxInRow
-          ? sprint.maxInRow
+      this.inform.rowSpirit =
+        this.inform.rowSpirit > gameType.maxInRow
+          ? this.inform.rowSpirit
           : gameType.maxInRow;
+      this.inform.trueAnswersSpirit += gameType.trueAnswers;
+      this.inform.allAnswerSpirit += 5;
+      this.inform.newWordsSpirit = [
+        ...this.inform.newWordsSpirit,
+        ...(gameType.arrayAllWord || []),
+      ];
+      sprint.points = gameType.points;
     } else {
       const audioCall = this.newStatistic.optional.audioCall;
-      audioCall.correctAnswers += gameType.correctAnswers;
-      audioCall.maxInRow =
-        audioCall.maxInRow > gameType.maxInRow
-          ? audioCall.maxInRow
+      this.inform.rowAudioCall =
+        this.inform.rowAudioCall > gameType.maxInRow
+          ? this.inform.rowAudioCall
           : gameType.maxInRow;
+      this.inform.trueAnswersAudioCall += gameType.trueAnswers;
+      this.inform.allAnswerAudioCall += 5;
+      console.log(this.inform.newWordsAudioCall);
+      this.inform.newWordsAudioCall = [
+        ...this.inform.newWordsAudioCall,
+        ...(gameType.arrayAllWord || []),
+      ];
+      audioCall.points = gameType.points;
     }
+    this.collectStatistic();
   }
 }
 
-export const updateStatistic = new SetStatistic();
+export const updateStat = new SetStatistic();
