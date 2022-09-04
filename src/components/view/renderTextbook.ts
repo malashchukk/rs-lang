@@ -52,9 +52,6 @@ class ViewerTextbook extends RenderTextbookWords {
   drawTextbookNavigation(): string {
     return `<nav class="textbook__header">
       <h2 class="textbook__title">Онлайн Учебник</h2>
-      <div class="textbook__settings">
-      <span>НАСТРОЙКИ</span><img src="./assets/svg/applications-system.svg" class="textbook-small-img settings-img" alt="settings">
-      </div>
     </nav>`;
   }
 }

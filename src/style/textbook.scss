@@ -1,4 +1,4 @@
-.textbook {
+.textbook, .dictionary {
   & audio {
     display: none;
   }
@@ -20,7 +20,7 @@
   position: relative;
   box-shadow: 0 10px 18px 0 rgb(0 0 0 / 50%);
 }
-.textbook__header {
+.textbook__header, .dictionary__header {
   grid-row: 1/2;
   grid-column: 1/3;
   position: relative;
@@ -32,7 +32,7 @@
   height: 50px;
   box-shadow: 0 10px 18px 0 rgb(0 0 0 / 50%);
 }
-.textbook__section {
+.textbook__section, .dictionary__section {
   width: 120px;
   height: 70px;
   padding: 0 0 0 0px;
@@ -40,51 +40,14 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  &:nth-child(1) {
-    background-color: #e0e0e0;
-    box-shadow: 0px 1px 10px #eeeded;
-  }
-  &:nth-child(2) {
-    background-color: #81c784;
-    box-shadow: 0px 1px 10px #a7e0aa;
-  }
-  &:nth-child(3) {
-    background-color: #64b5f6;
-    box-shadow: 0px 1px 10px #98caf3;
-  }
-  &:nth-child(4) {
-    background-color: #fff176;
-    box-shadow: 0px 1px 10px #f5f0c4;
-  }
-  &:nth-child(5) {
-    background-color: #c3950c;
-    box-shadow: 0px 1px 10px #f5e1a5;
-  }
-  &:nth-child(6) {
-    background-color: rgb(151, 121, 10);
-    box-shadow: 0px 1px 10px rgb(237, 212, 125);
-  }
-  &:nth-child(7) {
-    background-color: #e57373;
-    box-shadow: 0px 1px 10px  #eeb7b7;
-  }
 }
-.textbook-small-img {
+.textbook-small-img,  .dictionary-small-img{
   height: 20px;
 }
-.settings-img {
-  height: 30px;
-}
-.textbook__settings {
-  display: flex;
-  align-items: center;
-  & span {
-    padding: 0 0 0 10px;
-  }
-}
-.textbook__words-wrapper {
+.textbook__words-wrapper, .dictionary__words-wrapper {
+  margin-left: 10px;
   & .preloader {
-    margin: 50px 0 0 0;
+    margin: 50px 0 0 10px;
     & .preloader__loader {
       position: relative;
       top: 50vh;
@@ -131,11 +94,13 @@
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
   color: #fff;
 }
-.difficult-word {
-  background-color: #e0e0e0;
+.difficult-word, .learned-word {
+  background-color: #e0e0e0 !important;
 }
 .words-buttons {
  align-self: flex-end;
+ display: flex;
+ gap: 10px;
 }
 .word-card__message {
   display: none;
@@ -146,4 +111,59 @@
   padding: 4.5px;
   border-radius: 10px;
   border: none;
+}
+#chapter1 {
+  background-color: #ebf7f1;
+}
+#chapter2{
+  background-color: #bbd4b9;
+}
+#chapter3 {
+  background-color: #c5d4df;
+}
+#chapter4 {
+  background-color: #d9d6c0;
+}
+#chapter5 {
+  background-color: #d9d1ba;
+}
+#chapter6 {
+  background-color: rgb(231 222 189);
+}
+#difficult-words-section {
+  background-color: #efc0c0;
+}
+.add-to-learned {
+  background: #34c95e;
+  border-radius: 20px;
+  padding: 8px;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  color: #fff;
+}
+.dictionary__title {
+  font-size: 19px;
+} 
+.dictionary__words-wrapper {
+  & .preloader {
+    margin: 100px 0 0 0;
+    height: calc(100% - 130px);
+  }
+}
+.dictionary__words-wrapper-header {
+  padding: 10px 0 0 0;
+  display: flex;
+  justify-content: space-around;
+  font-size: 21px;
+  & .easy {
+    color: #0d83a4;
+  }
+  & .hard {
+    color: #f50057;
+  }
+}
+#reestablish-btn {
+  background: #0d83a4;
+  border-radius: 9px;
+  padding: 7px;
+  color: #ffffff;
 }

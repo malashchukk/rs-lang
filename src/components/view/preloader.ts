@@ -3,31 +3,26 @@ class Preloader {
   private container!: HTMLDivElement;
   init(container: HTMLDivElement) {
     this.container = container;
-    let preloader = document.querySelector(".preloader") as HTMLDivElement;
-    if (preloader) {
-      preloader.style.opacity = "1";
-      preloader.style.zIndex = "1000";
-      preloader.style.display = "flex";
-    } else {
-      preloader = document.createElement("div");
-      container.append(preloader);
-      const preloaderHTML = `<div class="preloader">
+    const preloader = document.createElement("div");
+    container.append(preloader);
+    const preloaderHTML = `<div class="preloader">
         <div class="preloader__loader">
         <div class="loadingio-spinner-spinner-ovqvmy17tv"><div class="loader-part"> <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>
         </div>
       </div>
     `;
-      preloader.outerHTML = preloaderHTML;
-    }
+    preloader.outerHTML = preloaderHTML;
     this.hide();
   }
   async hideInHtml() {
     const preloader = document.querySelector(".preloader") as HTMLDivElement;
-    preloader.style.opacity = "0";
-    preloader.style.zIndex = "-1";
-    setTimeout(() => {
-      preloader.style.display = "none";
-    }, 400);
+    if (preloader) {
+      preloader.style.opacity = "0";
+      preloader.style.zIndex = "-1";
+      setTimeout(() => {
+        preloader.style.display = "none";
+      }, 400);
+    }
   }
   private async hide() {
     clearInterval(this.timer);

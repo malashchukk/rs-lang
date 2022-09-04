@@ -7,7 +7,7 @@ import { Main } from "./components/view/main/main";
 import { About } from "./components/view/aboutPage/aboutPage";
 import user from "./components/controller/authorization/authorization";
 import popUp from "./components/view/popUpAuthorization/popUpAuthorization";
-
+import "./components/view/dictionary";
 const aboutTeam = new About();
 aboutTeam.ListenerBtnAbout();
 const mainText = new Main();
