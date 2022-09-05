@@ -41,7 +41,7 @@ export class About {
         <div class="member_inform">
           <h2 class="member_inform_title">DelfiaHope</h2>
           <h3 class="who"><span>Developer</span></h3>
-          <p class="member_text">Создала главную страницу, игру Аудиовызов, краткосрочная статистика, алгоритм добавления слов, использованных в играх.</p>
+          <p class="member_text">Разработала дизайн, создала главную страницу, игру Аудиовызов, краткосрочная статистика, алгоритм добавления слов, использованных в играх.</p>
         </div>            
       </div>
     </section>
