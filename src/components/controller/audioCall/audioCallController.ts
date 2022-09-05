@@ -4,9 +4,7 @@ import { audioCallView } from "../../view/audioCall/audioCallView";
 import IWords from "../../view/IWords";
 import { updateStat } from "../statistic/updateStatistic";
 import { IGameStore } from "../statistic/IStatisticStore";
-import { addInApi } from "../learnWord";
-
-type idAfterGame = [string, boolean];
+import { addInApi, idAfterGame } from "../learnWord";
 
 class AudioCallController {
   private progressWidth = 0;
@@ -54,7 +52,7 @@ class AudioCallController {
   }
 
   async initAudioCallGame() {
-    if (this.countNumberWord < 5) {
+    if (this.countNumberWord < 20) {
       this.arrWordsRus.length = 0;
 
       const myDataWords = await crudApi.getItem<IWords[]>({
@@ -144,9 +142,9 @@ class AudioCallController {
     audioCall.maxInRow = this.maxInRow;
 
     if (localStorage["user"]) {
-      addInApi.addWord(this.arrId);
+      console.log(this.arrId);
+      addInApi.addWord(this.arrId);      
       updateStat.updateStatisticGame(audioCall);
-      
     }
   }
 
@@ -189,7 +187,6 @@ class AudioCallController {
     const countRow = this.arrTrueAnswer.length;
     if (getWordRusText === wordTranslate) {
       this.arrTrueAnswer.push(word);
-      //this.arrIdTrue.push(word)
       id ? this.arrId.push([id, true]) : 1;
 
       this.createAudio("../../assets/audio/audio_correct.mp3");

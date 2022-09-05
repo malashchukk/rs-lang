@@ -13,7 +13,7 @@ class AddNewWord {
       this.isNewWord(el);
     });
   }
-  
+
   async isNewWord(el: idAfterGame) {
     const isNew = await crudApi.getItem<IearnWord>(
       {
@@ -25,7 +25,7 @@ class AddNewWord {
     );
 
     if (isNew === undefined) {
-      el[1]? this.createUserWord(el, 1): this.createUserWord(el, 0)
+      el[1] ? this.createUserWord(el, 1) : this.createUserWord(el, 0);
     } else {
       if (!el[1]) {
         this.deleteWord(el);
@@ -34,7 +34,7 @@ class AddNewWord {
       }
     }
   }
-  createUserWord(el: idAfterGame, count: number ) {
+  createUserWord(el: idAfterGame, count: number) {
     const newW: IearnWord = {
       difficulty: "easy",
       optional: { guessCount: count, isLearned: false },
@@ -67,9 +67,9 @@ class AddNewWord {
         numTrue >= 4
           ? (newInform.optional.isLearned = true)
           : (newInform.optional.guessCount = numTrue + 1);
-          newInform.difficulty = "hard";
+        newInform.difficulty = "hard";
       }
-      
+
       crudApi.updateItems(
         {
           endpoint: `/users/${

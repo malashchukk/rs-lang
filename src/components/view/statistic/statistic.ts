@@ -5,6 +5,7 @@ import {
   statisticDefault,
 } from "../../controller/statistic/IStatisticStore";
 import { updateStat } from "../../controller/statistic/updateStatistic";
+import router from "../../controller/Router";
 
 async function getStatistic(): Promise<void> {
   const statistic: IStatisticsStore = await crudApi.getItem(
@@ -68,3 +69,7 @@ class Statistic {
   }
 }
 export const showStatistic = new Statistic();
+
+router.add("statistics", () => {
+  showStatistic.getAccount()
+});
