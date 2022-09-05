@@ -213,6 +213,7 @@ class PopUp {
         logoutButton.addEventListener("click", () => {
           this.replacePopUpButton("unauthorized");
           localStorage.removeItem("user");
+          user.isAuthorization();
           logoutButton.remove();
           user.isAuthorization();
         });

@@ -40,6 +40,7 @@ class User {
     if (data) {
       this.isAuthorization();
     } else {
+      localStorage.removeItem("user");
       alert(
         "Пароль не верный или аккаунт не найдено, попробуйте зарегистрироваться"
       );
