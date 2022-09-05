@@ -166,5 +166,3 @@ class SetStatistic {
 }
 
 export const updateStat = new SetStatistic();
-
-

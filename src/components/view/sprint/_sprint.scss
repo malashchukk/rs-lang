@@ -97,7 +97,7 @@ $font-cursive: 'Concert One', cursive;
     background: #add6f3;
     padding: 1.5rem;
     border-radius: 0.7rem;
-    width: 30vw;
+    min-width: 30vw;
     height: 40vh;
     display: flex;
     flex-direction: column;
@@ -202,33 +202,45 @@ $font-cursive: 'Concert One', cursive;
     
 }
 .end-screen{
-  border: #000000 1px;
+  // border: #000000 1px;
+  background: #add6f3;
+  margin: 10vh 0;
+  border-radius: 0.7rem;
   grid-column: 2;
   display: flex;
+  justify-content: center;
+  align-items: center;
   font-family: $font-cursive;
   flex-direction: column;
   .score{
     font-family: Quicksand, sans-serif;
     font-size: 5rem;
-    // margin: 10vh 0;
-  }
-  .percent{
-    font-family: Quicksand, sans-serif;
-    font-size: 4rem;
-    // margin: 10vh 0;
+    margin: 1rem 0;
   }
   .answers{
 
     display: flex;
     justify-content: stretch;
+
     &__incorrect{
+      border-radius: 0.7rem 0 0 0.7rem;
+
+      padding: 1rem;
       background-color: #d17373;
     }
     &__correct{
+      border-radius: 0 0.7rem 0.7rem 0;
+
+      padding: 1rem;
       background-color: #94e26a;
+    }
+    &__p{
+      font-family: var($font-cursive);
+      font-size: 1rem;
     }
   }
   .close-btn{
+    text-decoration: none;
     display: inline-block;
     background-color: $color-shadow-text;
     font-size: 1.6rem;

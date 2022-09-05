@@ -10,7 +10,7 @@ import { IearnWord } from "../learnWord";
 class AudioCallController {
   private progressWidth = 0;
   private progressStep = 5;
-  idKeypress: string | undefined = '';
+  idKeypress: string | undefined = "";
   level = 0;
   page = 0;
   maxInRow = 0;
@@ -42,7 +42,7 @@ class AudioCallController {
     "бремя",
   ];
 
-  startGame(comeIn: string, level = this.level, page = this.page ) {    
+  startGame(comeIn: string, level = this.level, page = this.page) {
     this.arrWordsRus.length = 0;
     this.progressWidth = 0;
     this.arrTrueAnswer = [];
@@ -54,15 +54,15 @@ class AudioCallController {
     this.arrIdForStat = [];
     if(comeIn === 'book'){
       this.level = level;
-      this.page = page
-    } 
-    this.initAudioCallGame(comeIn)    
+      this.page = page;
+    }
+    this.initAudioCallGame(comeIn);
   }
 
   async initAudioCallGame(comeIn: string) {
     if (this.countNumberWord < 20) {
       this.arrWordsRus.length = 0;
-     
+
       const myDataWords = await crudApi.getItem<IWords[]>({
         endpoint: `/words?group=${this.level}&page=${this.page}`,
       });
@@ -73,10 +73,10 @@ class AudioCallController {
 
       this.idKeypress = id;
 
-      if(comeIn === 'book'&& (await this.isLearned(id))){         
-          this.countNumberWord += 1;
-          this.initAudioCallGame(comeIn)             
-      }else{         
+      if (comeIn === "book" && (await this.isLearned(id))) {
+        this.countNumberWord += 1;
+        this.initAudioCallGame(comeIn);
+      } else {
         this.arrWordsRus.push(wordTranslate);
         this.createArrayRusWord();
         audioCallView.renderGamePage(
@@ -86,7 +86,6 @@ class AudioCallController {
           image,
           wordTranslate
         );
-
         const gameWords = document.querySelector(".game__words") as HTMLElement;
       gameWords.addEventListener("click", (event) => {
         const targetParent = (event.target as HTMLElement)
@@ -126,9 +125,9 @@ class AudioCallController {
      
     } else if(this.arrId.length < 20){      
       this.page += 1;
-      this.countNumberWord = this.arrId.length
-      this.initAudioCallGame(comeIn)      
-    } else {      
+      this.countNumberWord = this.arrId.length;
+      this.initAudioCallGame(comeIn);
+    } else {
       const point = this.arrTrueAnswer.length * 10;
       const percent = (this.arrTrueAnswer.length / 20) * 100;     
       audioCallView.showResultGame(point, percent);
@@ -142,20 +141,25 @@ class AudioCallController {
     }
   }
 
-  async isLearned(id?:string){    
-      const isWord = await crudApi.getItem(
-      {
-        endpoint: `/users/${JSON.parse(localStorage["user"]).userId}/words/${id}`,
-      },
-      JSON.parse(localStorage["user"]).token
-    ).then((res)=>{      
-      return (res as IearnWord).optional.isLearned? true: false
-    }).catch((error) =>{
-      console.log(error);
-      return false
-    })
-    
-    return isWord       
+  async isLearned(id?: string) {
+    const isWord = await crudApi
+      .getItem(
+        {
+          endpoint: `/users/${
+            JSON.parse(localStorage["user"]).userId
+          }/words/${id}`,
+        },
+        JSON.parse(localStorage["user"]).token
+      )
+      .then((res) => {
+        return (res as IearnWord).optional.isLearned ? true : false;
+      })
+      .catch((error) => {
+        console.log(error);
+        return false;
+      });
+
+    return isWord;
   }
   collectInfoResult(point: number) {
     this.page = this.page > 20 ? 0 : this.page + 1;
@@ -175,8 +179,8 @@ class AudioCallController {
     audioCall.trueAnswers = this.arrTrueAnswer.length;
     audioCall.maxInRow = this.maxInRow;
 
-    if (localStorage["user"]) {      
-      addInApi.addWord(this.arrId);      
+    if (localStorage["user"]) {
+      addInApi.addWord(this.arrId);
       updateStat.updateStatisticGame(audioCall);
     }
   }
@@ -316,18 +320,24 @@ class AudioCallController {
     gameBtn.innerText = "Далее";
   }
 
-  keyPress(event: KeyboardEvent, id:string | undefined) {
-    const word = (document.querySelector(".game__word") as HTMLElement).outerText;
-    const wordTranslate = (document.querySelector(".game__word_rus") as HTMLElement).outerText;
-    const gameNumber = document.querySelectorAll(".words__item") as NodeListOf<HTMLElement>;
+  keyPress(event: KeyboardEvent, id: string | undefined) {
+    const word = (document.querySelector(".game__word") as HTMLElement)
+      .outerText;
+    const wordTranslate = (
+      document.querySelector(".game__word_rus") as HTMLElement
+    ).outerText;
+    const gameNumber = document.querySelectorAll(
+      ".words__item"
+    ) as NodeListOf<HTMLElement>;
     const keyUp = event.key;
-    const gameBtn = document.querySelector(".game .game__btn.button"
+    const gameBtn = document.querySelector(
+      ".game .game__btn.button"
     ) as HTMLElement;
     const game = document.querySelector(".container_audioCall") as HTMLElement;
 
     if (keyUp === " " && gameBtn.outerText === "Далее") {
       document.removeEventListener("keyup", this.ev1);
-      this.initAudioCallGame('main');
+      this.initAudioCallGame("main");
     }
 
     if (!game.classList.contains("active")) {
@@ -344,4 +354,3 @@ class AudioCallController {
   }
 }
 export const gameController = new AudioCallController();
-

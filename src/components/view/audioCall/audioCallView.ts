@@ -39,7 +39,7 @@ class AudioCallView {
     ) as HTMLElement;
     btnStartGameAudioCall?.addEventListener("click", () => {
       gameController.getLevel();
-      gameController.startGame('main');
+      gameController.startGame("main");
     });
     gameController.listenerCloseBtn();
   }

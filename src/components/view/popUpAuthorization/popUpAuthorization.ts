@@ -34,7 +34,7 @@ class PopUp {
         passwordField.type === "password" ? "text" : "password";
     };
     return inputs;
-    };
+  }
 
   private setLoginButton(
     logInButton: HTMLButtonElement,
@@ -119,7 +119,6 @@ class PopUp {
     });
   }
   private createButtonsContainer() {
-
     const buttons = document.createElement("div") as HTMLDivElement;
     buttons.classList.add("buttons_login");
     buttons.innerHTML = `
@@ -214,7 +213,7 @@ class PopUp {
           this.replacePopUpButton("unauthorized");
           localStorage.removeItem("user");
           localStorage.removeItem("statistic");
-          
+
           user.isAuthorization();
           logoutButton.remove();
           user.isAuthorization();
