@@ -1,5 +1,6 @@
 import "./audioCallStyle.scss";
 import { gameController } from "../../controller/audioCall/audioCallController";
+import router from "../../controller/Router";
 
 class AudioCallView {
   main = document.querySelector(".main") as HTMLElement;
@@ -147,27 +148,10 @@ class AudioCallView {
     const footer = document.querySelector(".footer") as HTMLElement;
     footer.style.display = `${meaning}`;
   }
-  // replacementWord(arrWordsRus: string[],
-  //   wordEn: string,
-  //   voiceEn: string,
-  //   imageEn: string,
-  //   wordRus: string){
-  //   const imgWord = document.querySelector('.img_word') as HTMLImageElement;
-  //   imgWord.src = `https://rslang-malashchukk.herokuapp.com/${imageEn}`;
-  //   this.playSound(voiceEn);
-  //   const gameWord = document.querySelector('.game__word') as HTMLElement;
-  //   gameWord.innerHTML = wordEn;
-  //   const gameWordRus = document.querySelector('.game__word_rus') as HTMLElement;
-  //   gameWordRus.innerHTML = wordRus;
-  //   const wordsName = document.querySelectorAll('.words__name') as NodeListOf<HTMLElement>;
-  //   for (let i = 0; i < arrWordsRus.length; ) {
-  //     wordsName.forEach((el: any)=>{
-  //         el.innerHTML = arrWordsRus[i];
-  //         i++
-  //     })
-  //   }
-
-  // }
 }
 
 export const audioCallView = new AudioCallView();
+
+router.add("audioCall", () => {
+  audioCallView.showStartPageAudioCall();
+});

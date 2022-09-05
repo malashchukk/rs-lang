@@ -4,6 +4,9 @@ import { audioCallView } from "../../view/audioCall/audioCallView";
 import IWords from "../../view/IWords";
 import { updateStat } from "../statistic/updateStatistic";
 import { IGameStore } from "../statistic/IStatisticStore";
+import { addInApi } from "../learnWord";
+
+type idAfterGame = [string, boolean];
 
 class AudioCallController {
   private progressWidth = 0;
@@ -12,7 +15,9 @@ class AudioCallController {
   page = 0;
   maxInRow = 0;
   inRow = 0;
-  arrId: string[] = [];
+  arrId: idAfterGame[] = [];
+  arrIdTrue: string[] = [];
+  arrIdFalse: string[] = [];
   private arrWordsRus: string[] = [];
   private countNumberWord = 0;
   arrTrueAnswer: string[] = [];
@@ -42,13 +47,16 @@ class AudioCallController {
     this.arrFalseAnswer = [];
     this.countNumberWord = 0;
     this.inRow = 0;
+    this.arrIdTrue = [];
+    this.arrIdFalse = [];
     this.arrId = [];
     this.initAudioCallGame();
   }
 
   async initAudioCallGame() {
-    if (this.countNumberWord < 20) {
+    if (this.countNumberWord < 5) {
       this.arrWordsRus.length = 0;
+
       const myDataWords = await crudApi.getItem<IWords[]>({
         endpoint: `/words?group=${this.level}&page=${this.page}`,
       });
@@ -66,7 +74,7 @@ class AudioCallController {
         image,
         wordTranslate
       );
-      id ? this.arrId.push(id) : console.log("not found id");
+
       const gameWords = document.querySelector(".game__words") as HTMLElement;
       gameWords.addEventListener("click", (event) => {
         const targetParent = (event.target as HTMLElement)
@@ -74,7 +82,7 @@ class AudioCallController {
         if ((targetParent as HTMLElement).className === "words__item") {
           gameWords.classList.add("active");
           this.countNumberWord += 1;
-          this.giveAnswer(wordTranslate, word, targetParent);
+          this.giveAnswer(wordTranslate, word, targetParent, id);
         }
       });
 
@@ -83,7 +91,7 @@ class AudioCallController {
       ) as HTMLElement;
       gameBtn.addEventListener("click", (event) => {
         if ((event.target as HTMLElement).outerText === "Не знаю") {
-          this.showAnswerIfClickDontKnow(wordTranslate, word);
+          this.showAnswerIfClickDontKnow(wordTranslate, word, id);
           this.countNumberWord += 1;
         } else {
           document.removeEventListener("keyup", this.ev1);
@@ -130,13 +138,15 @@ class AudioCallController {
       maxInRow: 0,
       trueAnswers: 0,
     };
-
-    audioCall.arrayAllWord = [...this.arrId];
+    audioCall.arrayAllWord = [...this.arrTrueAnswer, ...this.arrFalseAnswer];
     audioCall.points = point;
     audioCall.trueAnswers = this.arrTrueAnswer.length;
     audioCall.maxInRow = this.maxInRow;
+
     if (localStorage["user"]) {
+      addInApi.addWord(this.arrId);
       updateStat.updateStatisticGame(audioCall);
+      
     }
   }
 
@@ -160,7 +170,12 @@ class AudioCallController {
     audioElement.play();
   }
 
-  giveAnswer(wordTranslate: string, word: string, event: HTMLElement) {
+  giveAnswer(
+    wordTranslate: string,
+    word: string,
+    event: HTMLElement,
+    id?: string | undefined
+  ) {
     const gameBtn = document.querySelector(".game__btn") as HTMLElement;
     const getWordRusText = (event.lastElementChild as HTMLElement).innerHTML;
     const allWords = document.querySelectorAll(".words__item");
@@ -174,6 +189,8 @@ class AudioCallController {
     const countRow = this.arrTrueAnswer.length;
     if (getWordRusText === wordTranslate) {
       this.arrTrueAnswer.push(word);
+      //this.arrIdTrue.push(word)
+      id ? this.arrId.push([id, true]) : 1;
 
       this.createAudio("../../assets/audio/audio_correct.mp3");
 
@@ -185,6 +202,7 @@ class AudioCallController {
       event.classList.add("true");
     } else {
       this.arrFalseAnswer.push(word);
+      id ? this.arrId.push([id, false]) : 1;
       this.createAudio("../../../assets/audio/audio_error.mp3");
 
       allWords.forEach((element) => {
@@ -230,7 +248,11 @@ class AudioCallController {
     progressBarTop.style.width = `${this.progressWidth}%`;
   }
 
-  showAnswerIfClickDontKnow(wordTranslate: string, word: string) {
+  showAnswerIfClickDontKnow(
+    wordTranslate: string,
+    word: string,
+    id?: string | undefined
+  ) {
     const gameBtn = document.querySelector(".game__btn") as HTMLElement;
     const allWords = document.querySelectorAll(".words__item");
     const imgAnswer = document.querySelector(
@@ -238,6 +260,7 @@ class AudioCallController {
     ) as HTMLElement;
 
     imgAnswer.classList.add("active");
+    id ? this.arrId.push([id, false]) : 1;
     this.arrFalseAnswer.push(word);
     this.progressGame();
 

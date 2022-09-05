@@ -5,7 +5,7 @@ import {
   IGameStore,
   IInformStatistic,
 } from "./IStatisticStore";
-import IWords from '../../view/IWords'
+import {IearnWord } from '../learnWord'
 
 class SetStatistic {
   learnWords = 0;
@@ -30,6 +30,7 @@ class SetStatistic {
   }
 
   loadStatistic() {
+    console.log(this.newStatistic)
     crudApi.updateItems(
       {
         endpoint: `/users/${
@@ -61,43 +62,52 @@ class SetStatistic {
     this.getTrueAnswer();
     this.getLearnedWord();
     localStorage["statistic"] = JSON.stringify(this.inform);
-    this.loadStatistic();
+    
   }
   
   async getLearnedWord(){
     let countLearn = 0;
    
-     const word: IWords[]  = await crudApi.getItem(
+     const word: IearnWord[]  = await crudApi.getItem(
         {
           endpoint: `/users/${JSON.parse(localStorage["user"]).userId}/words`,
         },
         JSON.parse(localStorage["user"]).token
-      );
-
+      );      
       if(word.length === 0){
         this.newStatistic.learnedWords = 0
       }else{
-        word.forEach((item: IWords)=>{
-          const {userWord} = item
-          if(userWord?.optional.isLearned){
+        word.forEach((item:IearnWord)=>{
+          const {optional} = item          
+          if(optional.isLearned){
              countLearn += 1
           }
         })
-      }
-      this.newStatistic.learnedWords = countLearn      
+      }     
+      this.newStatistic.learnedWords = countLearn;
+      this.loadStatistic();      
   }
 
-  getNewWord() {
+  async getNewWord() {
     const stat = this.newStatistic.optional;
     stat.sprint.wordsInGame = new Set(this.inform.newWordsSpirit).size;
-    stat.audioCall.wordsInGame = new Set(this.inform.newWordsAudioCall).size;
-    stat.newWord = new Set([
-      ...this.inform.newWordsSpirit,
-      ...this.inform.newWordsAudioCall,
-    ]).size;
+    stat.audioCall.wordsInGame = new Set(this.inform.newWordsAudioCall).size; 
+    stat.newWord = await this.getAllNewWord()
     stat.sprint.maxInRow = this.inform.rowSpirit;
     stat.audioCall.maxInRow = this.inform.rowAudioCall;
+     
   }
+
+  async getAllNewWord(){
+    const allNewWord: IearnWord[] = await crudApi.getItem(
+      {
+        endpoint: `/users/${JSON.parse(localStorage["user"]).userId}/words`,
+      },
+      JSON.parse(localStorage["user"]).token
+    );    
+    return allNewWord.length? allNewWord.length: 0 
+  }
+
   getTrueAnswer() {
     const stat = this.newStatistic.optional;
     stat.sprint.trueAnswers = this.getPercent(
@@ -128,7 +138,7 @@ class SetStatistic {
           ? this.inform.rowSpirit
           : gameType.maxInRow;
       this.inform.trueAnswersSpirit += gameType.trueAnswers;
-      this.inform.allAnswerSpirit += 20;
+      this.inform.allAnswerSpirit += 5;
       this.inform.newWordsSpirit = [
         ...this.inform.newWordsSpirit,
         ...(gameType.arrayAllWord || []),
@@ -141,7 +151,7 @@ class SetStatistic {
           ? this.inform.rowAudioCall
           : gameType.maxInRow;
       this.inform.trueAnswersAudioCall += gameType.trueAnswers;
-      this.inform.allAnswerAudioCall += 20;      
+      this.inform.allAnswerAudioCall += 5;      
       this.inform.newWordsAudioCall = [
         ...this.inform.newWordsAudioCall,
         ...(gameType.arrayAllWord || []),
