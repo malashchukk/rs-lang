@@ -13,6 +13,7 @@ class Sprint {
   private level!: number;
   private page!: number;
   private answers: answer[] = [];
+  private count!: NodeJS.Timer;
   private currCard = {
     same: false,
     original: "",
@@ -29,11 +30,17 @@ class Sprint {
   private async linkChangeAction() {
     await this.endGame();
   }
+  async getWord(wordId: string) {
+    const word: IWords = await crudApi.getItem({
+      endpoint: `/words/${wordId}`,
+    });
+    return word;
+  }
   async startGame() {
     this.level = this.getLevel();
     this.page = this.pageRandomGeneration();
+    // preloader
     await this.getWords();
-    sprintView.renderTimer();
     this.createRandomCard();
     this.startCountdown();
   }
@@ -41,11 +48,17 @@ class Sprint {
     this.level = localStorage["group"];
     this.page = localStorage["page"];
     await this.getWords();
+    // preloader.hideInHtml();
     this.createRandomCard();
     this.startCountdown();
   }
   private async endGame() {
     // TODO: EDIT
+    document.onkeyup = null;
+    // const main = document.querySelector(".main") as HTMLDivElement;
+    // main.innerHTML = `${JSON.stringify(this.answers)}`;
+    sprintView.renderEndScreen({ score: this.score, answers: this.answers });
+    this.clearCountdown(this.count);
     this.score = 0;
     this.answers.length = 0;
     this.tries = 0;
@@ -55,8 +68,6 @@ class Sprint {
       wordId: "",
       translate: "",
     };
-    const main = document.querySelector(".main") as HTMLDivElement;
-    main.innerHTML = `${JSON.stringify(this.answers)}`;
     console.log("max in row: ", this.maxInRow);
     console.log("answers: ", this.answers);
   }
@@ -75,11 +86,12 @@ class Sprint {
     window.addEventListener("popstate", this.linkChangeAction.bind(this), {
       once: true,
     });
+    sprintView.renderTimer();
     const timer = document.querySelector(".timer") as HTMLSpanElement;
     let countdownBegin = 30;
-    const count = setInterval(() => {
+    this.count = setInterval(() => {
       if (countdownBegin <= 0) {
-        this.clearCountdown(count);
+        this.clearCountdown(this.count);
         this.endGame();
       } else {
         countdownBegin -= 1;
@@ -90,7 +102,7 @@ class Sprint {
   private clearCountdown(interval: NodeJS.Timer) {
     clearTimeout(interval);
   }
-  private createRandomCard() {
+  private async createRandomCard() {
     if (this.answers.length >= 20) {
       this.createButtonsEvent();
       return;
@@ -112,7 +124,7 @@ class Sprint {
         ]!.wordTranslate;
       console.log(this.currCard);
     }
-    sprintView.renderCard({
+    await sprintView.renderCard({
       score: this.score,
       countOfTries: this.tries,
       original: this.currCard.original,
@@ -161,7 +173,11 @@ class Sprint {
   }
   private buttonCorrectAction() {
     if (this.answers.length < 20) {
-      this.answers.push({ result: true, wordId: this.currCard.wordId });
+      this.answers.push({
+        result: true,
+        wordId: this.currCard.wordId,
+        // wordName: this.currCard.original,
+      });
       document.body.style.background = "green";
       setTimeout(() => {
         if (this.tries >= 3) {
@@ -180,7 +196,11 @@ class Sprint {
   }
   private async buttonIncorrectAction() {
     if (this.answers.length < 20) {
-      this.answers.push({ result: false, wordId: this.currCard.wordId });
+      this.answers.push({
+        result: false,
+        wordId: this.currCard.wordId,
+        // wordName: this.currCard.original,
+      });
       document.body.style.background = "red";
       setTimeout(() => {
         this.maxInRow = this.tries > this.maxInRow ? this.tries : this.maxInRow;

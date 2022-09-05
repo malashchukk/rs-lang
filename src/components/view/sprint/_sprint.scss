@@ -183,7 +183,7 @@ $font: Bangers;
     background-color: transparent;
     transform:  rotateZ(-90deg);
     .circle{
-      stroke: #de6655;
+      stroke: #000000;
       stroke-width: 16;
       fill: transparent;
       stroke-dashoffset: 500;
@@ -196,9 +196,52 @@ $font: Bangers;
     text-align: center;
     display: block;
     transform: translate(0, -290%);
-    color: #de6655;
+    color: #000000;
     font-size: 42px;
     font-weight: 700;
   }
     
+}
+.end-screen{
+  border: #000000 1px;
+  grid-column: 2;
+  display: flex;
+  font-family: $font-cursive;
+  flex-direction: column;
+  .score{
+    font-family: Quicksand, sans-serif;
+    font-size: 5rem;
+    // margin: 10vh 0;
+  }
+  .percent{
+    font-family: Quicksand, sans-serif;
+    font-size: 4rem;
+    // margin: 10vh 0;
+  }
+  .answers{
+
+    display: flex;
+    justify-content: stretch;
+    &__incorrect{
+      background-color: #d17373;
+    }
+    &__correct{
+      background-color: #94e26a;
+    }
+  }
+  .close-btn{
+    display: inline-block;
+    background-color: $color-shadow-text;
+    font-size: 1.6rem;
+    font-family: $font-cursive;
+    color: $color-white-text-header;
+    padding: 1rem 2rem;
+    border: none;
+    margin: 3rem;
+    border-radius: 15px 0 15px 0;
+    box-shadow: 0 10px 14px 0 rgb(0 0 0 / 40%);
+    &:hover{
+        background-color: $color-header;
+     }
+  }
 }
