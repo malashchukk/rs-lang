@@ -4,7 +4,7 @@ export type urlOptions = {
 
 export type fetchParam = urlOptions;
 export default class Loader {
-  private baseLink: string;
+  readonly baseLink: string;
   readonly options: urlOptions;
   constructor(baseLink: string, options: urlOptions) {
     this.baseLink = baseLink;
@@ -43,7 +43,6 @@ export default class Loader {
     Object.keys(urlOptions).forEach((key) => {
       url += `${key}=${urlOptions[key]}&`;
     });
-    console.log(url.slice(0, -1));
     return url.slice(0, -1);
   }
 

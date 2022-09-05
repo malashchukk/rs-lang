@@ -1,9 +1,22 @@
 @import url(./css/reset.css);
+@import "./preloader";
 @import "./footer";
 @import "../components/view/popUpAuthorization/authorizationPopUp";
 @import "../components/view/popUpAuthorization/form";
+@import "./textbook.scss";
 @import "../style/preloader";
 @import "../components/view/sprint/sprint";
+@import "./pagination.scss";
+
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.main {
+  flex: 1 0 auto;
+}
+
 html{
     height: 100%;
     box-sizing: border-box;
@@ -12,6 +25,7 @@ body{
     display: flex;
     flex-direction: column;
     height: 100%;
+    background-color: #f2f7fd;
 }
 
 .header {
@@ -85,7 +99,7 @@ body{
     left: 49%;
     background-color: $color-header;
     width: 15%;
-    z-index: 1;
+    z-index: 1001;
     justify-content: space-around;
     box-shadow: 0 10px 14px 0 rgb(0 0 0 / 40%);
     border-radius: 5px;
@@ -118,3 +132,5 @@ body{
 .hidden{
   display: none;
 }
+
+
