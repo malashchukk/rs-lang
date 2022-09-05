@@ -37,9 +37,7 @@ class SprintView {
     const main = document.querySelector(".main") as HTMLDivElement;
     let sprintWrapper;
     if (!sprintOldWrapper) {
-      // console.log("new");
       sprintWrapper = this.createBasicLayout();
-      // main?.append
       main.replaceChildren(sprintWrapper);
     }
     sprintWrapper = document.querySelector(
@@ -86,7 +84,7 @@ class SprintView {
     sprintWrapper.classList.add("sprint-game-wrapper");
     return sprintWrapper;
   }
-  renderEndScreen(options: { score: number; answers: answer[] }) {
+  async renderEndScreen(options: { score: number; answers: answer[] }) {
     const sprintWrapper = document.querySelector(
       ".sprint-game-wrapper"
     ) as HTMLDivElement;
@@ -95,21 +93,25 @@ class SprintView {
     );
     const correctAnswers = options.answers.filter((el) => el.result === true);
     let incorrectAnswersHTML = "";
-    incorrectAnswers.forEach((el) => {
-      incorrectAnswersHTML += `<li>${el.wordId}</li>`;
-      return `<li class="answer">${el.wordId}</li>`;
-    });
+    await Promise.all(
+      incorrectAnswers.map(async (el) => {
+        const answer = `<li>${await sprint.getWord(el.wordId)}</li>`;
+        incorrectAnswersHTML += answer;
+      })
+    );
     let correctAnswersHTML = "";
-    correctAnswers.forEach((el) => {
-      correctAnswersHTML += `<li>${el.wordId}</li>`;
-      return `<li class="answer">${el.wordId}</li>`;
-    });
+    await Promise.all(
+      correctAnswers.map(async (el) => {
+        const answer = `<li>${await sprint.getWord(el.wordId)}</li>`;
+        correctAnswersHTML += answer;
+      })
+    );
     const html = `
     <div class="end-screen">
       <p class="score">${options.score}</p>
       <div class="answers">
-        <div class="answers__incorrect"><ul>${incorrectAnswersHTML}</ul></div>
-        <div class="answers__correct"><ul>${correctAnswersHTML}</ul></div>
+        <div class="answers__incorrect"><ul><p class="answers__p">Ошибки ${incorrectAnswers.length}</p>${incorrectAnswersHTML}</ul></div>
+        <div class="answers__correct"><ul><p class="answers__p">Правильно ${correctAnswers.length}</p>${correctAnswersHTML}</ul></div>
       </div>
       <a href="/#/home" class="close-btn">Выйти</a>
     </div>
