@@ -192,6 +192,7 @@ class PopUp {
     errorHtml.classList.add("hidden-error");
   }
   replacePopUpButton(type: string) {
+    preloader.hideInHtml();
     const signIn = document.querySelector(
       ".btn-registration"
     ) as HTMLButtonElement;
@@ -234,6 +235,11 @@ class PopUp {
     }
   }
   private open() {
+    const popUp = document.querySelector(".popup");
+    if (popUp) {
+      const preloader = popUp.querySelector(".preloader");
+      preloader?.remove();
+    }
     document.body.style.overflow = "hidden";
     this.popUp.classList.add("active");
     this.popUpBackground.classList.add("popup__background");

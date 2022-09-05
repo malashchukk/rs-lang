@@ -36,13 +36,21 @@ export default class RenderTextbookWords extends WordRender {
     const currentPageBtn = document.querySelector(
       ".page-btn.active"
     ) as HTMLButtonElement;
+
     if (
-      addToDifficultBtn.classList.contains("difficult-word") ||
-      addToLearnedBtn.classList.contains("learned-word")
+      (addToDifficultBtn.classList.contains("difficult-word") &&
+        !addToLearnedBtn.classList.contains("learned-word")) ||
+      (!addToDifficultBtn.classList.contains("difficult-word") &&
+        addToLearnedBtn.classList.contains("learned-word"))
     ) {
       if (this.learnedCount < 20) {
         this.learnedCount += 1;
       }
+    }
+    if (
+      addToDifficultBtn.classList.contains("difficult-word") ||
+      addToLearnedBtn.classList.contains("learned-word")
+    ) {
       if (this.learnedCount === 20) {
         currentPageBtn.style.background = "green";
         wrapper.style.boxShadow = "0px 0px 30px green ";
@@ -52,6 +60,7 @@ export default class RenderTextbookWords extends WordRender {
       if (this.learnedCount > 0) {
         this.learnedCount -= 1;
       }
+
       wrapper.style.boxShadow = "none";
     }
   }
