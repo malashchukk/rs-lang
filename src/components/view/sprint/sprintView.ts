@@ -117,7 +117,7 @@ class SprintView {
     </div>
     `;
     sprintWrapper.innerHTML = html;
-    preloader.hideInHtml();
+    // preloader.hideInHtml();
   }
   renderStartScreen() {
     const main = document.querySelector("main");

@@ -4,7 +4,6 @@ import { audioCallView } from "../audioCall/audioCallView";
 import router from "../../controller/Router";
 
 export class Main {
-  
   logo = document.querySelector(".logo") as HTMLElement;
   statistic = document.querySelector(".nav_statistics") as HTMLElement;
   btnAudioCall = document.querySelector(".nav_games_audioCall") as HTMLElement;
@@ -80,9 +79,6 @@ export class Main {
 
 export const mainView = new Main();
 
-
 router.add("home", () => {
- mainView.showMain()
+  mainView.showMain();
 });
-
-

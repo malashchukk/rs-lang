@@ -2,7 +2,9 @@ import IWords from "../../view/IWords";
 import sprintView from "../../view/sprint/sprintView";
 import crudApi from "../CRUD/CrudApi";
 import { aggregatedWordsResponse } from "../../view/SectionTextbook";
-import preloader from "../../view/sprint/preloader";
+// import preloader from "../../view/sprint/preloader";
+import { updateStat } from "../statistic/updateStatistic";
+import { IGameStore } from "../statistic/IStatisticStore";
 
 type answer = {
   result: boolean;
@@ -31,9 +33,6 @@ class Sprint {
     ) as HTMLSelectElement;
     return Number(selectLevel.value);
   }
-  private async linkChangeAction() {
-    await this.endGame();
-  }
   async getWord(wordId: string) {
     const word: IWords = await crudApi.getItem({
       endpoint: `/words/${wordId}`,
@@ -58,20 +57,16 @@ class Sprint {
     } else {
       await this.getAggregatedWords();
     }
-    // preloader.hideInHtml();
     this.createRandomCard();
     this.startCountdown();
   }
   private async endGame() {
-    // TODO: EDIT
-    const main = document.querySelector(".main") as HTMLDivElement;
-    preloader.init(main);
+    this.collectInfoResult();
     document.onkeyup = null;
     await sprintView.renderEndScreen({
       score: this.score,
       answers: this.answers,
     });
-    preloader.hideInHtml();
     this.clearCountdown(this.count);
     this.score = 0;
     this.answers.length = 0;
@@ -118,9 +113,6 @@ class Sprint {
     }
   }
   private startCountdown() {
-    window.addEventListener("popstate", this.linkChangeAction.bind(this), {
-      once: true,
-    });
     sprintView.renderTimer();
     const timer = document.querySelector(".timer") as HTMLSpanElement;
     let countdownBegin = 30;
@@ -262,7 +254,23 @@ class Sprint {
       .map(({ value }) => value);
     return newArr;
   }
-  // final result
+  collectInfoResult() {
+    const sprint: IGameStore = {
+      name: "sprint",
+      arrayAllWord: [],
+      points: 0,
+      maxInRow: 0,
+      trueAnswers: 0,
+    };
+    const trueWorlds = this.answers
+      .filter((el) => el.result === true)
+      .map((el) => el.wordId);
+    sprint.arrayAllWord = trueWorlds;
+    sprint.points = this.score;
+    sprint.maxInRow = this.maxInRow;
+    sprint.trueAnswers = trueWorlds.length;
+    updateStat.updateStatisticGame(sprint);
+  }
 }
 const sprint = new Sprint();
 export default sprint;
