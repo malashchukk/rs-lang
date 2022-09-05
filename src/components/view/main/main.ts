@@ -1,19 +1,20 @@
 import "./main.scss";
+import { showStatistic } from "../statistic/statistic";
+import { audioCallView } from "../audioCall/audioCallView";
+import router from "../../controller/Router";
 
 export class Main {
-  static instance: Main;
+  
   logo = document.querySelector(".logo") as HTMLElement;
-
-  constructor() {
-    if (typeof Main.instance === "object") {
-      return Main.instance;
-    }
-    Main.instance = this;
-    return Main.instance;
-  }
+  statistic = document.querySelector(".nav_statistics") as HTMLElement;
+  btnAudioCall = document.querySelector(".nav_games_audioCall") as HTMLElement;
 
   ListenerLogo() {
     this.logo.addEventListener("click", this.showMain);
+    this.statistic.addEventListener("click", showStatistic.getAccount);
+    this.btnAudioCall.addEventListener("click", () => {
+      audioCallView.showStartPageAudioCall();
+    });
   }
 
   showMain(): void {
@@ -76,3 +77,12 @@ export class Main {
         `;
   }
 }
+
+export const mainView = new Main();
+
+
+router.add("home", () => {
+ mainView.showMain()
+});
+
+

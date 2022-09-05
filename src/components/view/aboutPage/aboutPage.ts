@@ -1,16 +1,9 @@
 import "./about.scss";
+import router from "../../controller/Router";
 
 export class About {
-  static instance: About;
+    
   btnAbout = document.querySelector(".nav_about") as HTMLElement;
-
-  constructor() {
-    if (typeof About.instance === "object") {
-      return About.instance;
-    }
-    About.instance = this;
-    return About.instance;
-  }
 
   ListenerBtnAbout() {
     this.btnAbout.addEventListener("click", this.showAbout);
@@ -52,4 +45,9 @@ export class About {
       </div>
       `;
   }
-}
+} 
+export const pageAbout = new About();
+
+router.add("about", () => {
+ pageAbout.showAbout()
+});
