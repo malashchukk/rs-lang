@@ -15,9 +15,8 @@ class AudioCallController {
   page = 0;
   maxInRow = 0;
   inRow = 0;
-  arrId: idAfterGame[] = [];
-  arrIdTrue: string[] = [];
-  arrIdFalse: string[] = [];
+  arrId: idAfterGame[] = []; 
+  arrIdForStat: string[] = [];
   private arrWordsRus: string[] = [];
   private countNumberWord = 0;
   arrTrueAnswer: string[] = [];
@@ -49,10 +48,10 @@ class AudioCallController {
     this.arrTrueAnswer = [];
     this.arrFalseAnswer = [];
     this.countNumberWord = 0;
-    this.inRow = 0;
-    this.arrIdTrue = [];
-    this.arrIdFalse = [];
+    this.inRow = 0;    
+    this.arrIdForStat = [];
     this.arrId = [];
+    this.arrIdForStat = [];
     if(comeIn === 'book'){
       this.level = level;
       this.page = page
@@ -124,14 +123,14 @@ class AudioCallController {
       window.addEventListener("keyup", this.ev1);
       this.listenerCloseBtn();
       }         
-      console.log(this.arrId)
+     
     } else if(this.arrId.length < 20){      
       this.page += 1;
       this.countNumberWord = this.arrId.length
       this.initAudioCallGame(comeIn)      
     } else {      
       const point = this.arrTrueAnswer.length * 10;
-      const percent = (this.arrTrueAnswer.length / 20) * 100;
+      const percent = (this.arrTrueAnswer.length / 20) * 100;     
       audioCallView.showResultGame(point, percent);
 
       const btnCloseBtn = document.querySelector(
@@ -170,7 +169,8 @@ class AudioCallController {
       maxInRow: 0,
       trueAnswers: 0,
     };
-    audioCall.arrayAllWord = [...this.arrTrueAnswer, ...this.arrFalseAnswer];
+    audioCall.arrayAllWord = [...this.arrIdForStat];
+    
     audioCall.points = point;
     audioCall.trueAnswers = this.arrTrueAnswer.length;
     audioCall.maxInRow = this.maxInRow;
@@ -220,7 +220,11 @@ class AudioCallController {
     const countRow = this.arrTrueAnswer.length;
     if (getWordRusText === wordTranslate) {
       this.arrTrueAnswer.push(word);
-      id ? this.arrId.push([id, true]) : 1;
+      if(id){
+        this.arrIdForStat.push(id);
+        this.arrId.push([id, true]);
+      }
+       
 
       this.createAudio("../../assets/audio/audio_correct.mp3");
 
@@ -232,7 +236,11 @@ class AudioCallController {
       event.classList.add("true");
     } else {
       this.arrFalseAnswer.push(word);
-      id ? this.arrId.push([id, false]) : 1;
+      if(id){
+        this.arrIdForStat.push(id);
+        this.arrId.push([id, false])
+      }
+      
       this.createAudio("../../../assets/audio/audio_error.mp3");
 
       allWords.forEach((element) => {
@@ -290,7 +298,11 @@ class AudioCallController {
     ) as HTMLElement;
 
     imgAnswer.classList.add("active");
-    id ? this.arrId.push([id, false]) : 1;
+    if(id){
+      this.arrId.push([id, false])
+      this.arrIdForStat.push(id);
+    }
+    
     this.arrFalseAnswer.push(word);
     this.progressGame();
 
@@ -333,11 +345,3 @@ class AudioCallController {
 }
 export const gameController = new AudioCallController();
 
-
-// const AudioCallButton = document.querySelector('.gogame')    
-// AudioCallButton?.addEventListener('click', ()=> {
-//   gameController.startGame('book', Number(localStorage["sectionNumber"]) - 1, Number(localStorage["currentPage"]) - 1)
-  
-// }
-//   )
-// import {gameController} from '../controller/audioCall/audioCallController'

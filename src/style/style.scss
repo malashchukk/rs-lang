@@ -7,6 +7,7 @@
 @import "../style/preloader";
 @import "../components/view/sprint/sprint";
 @import "./pagination.scss";
+@import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
 
 .wrapper {
   min-height: 100vh;
@@ -57,7 +58,7 @@ body{
     flex-wrap: wrap;
     align-items: center; 
     justify-content: space-around;   
-    width: 50%;
+    width: 60%;
     padding: 5px;
 }
 
@@ -66,7 +67,7 @@ body{
     font-family: $font-cursive;
     color: $color-white-text-header;
     text-align: center;
-    padding:  1.4rem;
+    padding: 1.4rem 0.4rem;
     text-decoration: none;
     cursor: pointer;
     &:hover{
@@ -133,4 +134,47 @@ body{
   display: none;
 }
 
+@media screen and (max-width: 1270.89px){    
+    .nav {       
+        padding: 0.6rem 0.4rem;        
+    }
+    .navigation{
+        width: 40%;
+    }
+    .nav_games_content {        
+        left: 28%;
+    }
+    .nav_games_content {        
+        width: 25%;
+    }    
+    .close_btn {       
+        top: 8rem !important;
+    }
+    .section_presentation_img img {
+        width: 100% !important;
+    } 
+    .section_join_text, .section_join_img{
+        width: 45%;
+        & img{
+            width: 97% !important;
+        }
+    }  
+    .game__words{
+        flex-wrap: wrap;
+    }  
+}
+@media screen and (max-width: 893.89px){
+    .close_btn {       
+        top: 10rem !important;
+    }
+    .nav_games_content {        
+        width: 25%;
+    } 
+    // .nav_games_content {        
+    //     left: 54%;
+    // }
 
+} 
+@media screen and (max-width: 800.89px){
+    
+}

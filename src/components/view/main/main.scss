@@ -2,7 +2,7 @@
 $color-header: #6fa1c5;
 $color-white-text-header: #FFFFFF; 
 $color-shadow-text: #045968;
-$font-cursive: Bangers,cursive;
+$font-cursive: 'Concert One', cursive;
 
 .main{
     flex: 1 0 auto;
@@ -35,8 +35,7 @@ $font-cursive: Bangers,cursive;
     width: 800px;
     border-radius: 15px 0 15px 0;
     box-shadow: 0 10px 14px 0 rgb(0 0 0 / 40%); 
-    transform: rotate(2deg); 
-    
+    transform: rotate(2deg);     
    }
 }
 .section_benefits{
@@ -85,22 +84,9 @@ $font-cursive: Bangers,cursive;
     text-align: center;
 }
 .section_join_img img{     
-    width: 600px;
+    width: 100%;
     border-radius: 15px 0 15px 0;
     transform: rotate(2deg); 
     box-shadow: 0 10px 14px 0 rgb(0 0 0 / 40%);     
 }
-.logoin{
-    text-decoration: none;
-    background-color: $color-shadow-text;
-    font-size: 1.6rem;
-    font-family: $font-cursive;
-    color: $color-white-text-header;
-    padding: 1rem 2rem;
-    border: none;
-    border-radius: 15px 0 15px 0;
-    box-shadow: 0 10px 14px 0 rgb(0 0 0 / 40%); 
-    &:hover{
-        background-color: $color-header;
-     }
-}
+
