@@ -1,5 +1,5 @@
 import "./about.scss";
-import router from "../controller/Router";
+import router from "../../controller/Router";
 
 export class About {
     
