@@ -54,6 +54,14 @@ export default class WordRender {
               crudApi.baseLink
             }/${wordInfo.audio}" type="audio/mpeg">
             </audio>
+            <audio controls  preloader="none" class="textbook__audioMeaning" src="${
+              crudApi.baseLink
+            }/${wordInfo.audioMeaning}" type="audio/mpeg">
+            </audio>
+            <audio controls preloader="none" class="textbook__audioExample" src="${
+              crudApi.baseLink
+            }/${wordInfo.audioExample}" type="audio/mpeg">
+            </audio>
           </div>
           <span class="word-transcription">${
             wordInfo.transcription
@@ -63,13 +71,6 @@ export default class WordRender {
             <div class="textbook__meaning">
             <div class="textMeaning">
               <span>${wordInfo.textMeaning}</span>
-              <span class="audio">
-                <img src="./assets/png/volume.png" class="audio-img">
-                <audio controls  preloader="none" class="textbook__audioMeaning" src="${
-                  crudApi.baseLink
-                }/${wordInfo.audioMeaning}" type="audio/mpeg">
-                </audio>
-              </span>
             </div>
             <span class="textbook__textMeaning-translate translate">${
               wordInfo.textMeaningTranslate
@@ -78,11 +79,6 @@ export default class WordRender {
             <div class="word__example">
             <span>${wordInfo.textExample}
             <span class="audio">
-            <img src="./assets/png/volume.png" class="audio-img">
-            <audio controls preloader="none" class="textbook__audioExample" src="${
-              crudApi.baseLink
-            }/${wordInfo.audioExample}" type="audio/mpeg">
-            </audio>
           </span>
             </span>
             <span class="textbook__example-translate translate">${
@@ -98,14 +94,23 @@ export default class WordRender {
           </div>`;
   }
 
-  protected addAudioEvent() {
+  addAudioEvent() {
     const audios = document.querySelectorAll(".audio");
     audios.forEach((div) =>
       div.addEventListener("click", () => {
-        for (const i of div.children) {
-          if (i.tagName === "AUDIO") {
-            const audio = i as HTMLAudioElement;
-            audio.play();
+        for (const i in div.children) {
+          const audio = div.children[i] as HTMLAudioElement;
+          const nextAudio = div.children[+i + 1] as HTMLAudioElement;
+          const firstAudioNumber = 1;
+          if (audio.tagName === "AUDIO") {
+            if (+i === firstAudioNumber) {
+              audio.play();
+            }
+            audio.addEventListener("ended", () => {
+              if (audio.duration === audio.currentTime) {
+                nextAudio.play();
+              }
+            });
           }
         }
       })

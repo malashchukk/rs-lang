@@ -78,6 +78,7 @@ export default class PaginationButton {
       ),
       (btn: HTMLButtonElement) => (btn.disabled = this.disabled.end())
     );
+
   }
   init(container: HTMLDivElement) {
     this.pagesNumbers = this.pageNumbers(
@@ -89,7 +90,10 @@ export default class PaginationButton {
       document.querySelector(".pagination")?.remove();
     }
     this.paginationContainer.className = "pagination";
-    this.createButtons();
+    if (this.paginationButtons.size <= 1) {
+      this.createButtons();
+    }
+
     this.paginationButtons.forEach((_, btn) => this.fragment.appendChild(btn));
     this.paginationContainer.appendChild(this.fragment);
     this.render(container);
@@ -105,7 +109,6 @@ export default class PaginationButton {
     }
 
     const from = Math.max(to - max, 0);
-
     return Array.from({ length: Math.min(total, max) }, (_, i) => i + 1 + from);
   };
 
@@ -147,6 +150,8 @@ export default class PaginationButton {
     };
   }
   render(container: HTMLDivElement) {
+    console.log(container);
+    console.log(this.paginationContainer)
     container.appendChild(this.paginationContainer);
   }
 

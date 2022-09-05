@@ -214,6 +214,8 @@ class PopUp {
           this.replacePopUpButton("unauthorized");
           localStorage.removeItem("user");
           localStorage.removeItem("statistic");
+          
+          user.isAuthorization();
           logoutButton.remove();
           user.isAuthorization();
         });

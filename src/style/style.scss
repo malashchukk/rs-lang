@@ -4,8 +4,10 @@
 @import "../components/view/popUpAuthorization/authorizationPopUp";
 @import "../components/view/popUpAuthorization/form";
 @import "./textbook.scss";
-
+@import "../style/preloader";
+@import "../components/view/sprint/sprint";
 @import "./pagination.scss";
+
 .wrapper {
   min-height: 100vh;
   display: flex;
