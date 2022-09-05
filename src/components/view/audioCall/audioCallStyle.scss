@@ -1,7 +1,7 @@
 $color-header: #6fa1c5;
 $color-white-text-header: #FFFFFF; 
 $color-shadow-text: #045968;
-$font-cursive: Bangers,cursive;
+$font-cursive: 'Concert One', cursive;
 
 .close_result_game{
     font-family: $font-cursive;
@@ -180,7 +180,7 @@ $font-cursive: Bangers,cursive;
     height: 100%;
 }
 .game__image {
-    padding: 3rem 0 0;
+    padding: 1rem 0 0;
     height: 13rem;
 }
 .image.image_audioCall {
@@ -218,9 +218,7 @@ $font-cursive: Bangers,cursive;
 .line-through {
     text-decoration: line-through;
 }
-.image.image_audioCall img {
-    width: 100%;     
-}
+
 .game__voice-word {
     display: flex;
     justify-content: center;
@@ -261,7 +259,7 @@ $font-cursive: Bangers,cursive;
     font-family: $font-cursive;
     display: flex;
     justify-content: space-evenly;
-    padding: 1rem 4rem;    
+    padding: 2rem 4rem;    
     height: 8rem;
 }
 .words__item {

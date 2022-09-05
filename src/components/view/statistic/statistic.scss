@@ -1,5 +1,6 @@
 $color-shadow-text: #045968;
-$font-cursive: Bangers,cursive;
+$font-cursive: 'Concert One', cursive;
+
 .statistic_wrapper {
     background-color: #f9f8fa;    
     height: 100%;
@@ -85,3 +86,7 @@ $font-cursive: Bangers,cursive;
         width: 35px;
     }
 }
+
+@media screen and (max-width: 1270.89px){
+
+ }
