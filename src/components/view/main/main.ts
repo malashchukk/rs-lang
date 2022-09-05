@@ -84,3 +84,5 @@ export const mainView = new Main();
 router.add("home", () => {
  mainView.showMain()
 });
+
+
