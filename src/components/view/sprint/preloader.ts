@@ -1,8 +1,5 @@
 class Preloader {
-  private timer!: NodeJS.Timer;
-  private container!: HTMLDivElement;
   init(container: HTMLDivElement) {
-    this.container = container;
     const preloader = document.createElement("div");
     container.append(preloader);
     const preloaderHTML = `<div class="preloader">
@@ -11,10 +8,14 @@ class Preloader {
         </div>
       </div>
     `;
+    // overflow-y: hidden;
+
+    document.body.style.overflow = "hidden";
     preloader.outerHTML = preloaderHTML;
-    this.hide();
+    // this.hide();
   }
   async hideInHtml() {
+    document.body.style.overflow = "";
     const preloader = document.querySelector(".preloader") as HTMLDivElement;
     if (preloader) {
       preloader.style.opacity = "0";
@@ -23,21 +24,6 @@ class Preloader {
         preloader.style.display = "none";
       }, 400);
     }
-  }
-  private async hide() {
-    clearInterval(this.timer);
-    const className = this.container.className;
-    const images = document.querySelectorAll(`.${className} img`);
-    let loaded = 0;
-    for (let i = 0; i < images.length; i += 1) {
-      images[i]?.addEventListener("load", () => (loaded += 1));
-    }
-    this.timer = setInterval(() => {
-      if (loaded === images.length) {
-        this.hideInHtml();
-        clearInterval(this.timer);
-      }
-    }, 100);
   }
 }
 const preloader = new Preloader();

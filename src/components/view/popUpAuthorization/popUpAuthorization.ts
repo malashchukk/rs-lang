@@ -1,6 +1,5 @@
 import user from "../../controller/authorization/authorization";
 import preloader from "../preloader";
-
 class PopUp {
   private openPopUpButton = document.createElement("a");
   private popUp = document.createElement("div");
@@ -31,14 +30,11 @@ class PopUp {
       ".show-password__checkbox"
     ) as HTMLInputElement;
     visiblePassword.onclick = () => {
-      if (passwordField.type === "password") {
-        passwordField.type = "text";
-      } else {
-        passwordField.type = "password";
-      }
+      passwordField.type =
+        passwordField.type === "password" ? "text" : "password";
     };
     return inputs;
-  }
+    };
 
   private setLoginButton(
     logInButton: HTMLButtonElement,
@@ -55,7 +51,7 @@ class PopUp {
       } else if (passwordField.value.length < 8) {
         this.showError("Некорректный пароль");
       } else {
-        preloader.show(this.popUp);
+        preloader.init(this.popUp);
         const authorizationPreloader =
           document.querySelector(".preloader__loader");
         authorizationPreloader?.classList.add("loader-authorization");
@@ -64,7 +60,6 @@ class PopUp {
           email: emailField.value,
           password: passwordField.value,
         });
-        preloader.hideInHtml();
         document.body.style.pointerEvents = "";
         this.close();
       }
@@ -105,7 +100,7 @@ class PopUp {
       } else if (passwordField.value.length < 8) {
         this.showError("Некорректный пароль");
       } else {
-        preloader.show(this.popUp);
+        preloader.init(this.popUp);
         const authorizationPreloader =
           document.querySelector(".preloader__loader");
         authorizationPreloader?.classList.add("loader-authorization");
@@ -124,6 +119,7 @@ class PopUp {
     });
   }
   private createButtonsContainer() {
+
     const buttons = document.createElement("div") as HTMLDivElement;
     buttons.classList.add("buttons_login");
     buttons.innerHTML = `
@@ -219,6 +215,7 @@ class PopUp {
           localStorage.removeItem("user");
           user.isAuthorization();
           logoutButton.remove();
+          user.isAuthorization();
         });
         signIn.replaceWith(openPopUpButton, logoutButton);
         break;
@@ -230,6 +227,7 @@ class PopUp {
         openPopUpButton.addEventListener("click", () => {
           this.open();
         });
+
         signIn.replaceWith(openPopUpButton);
         break;
     }
