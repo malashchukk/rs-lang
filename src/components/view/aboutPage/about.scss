@@ -1,5 +1,6 @@
+$font-cursive: 'Concert One', cursive;
 .about_team_wrapper{
-    background-color: rgba(210, 220, 208, 0.6);
+    background-color: rgb(225 232 224 / 60%)
 }
 .about_content{
     padding: 80px 90px;
@@ -28,10 +29,31 @@
 .member_inform_title{
     font-size: 3rem;
     color: #000000;
-    font-family: Bangers,cursive;
-    padding: 0 0 5rem 0;
+    font-family: $font-cursive;
+    padding: 0 0 2rem 0;
 }
 
 .member_text{
-    font-size: 1.5rem;    
+    font-size: 1.5rem;
+    font-family: $font-cursive;    
 }
+.who{    
+    color: #000000;
+    padding: 0 0 2rem;
+    & span{
+        padding: 5px;
+        background-color: rgb(168, 197, 219);
+        border-radius: 15px 0 15px 0;
+    }
+}
+
+@media screen and (max-width: 1270.89px){ 
+.member_inform_title {
+    font-size: 2rem;
+}
+}
+@media screen and (max-width: 1000.89px){
+    .member {        
+        width: 96%;
+    }
+ }

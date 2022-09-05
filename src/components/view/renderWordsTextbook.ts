@@ -3,6 +3,7 @@ import WordRender from "./wordRender";
 import preloader from "./preloader";
 import authorizedUser from "../controller/authorization/autorizatedUser";
 import IWords from "./IWords";
+import { updateStat } from '../controller/statistic/updateStatistic';
 
 export default class RenderTextbookWords extends WordRender {
   learnedCount = 0;
@@ -112,10 +113,12 @@ export default class RenderTextbookWords extends WordRender {
     if (addToLearnedBtn === target) {
       addToDifficultBtn.classList.remove("difficult-word");
       addToDifficultBtn.innerText = "сложное";
+      updateStat.collectStatistic();      
       container.classList.remove("difficult");
     } else {
       addToLearnedBtn.classList.remove("learned-word");
       addToLearnedBtn.innerText = "изученное";
+      
       container.classList.remove("learned");
     }
   }

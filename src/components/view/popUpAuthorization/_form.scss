@@ -1,4 +1,4 @@
-
+$font-cursive: 'Concert One', cursive;
 .wrapper_login_page{
   background-color: rgba(202, 192, 187, 0.4);
   height: 100%;
@@ -11,7 +11,7 @@
   padding: 6rem 0;
 }
 .logo-title{
-  font-family: Bangers,cursive;
+  font-family: $font-cursive;
   font-size: 3rem;
   font-weight: 900;
   padding: 0 0 2rem;
@@ -44,7 +44,7 @@
   cursor: pointer;  
   background-color:  #045968;
   font-size: 1.6rem;
-  font-family: Bangers,cursive;
+  font-family: $font-cursive;
   color: #FFFFFF;
   padding: 1rem 2rem;
   border: none;
@@ -57,7 +57,7 @@
 
 .button_isSignUp{
   font-size: 1.6rem;
-  font-family: Bangers,cursive;
+  font-family: $font-cursive;
   border: none;
   background: transparent;
   color:  #045968;
