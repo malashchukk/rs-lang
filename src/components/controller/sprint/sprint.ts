@@ -40,6 +40,7 @@ class Sprint {
     return `${word.word} - ${word.wordTranslate}`;
   }
   async startGame() {
+    this.hideFooter();
     this.level = this.getLevel() - 1;
     this.page = this.pageRandomGeneration();
     // preloader
@@ -48,6 +49,7 @@ class Sprint {
     this.startCountdown();
   }
   async startGameTextbook() {
+    this.hideFooter();
     this.level = localStorage["sectionNumber"] - 1;
     this.page = localStorage["currentPage"]
       ? localStorage["currentPage"] - 1
@@ -61,6 +63,7 @@ class Sprint {
     this.startCountdown();
   }
   private async endGame() {
+    this.showFooter();
     this.collectInfoResult();
     document.onkeyup = null;
     await sprintView.renderEndScreen({
@@ -78,7 +81,14 @@ class Sprint {
       translate: "",
     };
   }
-
+  private hideFooter() {
+    const footer = document.querySelector(".footer") as HTMLDivElement;
+    footer.style.display = "none";
+  }
+  private showFooter() {
+    const footer = document.querySelector(".footer") as HTMLDivElement;
+    footer.style.display = "";
+  }
   private async getWords() {
     const data: [IWords] = await crudApi.getItem({
       endpoint: "/words",
