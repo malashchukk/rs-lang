@@ -149,8 +149,8 @@ export default class PaginationButton {
     };
   }
   render(container: HTMLDivElement) {
-    console.log(container);
-    console.log(this.paginationContainer);
+    // console.log(container);
+    // console.log(this.paginationContainer);
     container.appendChild(this.paginationContainer);
   }
 

@@ -6,7 +6,7 @@ import { aggregatedWordsResponse } from "./SectionTextbook";
 import preloader from "./preloader";
 import user from "../controller/authorization/authorization";
 import authorizedUser from "../controller/authorization/autorizatedUser";
-import { updateStat } from '../controller/statistic/updateStatistic'
+import { updateStat } from "../controller/statistic/updateStatistic";
 
 class ViewerDictionary {
   private mainContent = document.querySelector(".main") as HTMLDivElement;
@@ -179,7 +179,7 @@ class ViewerDictionary {
             });
         }
         updateStat.collectStatistic();
-        console.log('запустить сбор')
+        // console.log("запустить сбор");
       });
     });
   }
