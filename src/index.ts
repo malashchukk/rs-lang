@@ -13,11 +13,8 @@ import sprintView from "./components/view/sprint/sprintView";
 import sprint from "./components/controller/sprint/sprint";
 import preloader from "./components/view/sprint/preloader";
 
-const aboutTeam = new About();
-router.add("about", () => aboutTeam.showAbout());
-const mainText = new Main();
-mainText.showMain();
-router.add("home", () => mainText.showMain());
+
+router.add("home", () => mainView.showMain());
 router.add("sprint", () => {
   if (!sessionStorage["fromTextbook"]) {
     sprintView.renderStartScreen();
@@ -26,7 +23,6 @@ router.add("sprint", () => {
 });
 
 pageAbout.ListenerBtnAbout();
-
 mainView.showMain();
 mainView.ListenerLogo();
 
