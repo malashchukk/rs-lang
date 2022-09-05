@@ -78,7 +78,6 @@ export default class PaginationButton {
       ),
       (btn: HTMLButtonElement) => (btn.disabled = this.disabled.end())
     );
-
   }
   init(container: HTMLDivElement) {
     this.pagesNumbers = this.pageNumbers(
@@ -150,8 +149,6 @@ export default class PaginationButton {
     };
   }
   render(container: HTMLDivElement) {
-    console.log(container);
-    console.log(this.paginationContainer)
     container.appendChild(this.paginationContainer);
   }
 

@@ -3,7 +3,7 @@ import WordRender from "./wordRender";
 import preloader from "./preloader";
 import authorizedUser from "../controller/authorization/autorizatedUser";
 import IWords from "./IWords";
-import { updateStat } from '../controller/statistic/updateStatistic';
+import { updateStat } from "../controller/statistic/updateStatistic";
 
 export default class RenderTextbookWords extends WordRender {
   learnedCount = 0;
@@ -36,18 +36,31 @@ export default class RenderTextbookWords extends WordRender {
     const currentPageBtn = document.querySelector(
       ".page-btn.active"
     ) as HTMLButtonElement;
+
+    if (
+      (addToDifficultBtn.classList.contains("difficult-word") &&
+        !addToLearnedBtn.classList.contains("learned-word")) ||
+      (!addToDifficultBtn.classList.contains("difficult-word") &&
+        addToLearnedBtn.classList.contains("learned-word"))
+    ) {
+      if (this.learnedCount < 20) {
+        this.learnedCount += 1;
+      }
+    }
     if (
       addToDifficultBtn.classList.contains("difficult-word") ||
       addToLearnedBtn.classList.contains("learned-word")
     ) {
-      this.learnedCount += 1;
       if (this.learnedCount === 20) {
         currentPageBtn.style.background = "green";
         wrapper.style.boxShadow = "0px 0px 30px green ";
       }
     } else {
       currentPageBtn.style.background = "#ddd";
-      this.learnedCount -= 1;
+      if (this.learnedCount > 0) {
+        this.learnedCount -= 1;
+      }
+
       wrapper.style.boxShadow = "none";
     }
   }
@@ -113,12 +126,12 @@ export default class RenderTextbookWords extends WordRender {
     if (addToLearnedBtn === target) {
       addToDifficultBtn.classList.remove("difficult-word");
       addToDifficultBtn.innerText = "сложное";
-      updateStat.collectStatistic();      
+      updateStat.collectStatistic();
       container.classList.remove("difficult");
     } else {
       addToLearnedBtn.classList.remove("learned-word");
       addToLearnedBtn.innerText = "изученное";
-      
+
       container.classList.remove("learned");
     }
   }

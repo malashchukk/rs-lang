@@ -38,7 +38,6 @@ export default class TextbookSections {
       ".page-btn"
     ) as NodeListOf<HTMLButtonElement>;
     currentPageBtn.forEach((btn) => {
-      console.log(btn);
       btn.style.background = "#ddd";
     });
   }

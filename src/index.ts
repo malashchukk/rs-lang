@@ -12,14 +12,14 @@ import router from "./components/controller/Router";
 import sprintView from "./components/view/sprint/sprintView";
 import sprint from "./components/controller/sprint/sprint";
 import preloader from "./components/view/sprint/preloader";
-
+import { gameController } from "./components/controller/audioCall/audioCallController";
 
 router.add("home", () => mainView.showMain());
 router.add("sprint", () => {
-  if (!sessionStorage["fromTextbook"]) {
+  if (!sessionStorage["FromTextbook"]) {
     sprintView.renderStartScreen();
   }
-  sessionStorage["fromTextbook"] = "";
+  sessionStorage["FromTextbook"] = "";
 });
 
 pageAbout.ListenerBtnAbout();
@@ -28,22 +28,33 @@ mainView.ListenerLogo();
 
 popUp.replacePopUpButton("unauthorized");
 user.isAuthorization();
-const sprintStartButton = document.querySelector(".nav_games_sprint");
-sprintStartButton?.addEventListener("click", async () => {
-  if (window.location.href.split("/").slice(-1)[0] === "textbook") {
-    const sprintWrapper = document.querySelector(".main") as HTMLDivElement;
-    preloader.init(sprintWrapper);
-    localStorage["group"] = 2;
-    localStorage["page"] = 2;
-    sessionStorage["fromTextbook"] = true;
-    window.location.assign(
-      `${window.location.href.split("#")[0] + "#/sprint"}`
-    );
-    await sprint.startGameTextbook();
-  } else {
-    sessionStorage["fromTextbook"] = "";
-    window.location.assign(
-      `${window.location.href.split("#")[0] + "#/sprint"}`
-    );
-  }
+async function createGameButton(game: string, cb: () => Promise<void>) {
+  const gameStartButton = document.querySelector(`.${game}`);
+  gameStartButton?.addEventListener("click", async () => {
+    if (window.location.href.split("/").slice(-1)[0] === "textbook") {
+      const main = document.querySelector(".main") as HTMLDivElement;
+      main.innerHTML = "";
+      preloader.init(main);
+      sessionStorage["FromTextbook"] = true;
+      window.location.assign(
+        `${window.location.href.split("#")[0] + `#/${game}`}`
+      );
+      await cb();
+    } else {
+      sessionStorage["FromTextbook"] = "";
+      window.location.assign(
+        `${window.location.href.split("#")[0] + `#/${game}`}`
+      );
+    }
+  });
+}
+createGameButton("sprint", async () => {
+  sprint.startGameTextbook();
+});
+createGameButton("audioCall", async () => {
+  gameController.startGame(
+    "book",
+    Number(localStorage["sectionNumber"]) - 1,
+    Number(localStorage["currentPage"]) - 1
+  );
 });

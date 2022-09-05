@@ -8,14 +8,9 @@ class Preloader {
         </div>
       </div>
     `;
-    // overflow-y: hidden;
-
-    document.body.style.overflow = "hidden";
     preloader.outerHTML = preloaderHTML;
-    // this.hide();
   }
   async hideInHtml() {
-    document.body.style.overflow = "";
     const preloader = document.querySelector(".preloader") as HTMLDivElement;
     if (preloader) {
       preloader.style.opacity = "0";

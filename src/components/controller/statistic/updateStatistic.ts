@@ -30,7 +30,6 @@ class SetStatistic {
   }
 
   loadStatistic() {
-   // console.log(this.newStatistic);
     crudApi.updateItems(
       {
         endpoint: `/users/${
@@ -73,26 +72,25 @@ class SetStatistic {
         endpoint: `/users/${JSON.parse(localStorage["user"]).userId}/words`,
       },
       JSON.parse(localStorage["user"]).token
-    );   
+    );
     if (word.length === 0) {
       this.newStatistic.learnedWords = 0;
     } else {
       word.forEach((item: IearnWord) => {
         const { optional, difficulty } = item;
-        if (optional.isLearned || difficulty ==='easy') {
+        if (optional.isLearned || difficulty === "easy") {
           countLearn += 1;
         }
       });
     }
     this.newStatistic.learnedWords = countLearn;
-    console.log("изученных в статистике", countLearn)
     this.loadStatistic();
   }
 
   async getNewWord() {
     const stat = this.newStatistic.optional;
     stat.sprint.wordsInGame = new Set(this.inform.newWordsSpirit).size;
-    stat.audioCall.wordsInGame = new Set(this.inform.newWordsAudioCall).size;    
+    stat.audioCall.wordsInGame = new Set(this.inform.newWordsAudioCall).size;
     stat.newWord = new Set([
       ...this.inform.newWordsSpirit,
       ...this.inform.newWordsAudioCall,
@@ -100,16 +98,6 @@ class SetStatistic {
     stat.sprint.maxInRow = this.inform.rowSpirit;
     stat.audioCall.maxInRow = this.inform.rowAudioCall;
   }
-
-  // async getAllNewWord() {
-  //   const allNewWord: IearnWord[] = await crudApi.getItem(
-  //     {
-  //       endpoint: `/users/${JSON.parse(localStorage["user"]).userId}/words`,
-  //     },
-  //     JSON.parse(localStorage["user"]).token
-  //   );
-  //   return allNewWord.length ? allNewWord.length : 0;
-  // }
 
   getTrueAnswer() {
     const stat = this.newStatistic.optional;
@@ -166,5 +154,3 @@ class SetStatistic {
 }
 
 export const updateStat = new SetStatistic();
-
-

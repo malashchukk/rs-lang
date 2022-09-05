@@ -2,7 +2,6 @@ import "./about.scss";
 import router from "../../controller/Router";
 
 export class About {
-    
   btnAbout = document.querySelector(".nav_about") as HTMLElement;
 
   ListenerBtnAbout() {
@@ -48,9 +47,9 @@ export class About {
   </div>
       `;
   }
-} 
+}
 export const pageAbout = new About();
 
 router.add("about", () => {
- pageAbout.showAbout()
+  pageAbout.showAbout();
 });

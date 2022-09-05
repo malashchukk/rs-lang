@@ -71,5 +71,5 @@ class Statistic {
 export const showStatistic = new Statistic();
 
 router.add("statistics", () => {
-  showStatistic.getAccount()
+  showStatistic.getAccount();
 });
