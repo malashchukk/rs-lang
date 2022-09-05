@@ -2,7 +2,6 @@ import IWords from "../../view/IWords";
 import sprintView from "../../view/sprint/sprintView";
 import crudApi from "../CRUD/CrudApi";
 import { aggregatedWordsResponse } from "../../view/SectionTextbook";
-// import preloader from "../../view/sprint/preloader";
 import { updateStat } from "../statistic/updateStatistic";
 import { IGameStore } from "../statistic/IStatisticStore";
 
@@ -219,7 +218,6 @@ class Sprint {
       this.answers.push({
         result: true,
         wordId: this.currCard.wordId,
-        // wordName: this.currCard.original,
       });
       document.body.style.background = "green";
       setTimeout(() => {

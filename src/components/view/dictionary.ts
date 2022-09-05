@@ -179,7 +179,6 @@ class ViewerDictionary {
             });
         }
         updateStat.collectStatistic();
-        // console.log("запустить сбор");
       });
     });
   }

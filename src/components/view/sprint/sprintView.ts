@@ -12,8 +12,6 @@ class SprintView {
     original: string;
     translate: string;
   }) {
-    // const main = document.querySelector(".main") as HTMLDivElement;
-    // sprintWrapper.classList.add("sprint-game-wrapper");
     const html = `
       <p class="sprint-game__score" id="score">${options.score}</p>
       <div class="card">
@@ -52,7 +50,6 @@ class SprintView {
     if (oldSprintGame) {
       oldSprintGame.replaceWith(sprintGame);
     } else {
-      // this.renderTimer();
       sprintWrapper.append(sprintGame);
     }
 
@@ -117,13 +114,10 @@ class SprintView {
     </div>
     `;
     sprintWrapper.innerHTML = html;
-    // preloader.hideInHtml();
   }
   renderStartScreen() {
     const main = document.querySelector("main");
     const sprintWrapper = this.createBasicLayout();
-    // const sprintWrapper = document.createElement("div");
-    // sprintWrapper.classList.add("sprint-game-wrapper");
     const html = `
     <div class="timer-wrapper"></div>
     <div class="sprint-game">

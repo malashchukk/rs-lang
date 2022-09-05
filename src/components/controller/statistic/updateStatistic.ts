@@ -30,7 +30,6 @@ class SetStatistic {
   }
 
   loadStatistic() {
-    // console.log(this.newStatistic);
     crudApi.updateItems(
       {
         endpoint: `/users/${
@@ -85,7 +84,6 @@ class SetStatistic {
       });
     }
     this.newStatistic.learnedWords = countLearn;
-    // console.log("изученных в статистике", countLearn);
     this.loadStatistic();
   }
 
@@ -100,16 +98,6 @@ class SetStatistic {
     stat.sprint.maxInRow = this.inform.rowSpirit;
     stat.audioCall.maxInRow = this.inform.rowAudioCall;
   }
-
-  // async getAllNewWord() {
-  //   const allNewWord: IearnWord[] = await crudApi.getItem(
-  //     {
-  //       endpoint: `/users/${JSON.parse(localStorage["user"]).userId}/words`,
-  //     },
-  //     JSON.parse(localStorage["user"]).token
-  //   );
-  //   return allNewWord.length ? allNewWord.length : 0;
-  // }
 
   getTrueAnswer() {
     const stat = this.newStatistic.optional;
