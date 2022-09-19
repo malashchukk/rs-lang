@@ -1,0 +1,100 @@
+$font-cursive: 'Concert One', cursive;
+.wrapper_login_page{
+  background-color: rgba(202, 192, 187, 0.4);
+  height: 100%;
+}
+.login-page{
+  width: 500px;
+  height: 300px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 6rem 0;
+}
+.logo-title{
+  font-family: $font-cursive;
+  font-size: 3rem;
+  font-weight: 900;
+  padding: 0 0 2rem;
+  color: #045968;
+  text-shadow: 1px 1px #072e35;
+
+}
+.inputs {
+  display: flex;
+  flex-direction: column;
+}
+.email, .password, .name {
+  margin: 1.5rem 0 0;
+  width: 90%;
+  height: 3rem;
+  font-family: Quicksand,sans-serif;
+  font-size: 2rem;
+  padding: 0 0 0 1rem;
+  border: 3px solid #6fa1c5;
+  border-radius: 5px;
+}
+.buttons_login {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;   
+  padding: 3rem 0 0 0;
+}
+.authorization-buttons {  
+  cursor: pointer;  
+  background-color:  #045968;
+  font-size: 1.6rem;
+  font-family: $font-cursive;
+  color: #FFFFFF;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 15px 0 15px 0;
+  box-shadow: 0 10px 14px 0 rgb(0 0 0 / 40%); 
+  &:hover{
+    background-color: #6fa1c5;
+  }
+}
+
+.button_isSignUp{
+  font-size: 1.6rem;
+  font-family: $font-cursive;
+  border: none;
+  background: transparent;
+  color:  #045968;
+  text-shadow: 1px 1px #072e35;
+  &:hover{
+    text-shadow: 1px 1px #6fa1c5;
+  }
+}
+.error-message {
+  height: 3rem;
+  font-size: 2rem;
+  margin: 0 auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  font-family: Quicksand,sans-serif;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: rgba(225, 15, 15, 0.9);
+  opacity: 1;
+  transition: visibility 0s linear 0s, opacity 300ms;
+}
+.hidden-error{
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s linear 300ms, opacity 300ms;
+}
+.show-password{
+  margin: .5rem;
+  display: flex;
+  font-family: Quicksand,sans-serif;
+  &__text{
+    font-size: 1.5rem;
+  }
+  &__checkbox{
+    width: 2rem;
+  }
+}

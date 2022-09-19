@@ -1,0 +1,35 @@
+$color-header: #6fa1c5;
+$color-white-text-header: #FFFFFF; 
+$color-shadow-text: #045968;
+$font-cursive: 'Concert One', cursive;
+
+.footer{
+    flex: 0 0 auto;
+    background-color: $color-white-text-header;
+    color: #000000;
+    font-family: $font-cursive;
+    font-size: 1.5rem;
+}
+.footer_content{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.logo_rsschool img{
+    width: 100px;
+}
+.footer_team{
+    display: flex;
+    justify-content: space-around;
+}
+.link_team_github{
+    text-decoration: none;
+    color: #000000;
+}
+.team_inform_item{
+    padding: 2rem;
+    text-shadow: 1px 1px $color-shadow-text;
+    &:hover{
+        text-shadow: none;
+    }
+}

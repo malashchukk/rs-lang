@@ -1,0 +1,92 @@
+$color-shadow-text: #045968;
+$font-cursive: 'Concert One', cursive;
+
+.statistic_wrapper {
+    background-color: #f9f8fa;    
+    height: 100%;
+   
+}
+.statistic_wrapper h1 {
+    text-align: center;    
+    font-size: 3rem;
+    font-family: $font-cursive;
+    color: #000000;
+    padding: 2rem 0;
+}
+.statistic_inform {
+    max-width: 1200px;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.statistic_today {
+    color: #2c2647;
+    justify-content: center;
+    display: flex;
+    padding: 0 0 2rem;  
+}
+
+.statistic_today h3 {
+    font-size: 1.5rem;
+    padding: 0.3rem 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-family: $font-cursive;
+    margin: 0 6rem;
+    & span{
+        font-size: 2rem;
+        font-weight: 600;
+        text-align: center;
+        width: 6rem;
+        height: 6rem;
+        line-height: 89px;  
+        color: #030303;
+        background-color: rgb(173 212 220 / 40%);
+        margin: 1.5rem 0;
+        border: none;
+        border-radius: 15px 0 15px 0;
+        box-shadow: 0 10px 14px 0 rgb(0 0 0 / 40%); 
+    }
+}
+.games_statistic_wrapper{
+    display: flex; 
+    justify-content: space-around;  
+    align-items: center;
+}
+.game_statistic_card {
+    font-family: $font-cursive;
+    font-size: 1.1rem;
+    color: #2c2647;    
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    margin: 1rem;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    border-radius: 15px 0 15px 0;
+    box-shadow: 0 5px 7px 0 rgb(0, 0, 0 , 40%); 
+    background-color: rgb(222, 219, 209 , 40%);
+}
+.game_statistic_card h2 {
+    font-family: $font-cursive;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;  
+    text-align: center;  
+}
+
+.game_statistic_card h3 {
+    font-family: $font-cursive;
+    font-size: 1.2rem;
+    padding: 0.3rem 0;   
+    display: flex;
+    align-items: center;
+    & img{
+        width: 35px;
+    }
+}
+
+@media screen and (max-width: 1270.89px){
+
+ }

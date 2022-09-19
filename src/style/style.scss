@@ -1,0 +1,180 @@
+@import url(./css/reset.css);
+@import "./preloader";
+@import "./footer";
+@import "../components/view/popUpAuthorization/authorizationPopUp";
+@import "../components/view/popUpAuthorization/form";
+@import "./textbook.scss";
+@import "../style/preloader";
+@import "../components/view/sprint/sprint";
+@import "./pagination.scss";
+@import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
+
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.main {
+  flex: 1 0 auto;
+}
+
+html{
+    height: 100%;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #f2f7fd;
+}
+
+.header {
+    flex: 0 0 auto;
+    width: 100%;  
+    display: flex;
+    background-color: $color-header;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 10px 14px 0 rgb(0 0 0 / 40%);       
+}
+.logo{
+    display: flex;
+    font-size: 2.2rem;
+    text-decoration: none;
+    font-family: $font-cursive;
+    align-items: center;
+    color: $color-white-text-header;
+    font-weight: 900;
+    cursor: pointer;
+    text-shadow: 2px 2px #072e35;
+    &:hover{
+        text-shadow: none;
+    }
+}
+
+.navigation {    
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center; 
+    justify-content: space-around;   
+    width: 60%;
+    padding: 5px;
+}
+
+.nav{
+    font-size: 1.6rem;
+    font-family: $font-cursive;
+    color: $color-white-text-header;
+    text-align: center;
+    padding: 1.4rem 0.4rem;
+    text-decoration: none;
+    cursor: pointer;
+    &:hover{
+        background-color: $color-shadow-text;
+        border-radius: 1rem;
+    }
+}
+
+.nav_games:hover .nav_games_content{
+     display: block;
+}
+
+.nav_games_btn{
+    font-size: 1.6rem;
+    border: none;    
+    color: $color-white-text-header;
+    padding: 1.0rem;    
+    background-color: transparent;
+    font-family: $font-cursive;
+    margin: 0;
+    &:hover{
+        background-color: $color-shadow-text;
+        border-radius: 1rem;
+    }
+}
+
+.nav_games_content{
+    display: none;
+    position: absolute;
+    left: 51%;
+    background-color: $color-header;
+    width: 15%;
+    z-index: 1001;
+    justify-content: space-around;
+    box-shadow: 0 10px 14px 0 rgb(0 0 0 / 40%);
+    border-radius: 5px;
+    & .nav_games_audioCall, .nav_games_sprint{        
+        margin: 0.5rem;
+        display: block;
+        &:hover{
+            background-color: $color-shadow-text;           
+        }
+    }
+}
+
+.btn-registration {   
+    text-decoration: none; 
+    font-family: $font-cursive;
+    font-size: 1.6rem;
+    display: inline-block;
+    background-color: transparent;
+    border: none;    
+    cursor: pointer;
+    color: $color-white-text-header;
+    text-shadow: 2px 2px #072e35;
+    &:hover{
+        text-shadow: none;
+    }
+}
+.logout{
+    display: none;
+}
+.hidden{
+  display: none;
+}
+
+@media screen and (max-width: 1270.89px){    
+    .nav {       
+        padding: 0.6rem 0.4rem;        
+    }
+    .navigation{
+        width: 40%;
+    }
+    .nav_games_content {        
+        left: 28%;
+    }
+    .nav_games_content {        
+        width: 25%;
+    }    
+    .close_btn {       
+        top: 8rem !important;
+    }
+    .section_presentation_img img {
+        width: 100% !important;
+    } 
+    .section_join_text, .section_join_img{
+        width: 45%;
+        & img{
+            width: 97% !important;
+        }
+    }  
+    .game__words{
+        flex-wrap: wrap;
+    }  
+}
+@media screen and (max-width: 893.89px){
+    .close_btn {       
+        top: 10rem !important;
+    }
+    .nav_games_content {        
+        width: 25%;
+    } 
+    // .nav_games_content {        
+    //     left: 54%;
+    // }
+
+} 
+@media screen and (max-width: 800.89px){
+    
+}
